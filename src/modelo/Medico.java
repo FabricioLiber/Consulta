@@ -6,7 +6,7 @@ public class Medico extends Pessoa {
 	private String crm;
 	
 	
-	public Medico(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
+	public Medico(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
 			String crm) {
 		super(user, password, nome, cpf, dataNasc, endereco);
 		this.crm = crm;

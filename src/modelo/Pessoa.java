@@ -12,7 +12,7 @@ public class Pessoa extends Usuario {
 	private ArrayList<String> telefones;
 		
 	
-	public Pessoa(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) {
+	public Pessoa(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) {
 		super(user, password);
 		this.nome = nome;
 		this.cpf = cpf;

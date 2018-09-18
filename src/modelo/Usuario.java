@@ -3,10 +3,10 @@ package modelo;
 public class Usuario {
 
 	private String user;
-	private String password;
+	private byte[] password;
 	
 	
-	public Usuario(String user, String password) {
+	public Usuario(String user, byte[] password) {
 		super();
 		this.user = user;
 		this.password = password;
@@ -18,7 +18,7 @@ public class Usuario {
 	}
 
 
-	public String getPassword() {
+	public byte[] getPassword() {
 		return password;
 	}
 	

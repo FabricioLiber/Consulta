@@ -6,7 +6,7 @@ public class Paciente extends Pessoa {
 
 	private Convenio convenio;
 	
-	public Paciente(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
+	public Paciente(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
 			Convenio convenio) {
 		super(user, password, nome, cpf, dataNasc, endereco);
 		this.convenio = convenio;

@@ -10,6 +10,7 @@ import modelo.Usuario;
 public class Fachada {
 	
 	
+	
 	public static byte[] criptografaSenha (String password) throws NoSuchAlgorithmException,
 	UnsupportedEncodingException  {
 		MessageDigest algoritmo = MessageDigest.getInstance("SHA-256");
@@ -31,7 +32,7 @@ public class Fachada {
 					if (senhaCriptografada[j] == usuarios.get(i).getPassword()[j])
 						continue;
 					else
-						break;
+						return false;
 				return true;
 			}
 		return false;

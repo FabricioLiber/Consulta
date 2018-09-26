@@ -2,18 +2,18 @@ package modelo;
 
 import java.time.LocalDate;
 
-public class Paciente extends Pessoa {
+public class Paciente extends Usuario {
 
 	private Convenio convenio;
 	
-	public Paciente(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
+	
+	public Paciente(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco, 
 			Convenio convenio) {
 		super(user, password, nome, cpf, dataNasc, endereco);
 		this.convenio = convenio;
-		
 	}
 	
-	
+
 	
 	public Convenio getConvenio () {
 		

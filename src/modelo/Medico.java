@@ -2,7 +2,9 @@ package modelo;
 
 import java.time.LocalDate;
 
-public class Medico extends Pessoa {
+public class Medico extends Usuario {
+
+
 	private String crm;
 	
 	
@@ -10,7 +12,7 @@ public class Medico extends Pessoa {
 			String crm) {
 		super(user, password, nome, cpf, dataNasc, endereco);
 		this.crm = crm;
-	}
+	}	
 
 
 	public String getCrm () {

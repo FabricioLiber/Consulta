@@ -2,7 +2,8 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import fachada.Fachada;
 
 public class Usuario {
 
@@ -79,7 +80,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [user=" + user + ", password=" + Arrays.toString(password) + ", nome=" + nome + ", cpf=" + cpf
+		return "Usuario [user=" + user + ", password=" + Fachada.byteToHex(password) + ", nome=" + nome + ", cpf=" + cpf
 				+ ", dataNasc=" + dataNasc + ", endereco=" + endereco + ", telefones=" + telefones + "]";
 	}
 	

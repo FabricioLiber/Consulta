@@ -28,27 +28,34 @@ public class Fachada {
 				separadorEndereco[2], separadorEndereco[3], separadorEndereco[4], separadorEndereco[5]);
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		try {
-			usuarioDAO.create(new Usuario ("fabricio_liber1", criptografaSenha("teste1"), "Fabrício Liberato",
+			usuarioDAO.create(new Usuario ("fabricio_liber1", geraHashBytes("teste1"), "Fabrício Liberato",
 					"111.222.333-44", LocalDate.now(), endereco));
-			usuarioDAO.create(new Usuario ("fabricio_liber2", criptografaSenha("teste2"), "Fabrício Liberato",
+			usuarioDAO.create(new Usuario ("fabricio_liber2", geraHashBytes("teste2"), "Fabrício Liberato",
 					"111.222.333-44", LocalDate.now(), endereco));
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public static byte[] criptografaSenha (String password) throws NoSuchAlgorithmException,
+	public static byte[] geraHashBytes (String password) throws NoSuchAlgorithmException,
 	UnsupportedEncodingException  {
 		MessageDigest algoritmo = MessageDigest.getInstance("SHA-256");
 		return algoritmo.digest(password.getBytes("UTF-8"));		
 	}
 
+	public static String byteToHex (byte[] password) {
+		StringBuilder sb = new StringBuilder();
+	    for (byte b : password) {
+	        sb.append(String.format("%02X", b));
+	    }
+		return sb.toString();		
+	}
+	
 	public static Usuario verificaUsuario (String user, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		inicializar();
 		List<Usuario> usuarios = usuarioDAO.readAll();
-		byte[] senhaCriptografada = criptografaSenha(password);
+		byte[] senhaCriptografada = geraHashBytes(password);
 		for (int i = 0; i < usuarios.size(); i++)
 			if (usuarios.get(i).getUser().equals(user)) {
 				for (int j = 0; j < senhaCriptografada.length; j++)

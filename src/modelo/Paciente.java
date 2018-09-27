@@ -29,7 +29,7 @@ public class Paciente extends Usuario {
 		return "Paciente [convenio=" + convenio + ", getUser()=" + getUser() + ", getPassword()="
 				+ Arrays.toString(getPassword()) + ", getNome()=" + getNome() + ", getCpf()=" + getCpf()
 				+ ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco() + ", getTelefones()="
-				+ getTelefones() + ", getConsultas()=" + getConsultas() + "]";
+				+ getTelefones() + ", getConsultas()=" + getConsultas().size() + "]";
 	}
 
 

@@ -21,7 +21,7 @@ public class EspecialidadeDAO extends DAO<Especialidade> {
 		return null;
 	}
 	
-	public ArrayList<Medico> consultaMedicoPorEspecialidade (Especialidade e) {
+	public ArrayList<Medico> consultaMedicosPorEspecialidade (Especialidade e) {
 	
 		Query q = manager.query();
 		q.constrain(Especialidade.class);

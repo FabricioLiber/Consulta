@@ -6,11 +6,11 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import dao.ConsultaDAO;
 import dao.DAO;
 import dao.EspecialidadeDAO;
-import dao.MedicoDAO;
 import dao.PacienteDAO;
 import dao.UsuarioDAO;
 import modelo.Consulta;
@@ -100,14 +100,15 @@ public class Fachada {
 		return consulta;
 	}
 	
+	
+
 	public static Consulta confirmaConsulta (Consulta consulta, Secretario secretario) throws Exception {
 		DAO.begin();
 		LocalDate amanha = LocalDateTime.now().plusDays(1).toLocalDate();
 		if (consulta.getdataHorario().toLocalDate().compareTo(amanha) > 0) {
 			consulta.setSecretario(secretario);
 			consulta.setConfirmado(true);
-			EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-			ArrayList<Medico> medicos = especialidadeDAO.consultaMedicoPorEspecialidade(consulta.getEspecialidade());
+			List<Medico> medicos = listaMedicosPorEspecialidade(consulta.getEspecialidade());
 			for (Medico m : medicos) {
 				boolean ocupado = false;
 				for (Consulta c : m.getConsultas())
@@ -136,4 +137,53 @@ public class Fachada {
 		return null;
 	}
 	
+
+	
+	// Listagens
+	
+	public static List<Medico> listaMedicosPorEspecialidade (Especialidade e) {
+		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+		return especialidadeDAO.consultaMedicosPorEspecialidade(e);
+	}
+	
+	
+	public static List<Consulta> listaDeConsultasParaConfirmacao () {
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		return consultaDAO.consultasParaConfirmacao();
+	}
+	
+	public static List<Consulta> listaConsultasPorUsuario (Usuario u) {		
+		return u.getConsultas();
+	}
+	
+	public static List<Consulta> listaConsultasRealizadasPorUsuario (Usuario u) {
+		List<Consulta> consultasRealizadas = new ArrayList<>();
+		for (Consulta c: u.getConsultas())			
+			if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) < 0)
+				consultasRealizadas.add(c);		
+		return consultasRealizadas;
+	}
+	
+	public static Usuario PesquisarUsuarioPorCPF (String cpf) {
+		UsuarioDAO usuarioDAO= new UsuarioDAO();
+		return usuarioDAO.readByCpf(cpf);
+	}
+	
+	public static List<Consulta> listaConsultasARealizarPorUsuario (Usuario u) {
+		List<Consulta> consultasARealizar = new ArrayList<>();
+		for (Consulta c: u.getConsultas())			
+			if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0)
+				consultasARealizar.add(c);		
+		return consultasARealizar;
+	}
+	
+	public static List<Consulta> listaTodasAsConsultas () {
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		return consultaDAO.readAll();
+	}
+	
+	public static List<Usuario> listaTodosUsuarios () {
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		return usuarioDAO.readAll();
+	}
 }

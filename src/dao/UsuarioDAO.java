@@ -24,4 +24,15 @@ public class UsuarioDAO extends DAO<Usuario> {
 				}
 		return null;
 	}
+	
+	public Usuario readByCpf (String cpf) {
+		Query q = manager.query();
+		q.constrain(Usuario.class);
+		q.descend("cpf").constrain(cpf);
+		List<Usuario> usuarios = q.execute();
+		if (usuarios.size() > 0)
+			return usuarios.get(0);
+		return null;
+	}
+	
 }

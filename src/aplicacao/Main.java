@@ -3,10 +3,11 @@ package aplicacao;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import dao.ConsultaDAO;
-import dao.PacienteDAO;
 import fachada.Fachada;
+import modelo.Consulta;
 import modelo.Medico;
 import modelo.Paciente;
 import modelo.Secretario;
@@ -15,15 +16,20 @@ import modelo.Usuario;
 public class Main {
 	
 	public static void main (String[] args) {
+//		cadastro();
+		listar();
+	}
+	
+	public static void cadastro () {
 		// Teste metodos em Fachada
 
 		Fachada.inicializar();
 		try {
-//			Fachada.cadastrarUsuarios();
+			Fachada.cadastrarUsuarios();
 			Usuario u = Fachada.verificaUsuario("secretario", "secretario");
 			if (u instanceof Paciente) {
 				Paciente p = (Paciente) u;
-				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(2).plusHours(9), "Cardiaco", p));
+				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(2), "Cardiaco", p));
 			}
 			else if (u instanceof Secretario) {
 				System.out.println("É secretario");
@@ -45,21 +51,49 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		LocalDateTime amanha = LocalDateTime.now().plusHours(1);
-//		LocalDateTime hoje = LocalDateTime.now();
-//		System.out.println(hoje);
-//		System.out.println(amanha);
-//		for (int i = 0; i < 2; i++) {
-//			for (int j = 0; j < 2; j++)
-//				break;
-//			System.out.println("Entrou mesmo assim");
-//		}
-//		
-//		if (hoje.compareTo(amanha) > 0)
-//			System.out.println("Hoje é maior q amanha");
-//		else if (hoje.compareTo(amanha) == 0)
-//			System.out.println("Hoje é igual a amanha");
-//		else
-//			System.out.println("Hoje é menor que amanha");
+
+	}
+	
+	public static void listar () {
+		// Teste metodos em Fachada
+
+		Fachada.inicializar();
+		try {
+			System.out.println("Todas as Consultas: ");
+			List<Consulta> consultas = Fachada.listaTodasAsConsultas();
+			if (!consultas.isEmpty())
+				System.out.println(consultas);
+			else
+				System.out.println("Não existem consultas");
+			System.out.println("Usuario do cpf 111.222.333-44: ");
+			Usuario u = Fachada.PesquisarUsuarioPorCPF("111.222.333-44");
+			System.out.println(u);			
+			consultas = Fachada.listaConsultasPorUsuario(u);
+			System.out.println("Consultas por usuario: ");
+			if (!consultas.isEmpty())
+				System.out.println(consultas);
+			else
+				System.out.println("Não existem consultas");
+			
+			System.out.println("Consultas a realizar por Usuario: ");
+			consultas = Fachada.listaConsultasARealizarPorUsuario(u);
+			if (!consultas.isEmpty())
+				System.out.println(consultas);
+			else
+				System.out.println("Não existem consultas");
+			
+			System.out.println("Consultas realizadas por Usuario: ");
+			consultas = Fachada.listaConsultasRealizadasPorUsuario(u);
+			if (!consultas.isEmpty())
+				System.out.println(consultas);
+			else
+				System.out.println("Não existem consultas");
+			
+			Fachada.finalizar();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

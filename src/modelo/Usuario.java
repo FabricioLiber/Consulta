@@ -2,8 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
-import fachada.Fachada;
+import java.util.Arrays;
 
 public class Usuario {
 
@@ -14,6 +13,7 @@ public class Usuario {
 	private LocalDate dataNasc;
 	private Endereco endereco;
 	private ArrayList<String> telefones;
+	private ArrayList<Consulta> consultas;
 	
 	
 	public Usuario(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) {
@@ -25,6 +25,7 @@ public class Usuario {
 		this.dataNasc = dataNasc;
 		this.endereco = endereco;
 		this.telefones = new ArrayList<>();
+		this.consultas = new ArrayList<>();
 	}
 
 
@@ -68,6 +69,11 @@ public class Usuario {
 	}
 	
 	
+	public ArrayList<Consulta> getConsultas() {
+		return consultas;
+	}
+
+
 	public void add (String telefone) {
 		this.telefones.add(telefone);
 	}
@@ -76,12 +82,22 @@ public class Usuario {
 	public void remove (String telefone) {
 		this.telefones.remove(telefone);
 	}
+	
+	public void add (Consulta consulta) {
+		this.consultas.add(consulta);
+	}
+	
+	
+	public void remove (Consulta consulta) {
+		this.consultas.remove(consulta);
+	}
 
 
 	@Override
 	public String toString() {
-		return "Usuario [user=" + user + ", password=" + Fachada.byteToHex(password) + ", nome=" + nome + ", cpf=" + cpf
-				+ ", dataNasc=" + dataNasc + ", endereco=" + endereco + ", telefones=" + telefones + "]";
+		return "Usuario [user=" + user + ", password=" + Arrays.toString(password) + ", nome=" + nome + ", cpf=" + cpf
+				+ ", dataNasc=" + dataNasc + ", endereco=" + endereco + ", telefones=" + telefones + ", consultas="
+				+ consultas + "]";
 	}
 	
 	

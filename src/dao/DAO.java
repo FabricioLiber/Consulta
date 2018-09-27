@@ -13,6 +13,7 @@ import com.db4o.query.Query;
 import modelo.Consulta;
 import modelo.Convenio;
 import modelo.Endereco;
+import modelo.Especialidade;
 import modelo.Medico;
 import modelo.Paciente;
 import modelo.Secretario;
@@ -68,7 +69,12 @@ public class DAO<T> implements InterfaceDAO<T>{
 		config.common().objectClass(Consulta.class).cascadeOnUpdate(true);
 		config.common().objectClass(Consulta.class).cascadeOnDelete(false);
 		
-		// Indexa��o de Atributos
+		// Class Especialidade
+		config.common().objectClass(Especialidade.class).cascadeOnActivate(true);
+		config.common().objectClass(Especialidade.class).cascadeOnUpdate(true);
+		config.common().objectClass(Especialidade.class).cascadeOnDelete(false);
+		
+		// Indexacao de Atributos
 		config.common().objectClass(Consulta.class).objectField("dataConsulta").indexed(true);
 		
 		manager = Db4oEmbedded.openFile(config, "banco.db4o");
@@ -115,7 +121,12 @@ public class DAO<T> implements InterfaceDAO<T>{
 		config.common().objectClass(Consulta.class).cascadeOnUpdate(true);
 		config.common().objectClass(Consulta.class).cascadeOnDelete(false);
 		
-		// Indexa��o de Atributos
+		// Class Especialidade
+		config.common().objectClass(Especialidade.class).cascadeOnActivate(true);
+		config.common().objectClass(Especialidade.class).cascadeOnUpdate(true);
+		config.common().objectClass(Especialidade.class).cascadeOnDelete(false);
+		
+		// Indexacao de Atributos
 		config.common().objectClass(Consulta.class).objectField("dataConsulta").indexed(true);
 		
 		

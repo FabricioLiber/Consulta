@@ -24,6 +24,8 @@ import modelo.Usuario;
 
 public class Fachada {
 	
+	private static Usuario logado;
+	
 	public static void inicializar () {
 		DAO.open();
 	}
@@ -40,19 +42,49 @@ public class Fachada {
 				separadorEndereco[2], separadorEndereco[3], separadorEndereco[4], separadorEndereco[5]);
 		Convenio convenio = new Convenio("Unimed", 0.2);
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		usuarioDAO.create(new Paciente ("paciente", geraHashBytes("paciente"), "Fabrício Liberato",
+		usuarioDAO.create(new Paciente ("paciente", geraHashBytes("paciente"), "Fabricio Liberato",
 				"111.222.333-44", LocalDate.now(), endereco, convenio));
-		Medico m = new Medico ("medico", geraHashBytes("medico"), "Fabrício Liberato",
-				"111.222.333-44", LocalDate.now(), endereco, "5467-0");
+		Medico m = new Medico ("medico", geraHashBytes("medico"), "Kamila Freitas",
+				"123.456.789-10", LocalDate.now(), endereco, "5467-0");
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
 		Especialidade e = new Especialidade("Cardiaco", 120);
 		e.add(m);
 		especialidadeDAO.create(e);
 		m.add(e);
 		usuarioDAO.create(m);
-		usuarioDAO.create(new Secretario ("secretario", geraHashBytes("secretario"), "Fabrício Liberato",
-				"111.222.333-44", LocalDate.now(), endereco));
+		usuarioDAO.create(new Secretario ("secretario", geraHashBytes("secretario"), "Rafael Lins",
+				"109.876.543-21", LocalDate.now(), endereco));
 		DAO.commit();
+	}
+	
+	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco, Convenio convenio) throws Exception {
+		DAO.begin();
+		Paciente usuario = new Paciente(user, geraHashBytes(password), nome, cpf, dataNasc, endereco, convenio);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		usuarioDAO.create(usuario);
+		DAO.commit();
+		return usuario;
+	}
+	
+	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco, String crm, Especialidade especialidade) throws Exception {
+		//TODO
+		DAO.begin();
+		Medico usuario = new Medico (user, geraHashBytes(password), nome, cpf, dataNasc, endereco, crm);
+		usuario.add(especialidade);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		usuarioDAO.create(usuario);
+		DAO.commit();
+		return usuario;
+	}
+	
+	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) throws Exception {
+		//TODO
+		DAO.begin();
+		Secretario usuario = new Secretario (user, geraHashBytes(password), nome, cpf, dataNasc, endereco);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		usuarioDAO.create(usuario);
+		DAO.commit();
+		return usuario;
 	}
 	
 	public static byte[] geraHashBytes (String password) throws NoSuchAlgorithmException,
@@ -152,7 +184,9 @@ public class Fachada {
 		return consultaDAO.consultasParaConfirmacao();
 	}
 	
-	public static List<Consulta> listaConsultasPorUsuario (Usuario u) {		
+	public static List<Consulta> listaConsultasPorUsuario (Usuario u) {
+		if (u == null)
+			return null;
 		return u.getConsultas();
 	}
 	

@@ -16,8 +16,8 @@ import modelo.Usuario;
 public class Main {
 	
 	public static void main (String[] args) {
-//		cadastro();
-		listar();
+		cadastro();
+//		listar();
 	}
 	
 	public static void cadastro () {
@@ -25,14 +25,13 @@ public class Main {
 
 		Fachada.inicializar();
 		try {
-			Fachada.cadastrarUsuarios();
+//			Fachada.cadastrarUsuarios();
 			Usuario u = Fachada.verificaUsuario("secretario", "secretario");
 			if (u instanceof Paciente) {
 				Paciente p = (Paciente) u;
 				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(2), "Cardiaco", p));
 			}
 			else if (u instanceof Secretario) {
-				System.out.println("É secretario");
 				Secretario s = (Secretario) u;
 				ConsultaDAO consultaDAO = new ConsultaDAO();
 				System.out.println(Fachada.confirmaConsulta(consultaDAO.readAll().get(0), s));
@@ -64,7 +63,7 @@ public class Main {
 			if (!consultas.isEmpty())
 				System.out.println(consultas);
 			else
-				System.out.println("Não existem consultas");
+				System.out.println("Nao existem consultas");
 			System.out.println("Usuario do cpf 111.222.333-44: ");
 			Usuario u = Fachada.PesquisarUsuarioPorCPF("111.222.333-44");
 			System.out.println(u);			
@@ -73,21 +72,21 @@ public class Main {
 			if (!consultas.isEmpty())
 				System.out.println(consultas);
 			else
-				System.out.println("Não existem consultas");
+				System.out.println("Nao existem consultas");
 			
 			System.out.println("Consultas a realizar por Usuario: ");
 			consultas = Fachada.listaConsultasARealizarPorUsuario(u);
 			if (!consultas.isEmpty())
 				System.out.println(consultas);
 			else
-				System.out.println("Não existem consultas");
+				System.out.println("Nao existem consultas");
 			
 			System.out.println("Consultas realizadas por Usuario: ");
 			consultas = Fachada.listaConsultasRealizadasPorUsuario(u);
 			if (!consultas.isEmpty())
 				System.out.println(consultas);
 			else
-				System.out.println("Não existem consultas");
+				System.out.println("Nao existem consultas");
 			
 			Fachada.finalizar();
 		} catch (Exception e) {

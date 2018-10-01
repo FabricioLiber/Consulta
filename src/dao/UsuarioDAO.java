@@ -36,3 +36,23 @@ public class UsuarioDAO extends DAO<Usuario> {
 	}
 	
 }
+
+//class Filtro implements Evaluation {
+//	
+//	private byte[] password;
+//	
+//	public Filtro (byte[] password) {
+//		this.password = password;
+//	}
+//	
+//	@Override
+//	public void evaluate(Candidate candidate) {
+//		Usuario u = (Usuario) candidate.getObject();
+//		for (int j = 0; j < password.length; j++)
+//			if (password[j] == u.getPassword()[j])
+//				continue;
+//			else
+//				candidate.include(false);
+//		candidate.include(true);
+//	}
+//}

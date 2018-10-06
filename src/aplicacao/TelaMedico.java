@@ -25,6 +25,8 @@ public class TelaMedico extends JFrame {
 	private JLabel lblTitulo;
 	private JTable table;
 	private TableModel tableModel;
+	private JScrollPane scroll;
+	private JPanel panelConteudo;
 
 	/**
 	 * Launch the application.
@@ -66,7 +68,7 @@ public class TelaMedico extends JFrame {
 		JRadioButton botaoAtendida = new JRadioButton("Consultas atendidas");
 		botaoAtendida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario(Fachada.getLogado());
+				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
 				adicionaItemsTabela(consultasAtendidas);
 			}
 		});
@@ -77,8 +79,8 @@ public class TelaMedico extends JFrame {
 		JRadioButton botaoAtender = new JRadioButton("Consultas a atender");
 		botaoAtender.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				List<Consulta> consultasAtendidas = Fachada.listaConsultasARealizarPorUsuario(Fachada.getLogado());
-				adicionaItemsTabela(consultasAtendidas);
+				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
+				adicionaItemsTabela(consultasAtender);
 			}
 		});
 		
@@ -89,29 +91,26 @@ public class TelaMedico extends JFrame {
 		buttonGroup.add(botaoAtendida);
 		buttonGroup.add(botaoAtender);
 		
-		JPanel panelConteudo = new JPanel();
+		panelConteudo = new JPanel();
 		panelConteudo.setBounds(0, 130, 664, 350);
 		contentPane.add(panelConteudo);
 		panelConteudo.setLayout(null);
 		
-		table = new JTable(tableModel);
-		table.setBounds(41, 42, 1, 1);
-		table.setBounds(190, 383, 191, 250);
-		JScrollPane scroll = new JScrollPane(table);
-		scroll.setBounds(10, 93, 286, 208);
-		contentPane.add(scroll);
+		
 	}
 	
 	public void adicionaItemsTabela (List<Consulta> consultas) {
 		Object [] dado = null;
-		if (consultas == null) {
-			System.out.println("Nenhuma conta cadastrada!");
+		if (consultas.isEmpty()) {
+			System.out.println("Nenhuma consulta cadastrada!");
+			panelConteudo.setVisible(false);
 		}
 		else {
 			dado = new Object[4];
 			String [] colunas = {"Data", "Paciente", "Secretario", "Especialidade"};
 			tableModel = new TableModel(consultas.size(), colunas);
 			for (int i = 0; i < consultas.size(); i++) {
+				System.out.println(consultas.get(i));
 				dado[0] = consultas.get(i).getdataHorario().toString();
 				dado[1] = consultas.get(i).getPaciente().getNome();
 				dado[2] = consultas.get(i).getSecretario().getNome();
@@ -119,6 +118,12 @@ public class TelaMedico extends JFrame {
 				tableModel.addRow(dado);
 			}
 //			label.setText("Listagem de contas:");
+			table = new JTable(tableModel);
+			table.setBounds(41, 42, 1, 1);
+			table.setBounds(190, 383, 191, 250);
+			scroll = new JScrollPane(table);
+			scroll.setBounds(27, 132, 614, 246);
+			panelConteudo.add(scroll);
 		}
 	}
 }

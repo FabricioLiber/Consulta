@@ -108,13 +108,19 @@ public class Fachada {
 	
 	public static Usuario verificaUsuario (String user, String password) throws Exception {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		return usuarioDAO.realizaLogin(user, geraHashBytes(password));
+		Usuario usuario = usuarioDAO.realizaLogin(user, geraHashBytes(password));
+		logado = usuario;
+		return usuario;
 	}
 	
-	public static Consulta solicitaConsulta (LocalDateTime dataHorario, String especialidade, Paciente p) throws Exception {
+	public static Consulta solicitaConsulta (LocalDateTime dataHorario, String especialidade) throws Exception {
 		
 		DAO.begin();
-		
+		Paciente p;
+		if (logado instanceof Paciente)
+			p = (Paciente) logado;
+		else
+			return null;
 		LocalDate amanha = LocalDateTime.now().plusDays(1).toLocalDate();
 		if (dataHorario.toLocalDate().compareTo(amanha) < 0)
 			throw new Exception("Consultas nao sao agendadas para o dia atual!");
@@ -139,8 +145,13 @@ public class Fachada {
 	
 	
 
-	public static Consulta confirmaConsulta (Consulta consulta, Secretario secretario) throws Exception {
+	public static Consulta confirmaConsulta (Consulta consulta) throws Exception {
 		DAO.begin();
+		Secretario secretario;
+		if (logado instanceof Secretario)
+			secretario = (Secretario) logado;
+		else
+			return null;
 		LocalDate amanha = LocalDateTime.now().plusDays(1).toLocalDate();
 		if (consulta.getdataHorario().toLocalDate().compareTo(amanha) > 0) {
 			consulta.setSecretario(secretario);
@@ -173,10 +184,27 @@ public class Fachada {
 			
 		return null;
 	}
-	
 
 	
 	// Listagens
+	
+	public static List<Especialidade> listaDeEspecialidades () {
+		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+		return especialidadeDAO.readAll();
+	}
+	
+	
+	public static List<Consulta> listaConsultasParaConfirmacaoPorPaciente () {
+		List<Consulta> consultas = null;
+		if (logado instanceof Paciente) {
+			consultas = new ArrayList<Consulta>();
+			for (Consulta c : logado.getConsultas())
+				if (!c.isConfirmado())
+					consultas.add(c);
+		}		
+		return consultas;
+	}
+	
 	
 	public static List<Medico> listaMedicosPorEspecialidade (Especialidade e) {
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
@@ -184,42 +212,49 @@ public class Fachada {
 	}
 	
 	
+	
 	public static List<Consulta> listaDeConsultasParaConfirmacao () {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.consultasParaConfirmacao();
 	}
 	
+	
 	public static List<Consulta> listaConsultasPorUsuario (Usuario u) {
-		if (u == null)
-			return null;
-		return u.getConsultas();
+		return logado.getConsultas();
 	}
 	
-	public static List<Consulta> listaConsultasRealizadasPorUsuario (Usuario u) {
+	
+	public static List<Consulta> listaConsultasRealizadasPorUsuario () {
 		List<Consulta> consultasRealizadas = new ArrayList<>();
-		for (Consulta c: u.getConsultas())			
-			if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) < 0)
-				consultasRealizadas.add(c);		
+		if (!logado.getConsultas().isEmpty())
+			for (Consulta c: logado.getConsultas())			
+				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) < 0)
+					consultasRealizadas.add(c);		
 		return consultasRealizadas;
 	}
+	
 	
 	public static Usuario PesquisarUsuarioPorCPF (String cpf) {
 		UsuarioDAO usuarioDAO= new UsuarioDAO();
 		return usuarioDAO.readByCpf(cpf);
 	}
 	
-	public static List<Consulta> listaConsultasARealizarPorUsuario (Usuario u) {
+	
+	public static List<Consulta> listaConsultasARealizarPorUsuario () {
 		List<Consulta> consultasARealizar = new ArrayList<>();
-		for (Consulta c: u.getConsultas())			
-			if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0)
-				consultasARealizar.add(c);		
+		if (!logado.getConsultas().isEmpty())
+			for (Consulta c: logado.getConsultas())			
+				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0)
+					consultasARealizar.add(c);		
 		return consultasARealizar;
 	}
+	
 	
 	public static List<Consulta> listaTodasAsConsultas () {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.readAll();
 	}
+	
 	
 	public static List<Usuario> listaTodosUsuarios () {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();

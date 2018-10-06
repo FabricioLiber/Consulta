@@ -7,6 +7,7 @@ import java.util.List;
 import com.db4o.query.Query;
 
 import modelo.Consulta;
+import modelo.Usuario;
 
 public class ConsultaDAO extends DAO<Consulta> {
 

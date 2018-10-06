@@ -28,13 +28,11 @@ public class Main {
 //			Fachada.cadastrarUsuarios();
 			Usuario u = Fachada.verificaUsuario("secretario", "secretario");
 			if (u instanceof Paciente) {
-				Paciente p = (Paciente) u;
-				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(2), "Cardiaco", p));
+				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(2), "Cardiaco"));
 			}
 			else if (u instanceof Secretario) {
-				Secretario s = (Secretario) u;
 				ConsultaDAO consultaDAO = new ConsultaDAO();
-				System.out.println(Fachada.confirmaConsulta(consultaDAO.readAll().get(0), s));
+				System.out.println(Fachada.confirmaConsulta(consultaDAO.readAll().get(0)));
 			}
 			else if (u instanceof Medico) {
 				System.out.println("Medico");				
@@ -75,14 +73,14 @@ public class Main {
 				System.out.println("Nao existem consultas");
 			
 			System.out.println("Consultas a realizar por Usuario: ");
-			consultas = Fachada.listaConsultasARealizarPorUsuario(u);
+			consultas = Fachada.listaConsultasARealizarPorUsuario();
 			if (!consultas.isEmpty())
 				System.out.println(consultas);
 			else
 				System.out.println("Nao existem consultas");
 			
 			System.out.println("Consultas realizadas por Usuario: ");
-			consultas = Fachada.listaConsultasRealizadasPorUsuario(u);
+			consultas = Fachada.listaConsultasRealizadasPorUsuario();
 			if (!consultas.isEmpty())
 				System.out.println(consultas);
 			else

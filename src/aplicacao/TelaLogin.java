@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -17,10 +18,10 @@ import modelo.Medico;
 import modelo.Paciente;
 import modelo.Secretario;
 import modelo.Usuario;
-import javax.swing.JPasswordField;
 
-public class TelaLogin extends JFrame{
-
+public class TelaLogin {
+	
+	private JFrame frame;
 	private JLabel lblTitulo;
 	private JPanel contentPane;
 	private JTextField textFieldUser;
@@ -35,8 +36,8 @@ public class TelaLogin extends JFrame{
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						TelaLogin frame = new TelaLogin();
-						frame.setVisible(true);
+						TelaLogin window = new TelaLogin();
+						window.frame.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -47,15 +48,20 @@ public class TelaLogin extends JFrame{
 	/**
 	 * Create the frame.
 	 */
-	public TelaLogin () {
-		
-		setTitle("Consulta Medica");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 291, 306);
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Consulta Medica");
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setBounds(100, 100, 291, 306);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		
@@ -108,8 +114,10 @@ public class TelaLogin extends JFrame{
 							TelaMedico telaMedico = new TelaMedico();
 							telaMedico.setVisible(true);
 						}
-					}else
+						frame.dispose();
+					}else {
 						System.out.println("É nulo");
+					}
 				}
 				catch(Exception erro){
 	//				lblmsg.setText(erro.getMessage());
@@ -120,6 +128,10 @@ public class TelaLogin extends JFrame{
 		});
 		btnLogin.setBounds(151, 218, 110, 35);
 		contentPane.add(btnLogin);
+		
+	}
+	public TelaLogin () {
+		initialize();
 		
 	}
 }

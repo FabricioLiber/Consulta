@@ -26,6 +26,11 @@ public class Fachada {
 	
 	private static Usuario logado;
 	
+	
+	public static Usuario getLogado() {
+		return logado;
+	}
+
 	public static void inicializar () {
 		DAO.open();
 	}

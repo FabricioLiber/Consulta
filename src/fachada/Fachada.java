@@ -129,7 +129,8 @@ public class Fachada {
 		
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
 		Especialidade e = especialidadeDAO.consultaEspecialidade(especialidade);
-		
+		System.out.println(e);
+		System.out.println(e.getMedicos());
 		Consulta consulta = new Consulta(dataHorario, p, false, e);
 		p.add(consulta);
 		
@@ -144,7 +145,12 @@ public class Fachada {
 	}
 	
 	
-
+	public static List<Medico> medicosEspecialistasDisponiveisPorHorario () {
+//		List<Medico> medicos = 
+		return null;
+	}
+	
+	
 	public static Consulta confirmaConsulta (Consulta consulta) throws Exception {
 		DAO.begin();
 		Secretario secretario;
@@ -194,7 +200,7 @@ public class Fachada {
 	}
 	
 	
-	public static List<Consulta> listaConsultasParaConfirmacaoPorPaciente () {
+	public static List<Consulta> listaConsultasSolicitadasPorPaciente () {
 		List<Consulta> consultas = null;
 		if (logado instanceof Paciente) {
 			consultas = new ArrayList<Consulta>();
@@ -213,7 +219,7 @@ public class Fachada {
 	
 	
 	
-	public static List<Consulta> listaDeConsultasParaConfirmacao () {
+	public static List<Consulta> listaConsultasParaConfirmacao () {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.consultasParaConfirmacao();
 	}
@@ -244,7 +250,7 @@ public class Fachada {
 		List<Consulta> consultasARealizar = new ArrayList<>();
 		if (!logado.getConsultas().isEmpty())
 			for (Consulta c: logado.getConsultas())			
-				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0)
+				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0 && c.isConfirmado())
 					consultasARealizar.add(c);		
 		return consultasARealizar;
 	}

@@ -41,11 +41,11 @@ public class Especialidade {
 	}
 
 
-	@Override
-	public String toString() {
-		return "Especialidade [descricao=" + descricao + ", valorConsulta=" + valorConsulta + ", medicos=" + medicos.size()
-				+ "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Especialidade [descricao=" + descricao + ", valorConsulta=" + valorConsulta + ", medicos=" + medicos.size()
+//				+ "]";
+//	}
 	
 	
 	

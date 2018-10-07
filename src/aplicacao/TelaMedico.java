@@ -118,6 +118,7 @@ public class TelaMedico extends JFrame {
 				tableModel.addRow(dado);
 			}
 //			label.setText("Listagem de contas:");
+			panelConteudo.setVisible(true);
 			table = new JTable(tableModel);
 			table.setBounds(41, 42, 1, 1);
 			table.setBounds(190, 383, 191, 250);

@@ -78,7 +78,7 @@ public class Consulta {
 
 	@Override
 	public String toString() {
-		return "Consulta [dataHorario=" + dataHorario + ", paciente=" 
+		return "Consulta [dataHorario=" + dataHorario.toString() + ", paciente=" 
 				+ (paciente != null ? paciente.getNome():"Indisponivel") + ", medico="
 				+ (medico != null ? medico.getNome():"Indisponivel") + ", secretario=" 
 				+ (secretario != null ? secretario.getNome():"Indisponivel") + ", confirmado=" +

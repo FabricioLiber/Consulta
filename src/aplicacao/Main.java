@@ -28,7 +28,7 @@ public class Main {
 //			Fachada.cadastrarUsuarios();
 			Usuario u = Fachada.verificaUsuario("secretario", "secretario");
 			if (u instanceof Paciente) {
-				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(2), "Cardiaco"));
+				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(2).plusHours(12), "Cardiaco"));
 			}
 			else if (u instanceof Secretario) {
 				ConsultaDAO consultaDAO = new ConsultaDAO();

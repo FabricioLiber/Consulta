@@ -29,22 +29,12 @@ public class TelaPaciente extends JFrame {
 	private JTable table;
 	private TableModel tableModel;
 	private JScrollPane scroll;
-
+	private JLabel labelInfo;
+	private JPanel panelConteudo;
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaPaciente frame = new TelaPaciente();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -59,12 +49,12 @@ public class TelaPaciente extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBounds(0, 0, 664, 129);
+		panel.setBounds(0, 0, 670, 117);
 		contentPane.add(panel);
 		
-		JLabel label = new JLabel("Paciente");
+		JLabel label = new JLabel("Verifique suas consultas, sr(a). " + Fachada.getLogado().getNome());
 		label.setFont(new Font("Rockwell", Font.PLAIN, 22));
-		label.setBounds(108, 11, 130, 50);
+		label.setBounds(20, 11, 626, 50);
 		panel.add(label);
 		
 		JRadioButton botaoRealizada = new JRadioButton("Consultas realizadas");
@@ -74,7 +64,8 @@ public class TelaPaciente extends JFrame {
 				adicionaItemsTabela(consultasAtendidas);
 			}
 		});
-		botaoRealizada.setBounds(48, 82, 150, 23);
+		botaoRealizada.setBounds(20, 82, 185, 23);
+		botaoRealizada.setFont(new Font("Rockwell", Font.PLAIN, 16));
 		panel.add(botaoRealizada);
 		
 		JRadioButton botaoAgendada = new JRadioButton("Consultas agendadas");
@@ -84,15 +75,38 @@ public class TelaPaciente extends JFrame {
 				adicionaItemsTabela(consultasAtender);
 			}
 		});
-		botaoAgendada.setBounds(238, 82, 150, 23);
+		botaoAgendada.setBounds(235, 82, 185, 23);
+		botaoAgendada.setFont(new Font("Rockwell", Font.PLAIN, 16));
 		panel.add(botaoAgendada);
 		
 		JRadioButton botaoSolicitada = new JRadioButton("Consultas solicitadas");
 		botaoSolicitada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				List<Consulta> consultasSolicitadas = Fachada.listaConsultasSolicitadasPorPaciente();
+				Object [] dado = null;
+				if (consultasSolicitadas.isEmpty()) {
+					labelInfo.setText("Nenhuma consulta cadastrada!");
+				}
+				else {
+					labelInfo.setText("");
+					dado = new Object[2];
+					String [] colunas = {"Data", "Especialidade"};
+					tableModel = new TableModel(consultasSolicitadas.size(), colunas);
+					for (int i = 0; i < consultasSolicitadas.size(); i++) {
+						System.out.println(consultasSolicitadas.get(0));
+						dado[0] = consultasSolicitadas.get(i).getdataHorario().toString();
+						dado[1] = consultasSolicitadas.get(i).getEspecialidade().getDescricao();
+						tableModel.addRow(dado);
+					}
+					table = new JTable(tableModel);
+					scroll = new JScrollPane(table);
+					scroll.setBounds(25, 10, 610, 150);
+					panelConteudo.add(scroll);
+				}
 			}
 		});
-		botaoSolicitada.setBounds(420, 82, 150, 23);
+		botaoSolicitada.setBounds(461, 82, 185, 23);
+		botaoSolicitada.setFont(new Font("Rockwell", Font.PLAIN, 16));
 		panel.add(botaoSolicitada);
 		
 		ButtonGroup buttonGroup = new ButtonGroup();
@@ -100,14 +114,27 @@ public class TelaPaciente extends JFrame {
 		buttonGroup.add(botaoAgendada);
 		buttonGroup.add(botaoSolicitada);
 		
-		JButton btnSolicitarConsulta = new JButton("Solicitar Consulta");
-		btnSolicitarConsulta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		panelConteudo = new JPanel();
+		panelConteudo.setBounds(0, 116, 670, 273);
+		contentPane.add(panelConteudo);
+		panelConteudo.setLayout(null);
+		
+		JButton button = new JButton("Solicitar Consulta");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaSocilitaConsulta tela = new TelaSocilitaConsulta();
+				tela.setVisible(true);
+				dispose();
 			}
 		});
-		btnSolicitarConsulta.setBounds(487, 27, 150, 34);
-		panel.add(btnSolicitarConsulta);
+		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
+		button.setBounds(398, 215, 243, 35);
+		panelConteudo.add(button);
+		
+		labelInfo = new JLabel("");
+		labelInfo.setBounds(24, 215, 367, 35);
+		labelInfo.setFont(new Font("Rockwell", Font.PLAIN, 22));
+		panelConteudo.add(labelInfo);
 	
 
 	}
@@ -115,28 +142,25 @@ public class TelaPaciente extends JFrame {
 	public void adicionaItemsTabela (List<Consulta> consultas) {
 		Object [] dado = null;
 		if (consultas.isEmpty()) {
-			System.out.println("Nenhuma conta cadastrada!");
-			
+			labelInfo.setText("Nenhuma consulta cadastrada!");
 		}
 		else {
+			labelInfo.setText("");
 			dado = new Object[4];
 			String [] colunas = {"Data", "Medico", "Secretario", "Especialidade"};
 			tableModel = new TableModel(consultas.size(), colunas);
 			for (int i = 0; i < consultas.size(); i++) {
-				System.out.println(consultas.get(0));
+				System.out.println(consultas.get(i));
 				dado[0] = consultas.get(i).getdataHorario().toString();
 				dado[1] = consultas.get(i).getMedico().getNome();
 				dado[2] = consultas.get(i).getSecretario().getNome();
 				dado[3] = consultas.get(i).getEspecialidade().getDescricao();
 				tableModel.addRow(dado);
 			}
-//			label.setText("Listagem de contas:");
 			table = new JTable(tableModel);
-			table.setBounds(41, 42, 1, 1);
-			table.setBounds(190, 383, 191, 250);
 			scroll = new JScrollPane(table);
-			scroll.setBounds(27, 132, 614, 246);
-			contentPane.add(scroll);
+			scroll.setBounds(25, 10, 610, 150);
+			panelConteudo.add(scroll);
 		}
 	}
 }

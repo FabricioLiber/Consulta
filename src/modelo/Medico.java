@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import fachada.Fachada;
+
 public class Medico extends Usuario {
 
 
@@ -36,9 +38,9 @@ public class Medico extends Usuario {
 	public String toString() {
 		
 		return "Medico [crm=" + crm + ", especialidades=" + especialidades + ", getUser()=" + getUser()
-				+ ", getPassword()=" + Arrays.toString(getPassword()) + ", getNome()=" + getNome() + ", getCpf()="
+				+ ", getPassword()=" + Fachada.byteToHex(getPassword()) + ", getNome()=" + getNome() + ", getCpf()="
 				+ getCpf() + ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco()
-				+ ", getTelefones()=" + getTelefones() + ", getConsultas()=" + getConsultas() + "]";
+				+ ", getTelefones()=" + getTelefones() + ", getConsultas()=" + getConsultas().size() + "]";
 	}
 	
 	

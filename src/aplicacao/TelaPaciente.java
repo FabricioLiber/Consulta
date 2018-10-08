@@ -93,7 +93,7 @@ public class TelaPaciente extends JFrame {
 					String [] colunas = {"Data", "Especialidade"};
 					tableModel = new TableModel(consultasSolicitadas.size(), colunas);
 					for (int i = 0; i < consultasSolicitadas.size(); i++) {
-						System.out.println(consultasSolicitadas.get(0));
+						System.out.println(consultasSolicitadas.get(i));
 						dado[0] = consultasSolicitadas.get(i).getdataHorario().toString();
 						dado[1] = consultasSolicitadas.get(i).getEspecialidade().getDescricao();
 						tableModel.addRow(dado);
@@ -150,7 +150,6 @@ public class TelaPaciente extends JFrame {
 			String [] colunas = {"Data", "Medico", "Secretario", "Especialidade"};
 			tableModel = new TableModel(consultas.size(), colunas);
 			for (int i = 0; i < consultas.size(); i++) {
-				System.out.println(consultas.get(i));
 				dado[0] = consultas.get(i).getdataHorario().toString();
 				dado[1] = consultas.get(i).getMedico().getNome();
 				dado[2] = consultas.get(i).getSecretario().getNome();

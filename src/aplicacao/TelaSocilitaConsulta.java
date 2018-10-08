@@ -90,10 +90,13 @@ public class TelaSocilitaConsulta extends JFrame {
 				LocalDateTime dateTimePicker = dateTime.getDateTimeStrict();
 				try {
 					Consulta c = Fachada.solicitaConsulta(dateTimePicker, String.valueOf(listaEspecialidades.getSelectedItem()));
-					JOptionPane.showMessageDialog(contentPane, "Solicitação Concluída", "Solicitação de Consulta", JOptionPane.INFORMATION_MESSAGE);
-					TelaPaciente telaPaciente = new TelaPaciente();
-					telaPaciente.setVisible(true);
-					dispose();
+					if (c != null) {
+						JOptionPane.showMessageDialog(contentPane, "Solicitação Concluída", "Solicitação de Consulta", JOptionPane.INFORMATION_MESSAGE);
+						TelaPaciente telaPaciente = new TelaPaciente();
+						telaPaciente.setVisible(true);
+						dispose();
+					} else 
+						JOptionPane.showMessageDialog(contentPane, "Solicitação incompleta!", "Solicitação de Consulta", JOptionPane.WARNING_MESSAGE);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

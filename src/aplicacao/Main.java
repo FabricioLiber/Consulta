@@ -28,11 +28,11 @@ public class Main {
 //			Fachada.cadastrarUsuarios();
 			Usuario u = Fachada.verificaUsuario("secretario", "secretario");
 			if (u instanceof Paciente) {
-				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(2).plusHours(12), "Cardiaco"));
+				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(18), "Cardiaco"));
 			}
 			else if (u instanceof Secretario) {
 				ConsultaDAO consultaDAO = new ConsultaDAO();
-				System.out.println(Fachada.confirmaConsulta(consultaDAO.readAll().get(0)));
+				System.out.println(Fachada.confirmaConsulta(consultaDAO.readAll().get(4)));
 			}
 			else if (u instanceof Medico) {
 				System.out.println("Medico");				
@@ -85,7 +85,7 @@ public class Main {
 				System.out.println(consultas);
 			else
 				System.out.println("Nao existem consultas");
-			
+//			
 			Fachada.finalizar();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

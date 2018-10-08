@@ -11,7 +11,6 @@ import java.util.List;
 import dao.ConsultaDAO;
 import dao.DAO;
 import dao.EspecialidadeDAO;
-import dao.PacienteDAO;
 import dao.UsuarioDAO;
 import modelo.Consulta;
 import modelo.Convenio;
@@ -53,6 +52,7 @@ public class Fachada {
 				"123.456.789-10", LocalDate.now(), endereco, "5467-0");
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
 		Especialidade e = new Especialidade("Cardiaco", 120);
+		System.out.println(e);
 		e.add(m);
 		especialidadeDAO.create(e);
 		m.add(e);
@@ -116,11 +116,8 @@ public class Fachada {
 	public static Consulta solicitaConsulta (LocalDateTime dataHorario, String especialidade) throws Exception {
 		
 		DAO.begin();
-		Paciente p;
-		if (logado instanceof Paciente)
-			p = (Paciente) logado;
-		else
-			return null;
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		Paciente paciente = (Paciente) usuarioDAO.readByCpf(logado.getCpf());
 		LocalDate amanha = LocalDateTime.now().plusDays(1).toLocalDate();
 		if (dataHorario.toLocalDate().compareTo(amanha) < 0)
 			throw new Exception("Consultas nao sao agendadas para o dia atual!");
@@ -129,23 +126,20 @@ public class Fachada {
 		
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
 		Especialidade e = especialidadeDAO.consultaEspecialidade(especialidade);
-		System.out.println(e);
-		System.out.println(e.getMedicos());
-		Consulta consulta = new Consulta(dataHorario, p, false, e);
-		p.add(consulta);
-		
+		Consulta consulta = new Consulta(dataHorario, paciente, false, e);
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		consultaDAO.create(consulta);
+		paciente.add(consulta);
 		
-		PacienteDAO pacienteDAO = new PacienteDAO();
-		pacienteDAO.update(p);
+		usuarioDAO.update(paciente);
 		
 		DAO.commit();
-		return consulta;
+		return consulta;		
 	}
 	
 	
 	public static List<Medico> medicosEspecialistasDisponiveisPorHorario () {
+		// TODO
 //		List<Medico> medicos = 
 		return null;
 	}
@@ -153,11 +147,8 @@ public class Fachada {
 	
 	public static Consulta confirmaConsulta (Consulta consulta) throws Exception {
 		DAO.begin();
-		Secretario secretario;
-		if (logado instanceof Secretario)
-			secretario = (Secretario) logado;
-		else
-			return null;
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		Secretario secretario = (Secretario) usuarioDAO.readByCpf(logado.getCpf());
 		LocalDate amanha = LocalDateTime.now().plusDays(1).toLocalDate();
 		if (consulta.getdataHorario().toLocalDate().compareTo(amanha) > 0) {
 			consulta.setSecretario(secretario);
@@ -172,7 +163,6 @@ public class Fachada {
 					}
 				if (!ocupado) {
 					consulta.setMedico(m);
-					UsuarioDAO usuarioDAO = new UsuarioDAO();
 					consulta.getMedico().add(consulta);
 					usuarioDAO.update(consulta.getMedico());
 					consulta.getSecretario().add(consulta);

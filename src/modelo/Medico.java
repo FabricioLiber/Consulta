@@ -34,14 +34,21 @@ public class Medico extends Usuario {
 	}
 
 
-//	@Override
-//	public String toString() {
-//		
-//		return "Medico [crm=" + crm + ", especialidades=" + especialidades + ", getUser()=" + getUser()
-//				+ ", getPassword()=" + Fachada.byteToHex(getPassword()) + ", getNome()=" + getNome() + ", getCpf()="
-//				+ getCpf() + ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco()
-//				+ ", getTelefones()=" + getTelefones() + ", getConsultas()=" + getConsultas().size() + "]";
-//	}
+	public ArrayList<Especialidade> getEspecialidades() {
+		return especialidades;
+	}
+	
+	
+
+
+	@Override
+	public String toString() {
+		
+		return "Medico [crm=" + crm + ", especialidades=" + especialidades + ", getUser()=" + getUser()
+				+ ", getPassword()=" + Fachada.byteToHex(getPassword()) + ", getNome()=" + getNome() + ", getCpf()="
+				+ getCpf() + ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco()
+				+ ", getTelefones()=" + getTelefones() + ", getConsultas()=" + getConsultas().size() + "]";
+	}
 	
 	
 	

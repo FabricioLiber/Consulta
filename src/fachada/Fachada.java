@@ -62,7 +62,8 @@ public class Fachada {
 		DAO.commit();
 	}
 	
-	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco, Convenio convenio) throws Exception {
+	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
+			LocalDate dataNasc, Endereco endereco, Convenio convenio) throws Exception {
 		DAO.begin();
 		Paciente usuario = new Paciente(user, geraHashBytes(password), nome, cpf, dataNasc, endereco, convenio);
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -71,7 +72,8 @@ public class Fachada {
 		return usuario;
 	}
 	
-	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco, String crm, Especialidade especialidade) throws Exception {
+	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
+			LocalDate dataNasc, Endereco endereco, String crm, Especialidade especialidade) throws Exception {
 		//TODO
 		DAO.begin();
 		Medico usuario = new Medico (user, geraHashBytes(password), nome, cpf, dataNasc, endereco, crm);
@@ -82,7 +84,8 @@ public class Fachada {
 		return usuario;
 	}
 	
-	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) throws Exception {
+	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
+			LocalDate dataNasc, Endereco endereco) throws Exception {
 		//TODO
 		DAO.begin();
 		Secretario usuario = new Secretario (user, geraHashBytes(password), nome, cpf, dataNasc, endereco);
@@ -113,11 +116,12 @@ public class Fachada {
 		return usuario;
 	}
 	
+	// Operacoes com a Consulta Medica
+	
 	public static Consulta solicitaConsulta (LocalDateTime dataHorario, String especialidade) throws Exception {
 		
 		DAO.begin();
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		Paciente paciente = (Paciente) usuarioDAO.readByCpf(logado.getCpf());
+		Paciente paciente = (Paciente) pesquisarDadosUsuarioLogado();
 		LocalDate amanha = LocalDateTime.now().plusDays(1).toLocalDate();
 		if (dataHorario.toLocalDate().compareTo(amanha) < 0)
 			throw new Exception("Consultas nao sao agendadas para o dia atual!");
@@ -127,18 +131,20 @@ public class Fachada {
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
 		Especialidade e = especialidadeDAO.consultaEspecialidade(especialidade);
 		Consulta consulta = new Consulta(dataHorario, paciente, false, e);
-		ConsultaDAO consultaDAO = new ConsultaDAO();
-		consultaDAO.create(consulta);
-		paciente.add(consulta);
 		
+//		ConsultaDAO consultaDAO = new ConsultaDAO();
+//		consultaDAO.create(consulta);		
+		paciente.add(consulta);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();		
 		usuarioDAO.update(paciente);
+//		logado = paciente;
 		
 		DAO.commit();
 		return consulta;		
 	}
 	
 	
-	public static List<Medico> medicosEspecialistasDisponiveisPorHorario () {
+	public static List<Medico> especialistasDisponiveisPorHorario () {
 		// TODO
 //		List<Medico> medicos = 
 		return null;
@@ -191,6 +197,15 @@ public class Fachada {
 	
 	
 	public static List<Consulta> listaConsultasSolicitadasPorPaciente () {
+//		List<Consulta> consultas = null;
+//		if (logado instanceof Paciente) {
+//			consultas = new ArrayList<Consulta>();
+//			for (Consulta c : logado.getConsultas())
+//				if (!c.isConfirmado())
+//					consultas.add(c);
+//		}		
+//		return consultas;
+		Usuario usuario = pesquisarDadosUsuarioLogado();
 		List<Consulta> consultas = null;
 		if (logado instanceof Paciente) {
 			consultas = new ArrayList<Consulta>();
@@ -230,9 +245,9 @@ public class Fachada {
 	}
 	
 	
-	public static Usuario PesquisarUsuarioPorCPF (String cpf) {
+	public static Usuario pesquisarDadosUsuarioLogado () {
 		UsuarioDAO usuarioDAO= new UsuarioDAO();
-		return usuarioDAO.readByCpf(cpf);
+		return usuarioDAO.readByCpf(logado.getCpf());
 	}
 	
 	

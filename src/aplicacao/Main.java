@@ -2,10 +2,14 @@ package aplicacao;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import dao.ConsultaDAO;
+import dao.EspecialidadeDAO;
+import dao.MedicoDAO;
+import dao.UsuarioDAO;
 import fachada.Fachada;
 import modelo.Consulta;
 import modelo.Medico;
@@ -16,8 +20,9 @@ import modelo.Usuario;
 public class Main {
 	
 	public static void main (String[] args) {
-		cadastro();
+//		cadastro();
 //		listar();
+//		teste();
 	}
 	
 	public static void cadastro () {
@@ -63,7 +68,7 @@ public class Main {
 			else
 				System.out.println("Nao existem consultas");
 			System.out.println("Usuario do cpf 111.222.333-44: ");
-			Usuario u = Fachada.PesquisarUsuarioPorCPF("111.222.333-44");
+			Usuario u = Fachada.pesquisarDadosUsuarioLogado();
 			System.out.println(u);			
 			consultas = Fachada.listaConsultasPorUsuario(u);
 			System.out.println("Consultas por usuario: ");

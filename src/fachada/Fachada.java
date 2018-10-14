@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.ConsultaDAO;
+import dao.ConvenioDAO;
 import dao.DAO;
 import dao.EspecialidadeDAO;
 import dao.UsuarioDAO;
@@ -63,9 +64,9 @@ public class Fachada {
 	}
 	
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
-			LocalDate dataNasc, Endereco endereco, Convenio convenio) throws Exception {
+			LocalDate dataNasc, Endereco endereco, String convenio) throws Exception {
 		DAO.begin();
-		Paciente usuario = new Paciente(user, geraHashBytes(password), nome, cpf, dataNasc, endereco, convenio);
+		Paciente usuario = new Paciente(user, geraHashBytes(password), nome, cpf, dataNasc, endereco, Fachada.pesquisarConvenio(convenio));
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		usuarioDAO.create(usuario);
 		DAO.commit();
@@ -73,11 +74,11 @@ public class Fachada {
 	}
 	
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
-			LocalDate dataNasc, Endereco endereco, String crm, Especialidade especialidade) throws Exception {
+			LocalDate dataNasc, Endereco endereco, String crm, String especialidade) throws Exception {
 		//TODO
 		DAO.begin();
 		Medico usuario = new Medico (user, geraHashBytes(password), nome, cpf, dataNasc, endereco, crm);
-		usuario.add(especialidade);
+		usuario.add(Fachada.pesquisarEspecialidade(especialidade));
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		usuarioDAO.create(usuario);
 		DAO.commit();
@@ -128,8 +129,7 @@ public class Fachada {
 		if (dataHorario.getHour() < 8 || dataHorario.getHour() > 16)
 			throw new Exception("Atendimento apenas das 08:00 as 16:00 horas!");
 		
-		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-		Especialidade e = especialidadeDAO.consultaEspecialidade(especialidade);
+		Especialidade e = Fachada.pesquisarEspecialidade(especialidade);
 		Consulta consulta = new Consulta(dataHorario, paciente, false, e);
 		
 //		ConsultaDAO consultaDAO = new ConsultaDAO();
@@ -185,6 +185,16 @@ public class Fachada {
 			throw new Exception("Consultas nao sao agendadas para o dia atual!");
 			
 		return null;
+	}
+	
+	public static Especialidade pesquisarEspecialidade (String especialidade) {
+		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+		return especialidadeDAO.consultaEspecialidade(especialidade);
+	}
+	
+	public static Convenio pesquisarConvenio (String convenio) {
+		ConvenioDAO convenioDAO = new ConvenioDAO();
+		return convenioDAO.consultaConvenio(convenio);
 	}
 
 	

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,9 +20,8 @@ import modelo.Paciente;
 import modelo.Secretario;
 import modelo.Usuario;
 
-public class TelaLogin {
-	
-	private JFrame frame;
+public class TelaLogin extends JFrame {
+
 	private JLabel lblTitulo;
 	private JPanel contentPane;
 	private JTextField textFieldUser;
@@ -29,45 +29,45 @@ public class TelaLogin {
 	private JLabel lblPassword;
 	private JButton btnLogin;
 	private JPasswordField textFieldPassword;
+	private JButton button;
+
 	/**
 	 * Launch the application.
 	 */
-		public static void main(String[] args) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						TelaLogin window = new TelaLogin();
-						window.frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TelaLogin frame = new TelaLogin();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			});
-		}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
 	 */
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Consulta Medica");
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setBounds(100, 100, 291, 306);
+	public TelaLogin() {
+		Fachada.inicializar();
+		
+		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Consulta Medica");
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 291, 306);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		frame.setContentPane(contentPane);
+		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		
 		lblTitulo = new JLabel("Login");
 		lblTitulo.setFont(new Font("Rockwell", Font.PLAIN, 22));
-		lblTitulo.setBounds(108, 11, 66, 50);
+		lblTitulo.setBounds(105, 11, 66, 50);
 		// TODO
 		//lblTitulo.setFont(new Font());
 		contentPane.add(this.lblTitulo);
@@ -92,7 +92,7 @@ public class TelaLogin {
 		lblPassword.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		lblPassword.setBounds(10, 143, 86, 32);
 		contentPane.add(lblPassword);
-
+		
 		btnLogin = new JButton("Entrar");
 		btnLogin.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		btnLogin.addActionListener(new ActionListener() {
@@ -114,7 +114,7 @@ public class TelaLogin {
 							TelaMedico telaMedico = new TelaMedico();
 							telaMedico.setVisible(true);
 						}
-						frame.dispose();
+						dispose();
 					}else {
 						System.out.println("É nulo");
 					}
@@ -128,10 +128,18 @@ public class TelaLogin {
 		});
 		btnLogin.setBounds(151, 218, 110, 35);
 		contentPane.add(btnLogin);
-		
+		ImageIcon img = new ImageIcon("src/img/cadastrar.png");
+		button = new JButton(img);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaCadastro telaCadastro = new TelaCadastro();
+				telaCadastro.setVisible(true);
+				dispose();
+			}
+		});
+		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
+		button.setBounds(227, 11, 34, 34);
+		contentPane.add(button);
 	}
-	public TelaLogin () {
-		initialize();
-		
-	}
+
 }

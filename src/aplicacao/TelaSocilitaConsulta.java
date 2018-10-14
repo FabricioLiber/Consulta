@@ -78,7 +78,6 @@ public class TelaSocilitaConsulta extends JFrame {
 		listaEspecialidades.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		listaEspecialidades.setBounds(39, 211, 145, 32);
 		contentPane.add(listaEspecialidades);
-		Fachada.inicializar();
 		listaEspecialidades.removeAllItems();
 		for (Especialidade e : Fachada.listaDeEspecialidades())
 			listaEspecialidades.addItem(e.getDescricao());

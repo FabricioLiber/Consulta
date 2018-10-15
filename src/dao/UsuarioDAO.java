@@ -9,7 +9,7 @@ import com.db4o.query.Query;
 import modelo.Usuario;
 
 public class UsuarioDAO extends DAO<Usuario> {
-	public Usuario realizaLogin (String user, byte [] password) {
+	public Usuario verificaUsuario (String user, byte [] password) {
 
 		Query q = manager.query();
 		q.constrain(Usuario.class);

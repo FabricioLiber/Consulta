@@ -1,6 +1,5 @@
 package aplicacao;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +7,7 @@ import java.text.ParseException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,10 +22,10 @@ import javax.swing.text.MaskFormatter;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import fachada.Fachada;
+import modelo.Convenio;
 import modelo.Endereco;
 import modelo.Especialidade;
 import modelo.Usuario;
-import javax.swing.JComboBox;
 
 public class TelaCadastro extends JFrame {
 
@@ -43,26 +43,11 @@ public class TelaCadastro extends JFrame {
 	private JTextField textFieldBairro;
 	private JLabel lblCrm;
 	private JLabel lblConvenio;
-	private JTextField textFieldConvenio;
+	private JComboBox<String> listaConvenios;
 	private JTextField textFieldCrm;
 	private JPasswordField passwordFieldConfirmeSenha;
 	private JComboBox<String> listaEspecialidades;
 	private JLabel lblEspecialidades;
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					TelaCadastro frame = new TelaCadastro();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the frame.
@@ -106,18 +91,22 @@ public class TelaCadastro extends JFrame {
 		lblConvenio.setVisible(false);
 		panel_1.add(lblConvenio);
 		
+		listaConvenios = new JComboBox<String>();
+		listaConvenios.setFont(new Font("Rockwell", Font.PLAIN, 18));
+		listaConvenios.setBounds(369, 129, 137, 32);
+		panel_1.add(listaConvenios);
+
+		listaConvenios.removeAllItems();
+		for (Convenio c : Fachada.listaDeConvenios())
+			listaConvenios.addItem(c.getDescricao());
+		listaConvenios.setVisible(false);
+		
 		lblEspecialidades = new JLabel("Especialidade");
 		lblEspecialidades.setFont(new Font("Rockwell", Font.PLAIN, 16));
 		lblEspecialidades.setBounds(369, 100, 137, 26);
 		lblEspecialidades.setVisible(false);
 		panel_1.add(lblEspecialidades);
 		
-		textFieldConvenio = new JTextField();
-		textFieldConvenio.setFont(new Font("Rockwell", Font.PLAIN, 16));
-		textFieldConvenio.setColumns(10);
-		textFieldConvenio.setBounds(369, 129, 110, 29);
-		textFieldConvenio.setVisible(false);
-		panel_1.add(textFieldConvenio);
 		
 		JRadioButton botaoPaciente = new JRadioButton("Paciente");
 		botaoPaciente.addActionListener(new ActionListener() {
@@ -126,7 +115,7 @@ public class TelaCadastro extends JFrame {
 				textFieldCrm.setVisible(false);
 				
 				lblConvenio.setVisible(true);
-				textFieldConvenio.setVisible(true);
+				listaConvenios.setVisible(true);
 				
 				lblEspecialidades.setVisible(false);
 				listaEspecialidades.setVisible(false);
@@ -144,7 +133,7 @@ public class TelaCadastro extends JFrame {
 				textFieldCrm.setVisible(true);
 				
 				lblConvenio.setVisible(false);
-				textFieldConvenio.setVisible(false);
+				listaConvenios.setVisible(false);
 				
 				lblEspecialidades.setVisible(true);
 				listaEspecialidades.setVisible(true);
@@ -162,7 +151,7 @@ public class TelaCadastro extends JFrame {
 				textFieldCrm.setVisible(false);
 				
 				lblConvenio.setVisible(false);
-				textFieldConvenio.setVisible(false);
+				listaConvenios.setVisible(false);
 				
 				lblEspecialidades.setVisible(false);
 				listaEspecialidades.setVisible(false);
@@ -334,41 +323,50 @@ public class TelaCadastro extends JFrame {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Endereco endereco = new Endereco(textFieldLogradouro.getText(), Integer.parseInt(textFieldNumero.getText()), JFormattedTextFieldCep.getSelectedText(),
-						textFieldBairro.getText(), textFieldCidade.getText(), textFieldEstado.getText());
+				Endereco endereco = new Endereco(textFieldLogradouro.getText(), Integer.parseInt(textFieldNumero.getText()),
+						String.valueOf(JFormattedTextFieldCep.getValue()), textFieldBairro.getText(), textFieldCidade.getText(),
+						textFieldEstado.getText());
 				String senha = (String.valueOf(passwordFieldSenha.getPassword()));
 				Usuario usuario = null;
 				if(senha.equals(String.valueOf(passwordFieldSenha.getPassword()))) {
 					if (botaoPaciente.isSelected()) {						
 						try {
-							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(), formattedTextFieldCPF.getSelectedText(),
-									data.getDate(), endereco, textFieldConvenio.getText());
+							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(),
+									String.valueOf(formattedTextFieldCPF.getValue()), data.getDate(), endereco,
+									String.valueOf(listaConvenios.getSelectedItem()));
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					} else if (botaoMedico.isSelected()) {
 						try {
-							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(), formattedTextFieldCPF.getSelectedText(),
-									data.getDate(), endereco, textFieldCrm.getText(), String.valueOf(listaEspecialidades.getSelectedItem()));
+							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(),
+									String.valueOf(formattedTextFieldCPF.getValue()), data.getDate(), endereco,
+									textFieldCrm.getText(), String.valueOf(listaEspecialidades.getSelectedItem()));
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					} else if (botaoSecretario.isSelected()) {
 						try {
-							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(), formattedTextFieldCPF.getSelectedText(),
-									data.getDate(), endereco);
+							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(),
+									String.valueOf(formattedTextFieldCPF.getValue()), data.getDate(), endereco);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "É necessário escolher um grupo!", "Cadastro", JOptionPane.DEFAULT_OPTION);
 					}
-					System.out.println(usuario);
-					JOptionPane.showMessageDialog(contentPane, "Cadastro concluído!", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
-					TelaLogin telaLogin = new TelaLogin();
-					telaLogin.setVisible(true);
-					dispose();
+					if (usuario == null)
+						JOptionPane.showMessageDialog(contentPane, "Falha ao cadastrar o cliente!", "Cadastro", JOptionPane.ERROR_MESSAGE);
+					else {
+						System.out.println(usuario);
+						JOptionPane.showMessageDialog(contentPane, "Cadastro concluído!", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
+						TelaLogin telaLogin = new TelaLogin();
+						telaLogin.setVisible(true);
+						dispose();
+						}
 				} else
 					JOptionPane.showMessageDialog(contentPane, "Erro no cadastro da senha, coloque a senha e confirme novamente!", "Senha", JOptionPane.INFORMATION_MESSAGE);
 				

@@ -6,9 +6,12 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -36,6 +39,7 @@ public class TelaPaciente extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPaciente() {
+		Fachada.inicializar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 686, 427);
 		contentPane = new JPanel();
@@ -50,7 +54,7 @@ public class TelaPaciente extends JFrame {
 		
 		JLabel label = new JLabel("Verifique suas consultas, sr(a). " + Fachada.getLogado().getNome());
 		label.setFont(new Font("Rockwell", Font.PLAIN, 22));
-		label.setBounds(20, 11, 626, 50);
+		label.setBounds(20, 11, 578, 50);
 		panel.add(label);
 		
 		JRadioButton botaoRealizada = new JRadioButton("Consultas realizadas");
@@ -109,6 +113,26 @@ public class TelaPaciente extends JFrame {
 		buttonGroup.add(botaoRealizada);
 		buttonGroup.add(botaoAgendada);
 		buttonGroup.add(botaoSolicitada);
+		
+
+		ImageIcon img = new ImageIcon("src/img/sair.png");
+		JButton botaoSair = new JButton(img);
+		botaoSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int resposta = JOptionPane.showConfirmDialog(contentPane, "Deseja fazer LogOff?", "LogOff",
+						JOptionPane.YES_NO_OPTION);
+				if(resposta == JOptionPane.YES_OPTION) {
+					Fachada.realizarLogoff();
+					TelaLogin telaLogin = new TelaLogin();
+					telaLogin.setVisible(true);
+					dispose();
+				}
+					
+			}
+		});
+		botaoSair.setFont(new Font("Rockwell", Font.PLAIN, 22));
+		botaoSair.setBounds(612, 11, 34, 34);
+		panel.add(botaoSair);
 		
 		panelConteudo = new JPanel();
 		panelConteudo.setBounds(0, 116, 670, 273);

@@ -110,11 +110,15 @@ public class Fachada {
 		return sb.toString();		
 	}
 	
-	public static Usuario verificaUsuario (String user, String password) throws Exception {
+	public static Usuario realizarLogin (String user, String password) throws Exception {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		Usuario usuario = usuarioDAO.realizaLogin(user, geraHashBytes(password));
+		Usuario usuario = usuarioDAO.verificaUsuario(user, geraHashBytes(password));
 		logado = usuario;
 		return usuario;
+	}
+	
+	public static void realizarLogoff (){
+		logado = null;
 	}
 	
 	// Operacoes com a Consulta Medica
@@ -202,7 +206,26 @@ public class Fachada {
 	
 	public static List<Especialidade> listaDeEspecialidades () {
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+		System.out.println(especialidadeDAO.readAll());
 		return especialidadeDAO.readAll();
+	}
+	
+	
+	public static List<Convenio> listaDeConvenios () {
+		ConvenioDAO convenioDAO = new ConvenioDAO();
+		return convenioDAO.readAll();
+	}
+	
+	
+	public static List<Consulta> listaTodasAsConsultas () {
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		return consultaDAO.readAll();
+	}
+	
+	
+	public static List<Usuario> listaTodosUsuarios () {
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		return usuarioDAO.readAll();
 	}
 	
 	
@@ -268,17 +291,5 @@ public class Fachada {
 				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0 && c.isConfirmado())
 					consultasARealizar.add(c);		
 		return consultasARealizar;
-	}
-	
-	
-	public static List<Consulta> listaTodasAsConsultas () {
-		ConsultaDAO consultaDAO = new ConsultaDAO();
-		return consultaDAO.readAll();
-	}
-	
-	
-	public static List<Usuario> listaTodosUsuarios () {
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		return usuarioDAO.readAll();
 	}
 }

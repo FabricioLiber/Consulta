@@ -101,7 +101,7 @@ public class TelaLogin extends JFrame {
 				Fachada.inicializar();
 				try{
 					System.out.println(String.valueOf(textFieldPassword.getPassword()));
-					Usuario usuario = Fachada.verificaUsuario(textFieldUser.getText(), String.valueOf(textFieldPassword.getPassword()));
+					Usuario usuario = Fachada.realizarLogin(textFieldUser.getText(), String.valueOf(textFieldPassword.getPassword()));
 					if (usuario != null) {
 						System.out.println("entrou");
 						if (usuario instanceof Paciente){

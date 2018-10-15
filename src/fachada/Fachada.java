@@ -39,62 +39,70 @@ public class Fachada {
 		DAO.close();
 	}
 	
-	public static void cadastrarUsuarios ( ) throws Exception {
-		DAO.begin();
-		String local = "Rua Desembargador Sindulfo,30,58301-180,Popular,Santa Rita,PB";
-		String[] separadorEndereco = local.split(",");
-		Endereco endereco = new Endereco(separadorEndereco[0], Integer.parseInt(separadorEndereco[1]),
-				separadorEndereco[2], separadorEndereco[3], separadorEndereco[4], separadorEndereco[5]);
-		Convenio convenio = new Convenio("Unimed", 0.2);
+	
+
+	public static Usuario realizarLogin (String user, String password) throws Exception {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		usuarioDAO.create(new Paciente ("paciente", geraHashBytes("paciente"), "Fabricio Liberato",
-				"111.222.333-44", LocalDate.now(), endereco, convenio));
-		Medico m = new Medico ("medico", geraHashBytes("medico"), "Kamila Freitas",
-				"123.456.789-10", LocalDate.now(), endereco, "5467-0");
-		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-		Especialidade e = new Especialidade("Cardiaco", 120);
-		System.out.println(e);
-		e.add(m);
-		especialidadeDAO.create(e);
-		m.add(e);
-		usuarioDAO.create(m);
-		usuarioDAO.create(new Secretario ("secretario", geraHashBytes("secretario"), "Rafael Lins",
-				"109.876.543-21", LocalDate.now(), endereco));
-		DAO.commit();
+		Usuario usuario = usuarioDAO.verificaUsuario(user, geraHashBytes(password));
+		logado = usuario;
+		return usuario;
 	}
+	
+	
+	public static void realizarLogoff (){
+		logado = null;
+	}
+	
+	
+	public static void criarUsuario (Usuario u) {
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		usuarioDAO.create(u);
+	}	
+	
 	
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
 			LocalDate dataNasc, Endereco endereco, String convenio) throws Exception {
 		DAO.begin();
-		Paciente usuario = new Paciente(user, geraHashBytes(password), nome, cpf, dataNasc, endereco, Fachada.pesquisarConvenio(convenio));
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		usuarioDAO.create(usuario);
+		Paciente usuario = new Paciente(user, geraHashBytes(password), nome, cpf, dataNasc, endereco, pesquisarConvenio(convenio));
+		criarUsuario(usuario);
 		DAO.commit();
 		return usuario;
 	}
+	
 	
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
 			LocalDate dataNasc, Endereco endereco, String crm, String especialidade) throws Exception {
 		//TODO
 		DAO.begin();
 		Medico usuario = new Medico (user, geraHashBytes(password), nome, cpf, dataNasc, endereco, crm);
-		usuario.add(Fachada.pesquisarEspecialidade(especialidade));
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		usuarioDAO.create(usuario);
+		Especialidade e = pesquisarEspecialidade(especialidade); 
+		usuario.add(e);
+		criarUsuario(usuario);
+		
+		e.add(usuario);
+		atualizarEspecialidade(e);
+		
 		DAO.commit();
 		return usuario;
 	}
+	
 	
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
 			LocalDate dataNasc, Endereco endereco) throws Exception {
 		//TODO
 		DAO.begin();
 		Secretario usuario = new Secretario (user, geraHashBytes(password), nome, cpf, dataNasc, endereco);
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		usuarioDAO.create(usuario);
+		criarUsuario(usuario);
 		DAO.commit();
 		return usuario;
 	}
+	
+	
+	public static Especialidade atualizarEspecialidade (Especialidade e) {
+		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+		return especialidadeDAO.update(e);
+	}
+	
 	
 	public static byte[] geraHashBytes (String password) throws NoSuchAlgorithmException,
 	UnsupportedEncodingException  {
@@ -102,6 +110,7 @@ public class Fachada {
 		return algoritmo.digest(password.getBytes("UTF-8"));		
 	}
 
+	
 	public static String byteToHex (byte[] password) {
 		StringBuilder sb = new StringBuilder();
 	    for (byte b : password) {
@@ -110,16 +119,6 @@ public class Fachada {
 		return sb.toString();		
 	}
 	
-	public static Usuario realizarLogin (String user, String password) throws Exception {
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		Usuario usuario = usuarioDAO.verificaUsuario(user, geraHashBytes(password));
-		logado = usuario;
-		return usuario;
-	}
-	
-	public static void realizarLogoff (){
-		logado = null;
-	}
 	
 	// Operacoes com a Consulta Medica
 	
@@ -133,7 +132,7 @@ public class Fachada {
 		if (dataHorario.getHour() < 8 || dataHorario.getHour() > 16)
 			throw new Exception("Atendimento apenas das 08:00 as 16:00 horas!");
 		
-		Especialidade e = Fachada.pesquisarEspecialidade(especialidade);
+		Especialidade e = pesquisarEspecialidade(especialidade);
 		Consulta consulta = new Consulta(dataHorario, paciente, false, e);
 		
 //		ConsultaDAO consultaDAO = new ConsultaDAO();
@@ -230,19 +229,11 @@ public class Fachada {
 	
 	
 	public static List<Consulta> listaConsultasSolicitadasPorPaciente () {
-//		List<Consulta> consultas = null;
-//		if (logado instanceof Paciente) {
-//			consultas = new ArrayList<Consulta>();
-//			for (Consulta c : logado.getConsultas())
-//				if (!c.isConfirmado())
-//					consultas.add(c);
-//		}		
-//		return consultas;
 		Usuario usuario = pesquisarDadosUsuarioLogado();
 		List<Consulta> consultas = null;
-		if (logado instanceof Paciente) {
+		if (usuario instanceof Paciente) {
 			consultas = new ArrayList<Consulta>();
-			for (Consulta c : logado.getConsultas())
+			for (Consulta c : usuario.getConsultas())
 				if (!c.isConfirmado())
 					consultas.add(c);
 		}		
@@ -250,9 +241,15 @@ public class Fachada {
 	}
 	
 	
-	public static List<Medico> listaMedicosPorEspecialidade (Especialidade e) {
+	public static List<Medico> listaMedicosPorEspecialidade (String especialidade) {
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-		return especialidadeDAO.consultaMedicosPorEspecialidade(e);
+		return especialidadeDAO.consultaMedicosPorEspecialidade(pesquisarEspecialidade(especialidade));
+	}
+	
+	
+	public static List<Medico> listaMedicosPorEspecialidade (Especialidade especialidade) {
+		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+		return especialidadeDAO.consultaMedicosPorEspecialidade(especialidade);
 	}
 	
 	
@@ -280,13 +277,15 @@ public class Fachada {
 	
 	public static Usuario pesquisarDadosUsuarioLogado () {
 		UsuarioDAO usuarioDAO= new UsuarioDAO();
+		System.out.println(logado.getCpf());
 		return usuarioDAO.readByCpf(logado.getCpf());
 	}
 	
 	
 	public static List<Consulta> listaConsultasARealizarPorUsuario () {
+		List<Consulta> consultas = pesquisarDadosUsuarioLogado().getConsultas();
 		List<Consulta> consultasARealizar = new ArrayList<>();
-		if (!logado.getConsultas().isEmpty())
+		if (!consultas.isEmpty())
 			for (Consulta c: logado.getConsultas())			
 				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0 && c.isConfirmado())
 					consultasARealizar.add(c);		

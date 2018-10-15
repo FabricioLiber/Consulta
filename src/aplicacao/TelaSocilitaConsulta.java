@@ -26,26 +26,10 @@ public class TelaSocilitaConsulta extends JFrame {
 	private DateTimePicker dateTime;
 
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					TelaSocilitaConsulta frame = new TelaSocilitaConsulta();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
 	 * Create the frame.
 	 */
 	public TelaSocilitaConsulta() {		
-		
+		Fachada.inicializar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 395, 390);
 		contentPane = new JPanel();
@@ -54,7 +38,7 @@ public class TelaSocilitaConsulta extends JFrame {
 		contentPane.setLayout(null);
 		
 
-		JLabel label_1 = new JLabel("Solicitaï¿½ï¿½o de Consulta");
+		JLabel label_1 = new JLabel("Solicitação de Consulta");
 		label_1.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		label_1.setBounds(80, 11, 241, 50);
 		contentPane.add(label_1);
@@ -89,12 +73,12 @@ public class TelaSocilitaConsulta extends JFrame {
 				try {
 					Consulta c = Fachada.solicitaConsulta(dateTimePicker, String.valueOf(listaEspecialidades.getSelectedItem()));
 					if (c != null) {
-						JOptionPane.showMessageDialog(contentPane, "Solicitaï¿½ï¿½o Concluï¿½da", "Solicitaï¿½ï¿½o de Consulta", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(contentPane, "Solicitação Concluída", "Solicitação de Consulta", JOptionPane.INFORMATION_MESSAGE);
 						TelaPaciente telaPaciente = new TelaPaciente();
 						telaPaciente.setVisible(true);
 						dispose();
 					} else 
-						JOptionPane.showMessageDialog(contentPane, "Solicitaï¿½ï¿½o incompleta!", "Solicitaï¿½ï¿½o de Consulta", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(contentPane, "Solicitação incompleta!", "Solicitação de Consulta", JOptionPane.WARNING_MESSAGE);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

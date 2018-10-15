@@ -1,14 +1,10 @@
 package aplicacao;
 
-import java.util.List;
-
 import dao.ConvenioDAO;
 import dao.EspecialidadeDAO;
 import fachada.Fachada;
-import modelo.Consulta;
 import modelo.Convenio;
 import modelo.Especialidade;
-import modelo.Usuario;
 
 public class Main {
 	
@@ -86,7 +82,8 @@ public class Main {
 
 		Fachada.inicializar();
 		try {
-			System.out.println(Fachada.listaDeEspecialidades());
+			System.out.println(Fachada.listaMedicosPorEspecialidade("Cardiologia"));
+//			System.out.println(Fachada.listaDeEspecialidades());
 //			System.out.println("Todas as Consultas: ");
 //			List<Consulta> consultas = Fachada.listaTodasAsConsultas();
 //			if (!consultas.isEmpty())

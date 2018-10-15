@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.db4o.query.Candidate;
+import com.db4o.query.Evaluation;
 import com.db4o.query.Query;
 
+import fachada.Fachada;
 import modelo.Consulta;
 import modelo.Usuario;
 
@@ -23,6 +26,7 @@ public class ConsultaDAO extends DAO<Consulta> {
 				consultasParaConfirmarValidas.add(c);
 		return consultasParaConfirmarValidas;
 	}
+
 	
 	
 }

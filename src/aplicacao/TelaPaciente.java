@@ -30,10 +30,6 @@ public class TelaPaciente extends JFrame {
 	private JScrollPane scroll;
 	private JLabel labelInfo;
 	private JPanel panelConteudo;
-	
-	/**
-	 * Launch the application.
-	 */
 
 	/**
 	 * Create the frame.
@@ -157,12 +153,18 @@ public class TelaPaciente extends JFrame {
 		panelConteudo.add(labelInfo);
 	
 
+		table = new JTable(tableModel);
+		scroll = new JScrollPane(table);
+		scroll.setBounds(25, 10, 610, 150);
+		panelConteudo.add(scroll);
+		scroll.setVisible(false);
 	}
 	
 	public void adicionaItemsTabela (List<Consulta> consultas) {
 		Object [] dado = null;
 		if (consultas.isEmpty()) {
 			labelInfo.setText("Nenhuma consulta cadastrada!");
+			scroll.setVisible(false);
 		}
 		else {
 			labelInfo.setText("");
@@ -176,10 +178,7 @@ public class TelaPaciente extends JFrame {
 				dado[3] = consultas.get(i).getEspecialidade().getDescricao();
 				tableModel.addRow(dado);
 			}
-			table = new JTable(tableModel);
-			scroll = new JScrollPane(table);
-			scroll.setBounds(25, 10, 610, 150);
-			panelConteudo.add(scroll);
+			scroll.setVisible(true);
 		}
 	}
 }

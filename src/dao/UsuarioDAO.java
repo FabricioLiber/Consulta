@@ -47,7 +47,7 @@ public class UsuarioDAO extends DAO<Usuario> {
 //
 //		List<Usuario> usuarios = q.execute();
 //		if (usuarios.size() > 0) {
-//			System.out.println(usuarios);
+//			System.out.println(usuarios.get(0));
 //			return usuarios.get(0);
 //			
 //		}
@@ -59,6 +59,7 @@ public class UsuarioDAO extends DAO<Usuario> {
 		q.constrain(Usuario.class);
 		q.descend("cpf").constrain(cpf);
 		List<Usuario> usuarios = q.execute();
+		System.out.println(usuarios.get(0));
 		if (usuarios.size() > 0)
 			return usuarios.get(0);
 		return null;

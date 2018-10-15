@@ -13,7 +13,7 @@ import modelo.Medico;
 
 public class MedicoDAO extends DAO<Medico> {
 	
-	public List<Medico> especialistasDisponiveisPorHorario (LocalDateTime horario, String especialidade) {
+	public List<Medico> especialistasDisponiveis (LocalDateTime horario, String especialidade) {
 		
 		Query q = manager.query();
 		q.constrain(new Evaluation() {

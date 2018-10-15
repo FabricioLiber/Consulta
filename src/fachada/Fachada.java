@@ -12,6 +12,7 @@ import dao.ConsultaDAO;
 import dao.ConvenioDAO;
 import dao.DAO;
 import dao.EspecialidadeDAO;
+import dao.MedicoDAO;
 import dao.UsuarioDAO;
 import modelo.Consulta;
 import modelo.Convenio;
@@ -147,10 +148,11 @@ public class Fachada {
 	}
 	
 	
-	public static List<Medico> especialistasDisponiveisPorHorario () {
+	public static List<Medico> especialistasDisponiveisPorHorario (LocalDateTime horario, String especialidade) {
 		// TODO
-//		List<Medico> medicos = 
-		return null;
+		MedicoDAO medicoDAO = new MedicoDAO();
+		List<Medico> medicos = medicoDAO.especialistasDisponiveis(horario, especialidade);
+		return medicos;
 	}
 	
 	
@@ -162,7 +164,8 @@ public class Fachada {
 		if (consulta.getdataHorario().toLocalDate().compareTo(amanha) > 0) {
 			consulta.setSecretario(secretario);
 			consulta.setConfirmado(true);
-			List<Medico> medicos = listaMedicosPorEspecialidade(consulta.getEspecialidade());
+			List<Medico> medicos = especialistasDisponiveisPorHorario(consulta.getdataHorario(), 
+					consulta.getEspecialidade().getDescricao());
 			for (Medico m : medicos) {
 				boolean ocupado = false;
 				for (Consulta c : m.getConsultas())
@@ -216,32 +219,25 @@ public class Fachada {
 	}
 	
 	
-	public static List<Consulta> listaTodasAsConsultas () {
+	public static List<Consulta> listaConsultas () {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.readAll();
 	}
 	
 	
-	public static List<Usuario> listaTodosUsuarios () {
+	public static List<Usuario> listaUsuarios () {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		return usuarioDAO.readAll();
 	}
 	
 	
-	public static List<Consulta> listaConsultasSolicitadasPorPaciente () {
-		Usuario usuario = pesquisarDadosUsuarioLogado();
-		List<Consulta> consultas = null;
-		if (usuario instanceof Paciente) {
-			consultas = new ArrayList<Consulta>();
-			for (Consulta c : usuario.getConsultas())
-				if (!c.isConfirmado())
-					consultas.add(c);
-		}		
-		return consultas;
+	public static List<Consulta> listarConsultasSolicitadasPorPaciente () {		
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		return consultaDAO.consultasSolicitadasPorPaciente(logado.getCpf());
 	}
 	
 	
-	public static List<Medico> listaMedicosPorEspecialidade (String especialidade) {
+	public static List<Medico> listarMedicosPorEspecialidade (String especialidade) {
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
 		return especialidadeDAO.consultaMedicosPorEspecialidade(pesquisarEspecialidade(especialidade));
 	}
@@ -266,12 +262,14 @@ public class Fachada {
 	
 	
 	public static List<Consulta> listaConsultasRealizadasPorUsuario () {
-		List<Consulta> consultasRealizadas = new ArrayList<>();
-		if (!logado.getConsultas().isEmpty())
-			for (Consulta c: logado.getConsultas())			
-				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) < 0)
-					consultasRealizadas.add(c);		
-		return consultasRealizadas;
+//		List<Consulta> consultasRealizadas = new ArrayList<>();
+//		if (!logado.getConsultas().isEmpty())
+//			for (Consulta c: logado.getConsultas())			
+//				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) < 0)
+//					consultasRealizadas.add(c);		
+//		return consultasRealizadas;
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		return consultaDAO.consultasRealizadas(logado);
 	}
 	
 	
@@ -283,12 +281,14 @@ public class Fachada {
 	
 	
 	public static List<Consulta> listaConsultasARealizarPorUsuario () {
-		List<Consulta> consultas = pesquisarDadosUsuarioLogado().getConsultas();
-		List<Consulta> consultasARealizar = new ArrayList<>();
-		if (!consultas.isEmpty())
-			for (Consulta c: logado.getConsultas())			
-				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0 && c.isConfirmado())
-					consultasARealizar.add(c);		
-		return consultasARealizar;
+//		List<Consulta> consultas = pesquisarDadosUsuarioLogado().getConsultas();
+//		List<Consulta> consultasARealizar = new ArrayList<>();
+//		if (!consultas.isEmpty())
+//			for (Consulta c: logado.getConsultas())			
+//				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0 && c.isConfirmado())
+//					consultasARealizar.add(c);		
+//		return consultasARealizar;
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		return consultaDAO.consultasARealizar(logado);
 	}
 }

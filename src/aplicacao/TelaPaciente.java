@@ -35,7 +35,6 @@ public class TelaPaciente extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPaciente() {
-		Fachada.inicializar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 686, 427);
 		contentPane = new JPanel();
@@ -56,6 +55,8 @@ public class TelaPaciente extends JFrame {
 		JRadioButton botaoRealizada = new JRadioButton("Consultas realizadas");
 		botaoRealizada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
+				Fachada.inicializar();
 				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
 				adicionaItemsTabela(consultasAtendidas);
 			}
@@ -65,8 +66,10 @@ public class TelaPaciente extends JFrame {
 		panel.add(botaoRealizada);
 		
 		JRadioButton botaoAgendada = new JRadioButton("Consultas agendadas");
-		botaoAgendada.addActionListener(new ActionListener() {
+		botaoAgendada.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
+
+				Fachada.inicializar();
 				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
 				adicionaItemsTabela(consultasAtender);
 			}
@@ -78,7 +81,8 @@ public class TelaPaciente extends JFrame {
 		JRadioButton botaoSolicitada = new JRadioButton("Consultas solicitadas");
 		botaoSolicitada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<Consulta> consultasSolicitadas = Fachada.listaConsultasSolicitadasPorPaciente();
+				Fachada.inicializar();
+				List<Consulta> consultasSolicitadas = Fachada.listarConsultasSolicitadasPorPaciente();
 				Object [] dado = null;
 				if (consultasSolicitadas.isEmpty()) {
 					labelInfo.setText("Nenhuma consulta cadastrada!");

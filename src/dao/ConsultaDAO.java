@@ -57,6 +57,7 @@ public class ConsultaDAO extends DAO<Consulta> {
 					if (!consulta.getMedico().getCpf().equals(usuario.getCpf()))
 						candidato.include(false);
 //				LocalDate amanha = LocalDate.now().plusDays(1);
+				System.out.println(consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()));
 				if (consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()) < 0)
 					if (consulta.isConfirmado()) {
 						System.out.println("entrou");
@@ -90,7 +91,7 @@ public class ConsultaDAO extends DAO<Consulta> {
 					if (!consulta.getMedico().getCpf().equals(usuario.getCpf()))
 						candidato.include(false);
 //				LocalDate amanha = LocalDate.now().plusDays(1);
-				if (consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0)
+				System.out.println(consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()));
 					if (consulta.isConfirmado()) {
 						System.out.println("entrou");
 						candidato.include(true);

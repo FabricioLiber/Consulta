@@ -122,10 +122,15 @@ public class TelaPaciente extends JFrame {
 				int resposta = JOptionPane.showConfirmDialog(contentPane, "Deseja fazer LogOff?", "LogOff",
 						JOptionPane.YES_NO_OPTION);
 				if(resposta == JOptionPane.YES_OPTION) {
-					Fachada.realizarLogoff();
-					TelaLogin telaLogin = new TelaLogin();
-					telaLogin.setVisible(true);
-					dispose();
+					try {
+						Fachada.realizarLogoff();
+						TelaLogin telaLogin = new TelaLogin();
+						telaLogin.setVisible(true);
+						dispose();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 					
 			}

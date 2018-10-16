@@ -27,10 +27,8 @@ public class MedicoDAO extends DAO<Medico> {
 						for (Consulta c : medico.getConsultas())
 							if (c.getdataHorario().toLocalDate().compareTo(horario.toLocalDate()) == 0)
 								if (c.getdataHorario().getHour() == horario.getHour())
-									if (c.getdataHorario().getMinute() == horario.getMinute()) {
-										candidato.include(false);
-										return;
-									}
+									if (c.getdataHorario().getMinute() == horario.getMinute())
+										candidato.include(false);								
 				candidato.include(true);
 			}
 		});

@@ -44,13 +44,14 @@ public class Fachada {
 
 	public static Usuario realizarLogin (String user, String password) throws Exception {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		Usuario usuario = usuarioDAO.verificaUsuario(user, geraHashBytes(password));
-		logado = usuario;
-		return usuario;
+		logado = usuarioDAO.verificaUsuario(user, geraHashBytes(password));
+		return logado;
 	}
 	
 	
-	public static void realizarLogoff (){
+	public static void realizarLogoff () throws Exception{
+		if (logado == null)
+			throw new Exception("Nao ha usuario logado!");
 		logado = null;
 	}
 	
@@ -156,41 +157,28 @@ public class Fachada {
 	}
 	
 	
-	public static Consulta confirmaConsulta (Consulta consulta) throws Exception {
+	public static Consulta confirmaConsulta (Consulta consulta, String cpfMedico) throws Exception {
 		DAO.begin();
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		Secretario secretario = (Secretario) usuarioDAO.readByCpf(logado.getCpf());
+		Medico medico = (Medico) usuarioDAO.readByCpf(cpfMedico);
 		LocalDate amanha = LocalDateTime.now().plusDays(1).toLocalDate();
-		if (consulta.getdataHorario().toLocalDate().compareTo(amanha) > 0) {
-			consulta.setSecretario(secretario);
-			consulta.setConfirmado(true);
-			List<Medico> medicos = especialistasDisponiveisPorHorario(consulta.getdataHorario(), 
-					consulta.getEspecialidade().getDescricao());
-			for (Medico m : medicos) {
-				boolean ocupado = false;
-				for (Consulta c : m.getConsultas())
-					if (c.getdataHorario().compareTo(consulta.getdataHorario()) == 0) {
-						ocupado = true;
-						break;
-					}
-				if (!ocupado) {
-					consulta.setMedico(m);
-					consulta.getMedico().add(consulta);
-					usuarioDAO.update(consulta.getMedico());
-					consulta.getSecretario().add(consulta);
-					usuarioDAO.update(consulta.getSecretario());
-					ConsultaDAO consultaDAO = new ConsultaDAO();
-					consultaDAO.update(consulta);
-					DAO.commit();
-					return consulta;
-				}					
-			}
-			if (consulta.getMedico() == null)
-				throw new Exception("Nao ha medicos disponiveis na especialidade solicitada!");
-		} else
-			throw new Exception("Consultas nao sao agendadas para o dia atual!");
-			
-		return null;
+		List<Medico> medicos = especialistasDisponiveisPorHorario(consulta.getdataHorario(),
+				consulta.getEspecialidade().getDescricao());
+		if (medicos.isEmpty())
+			throw new Exception("Nao ha medicos disponiveis na especialidade solicitada!");
+		 
+		consulta.setSecretario(secretario);
+		consulta.setConfirmado(true);
+	 
+
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		consulta.setMedico(medico);
+		medico.add(consulta);
+		usuarioDAO.update(medico);
+		consultaDAO.update(consulta);
+		DAO.commit();
+		return consulta;				
 	}
 	
 	public static Especialidade pesquisarEspecialidade (String especialidade) {
@@ -205,6 +193,12 @@ public class Fachada {
 
 	
 	// Listagens
+	
+	public static Usuario pesquisarDadosUsuarioLogado () {
+		UsuarioDAO usuarioDAO= new UsuarioDAO();
+		return usuarioDAO.readByCpf(logado.getCpf());
+	}
+	
 	
 	public static List<Especialidade> listaDeEspecialidades () {
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
@@ -233,6 +227,7 @@ public class Fachada {
 	
 	public static List<Consulta> listarConsultasSolicitadasPorPaciente () {		
 		ConsultaDAO consultaDAO = new ConsultaDAO();
+		System.out.println(logado);
 		return consultaDAO.consultasSolicitadasPorPaciente(logado.getCpf());
 	}
 	
@@ -262,32 +257,12 @@ public class Fachada {
 	
 	
 	public static List<Consulta> listaConsultasRealizadasPorUsuario () {
-//		List<Consulta> consultasRealizadas = new ArrayList<>();
-//		if (!logado.getConsultas().isEmpty())
-//			for (Consulta c: logado.getConsultas())			
-//				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) < 0)
-//					consultasRealizadas.add(c);		
-//		return consultasRealizadas;
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.consultasRealizadas(logado);
 	}
 	
 	
-	public static Usuario pesquisarDadosUsuarioLogado () {
-		UsuarioDAO usuarioDAO= new UsuarioDAO();
-		System.out.println(logado.getCpf());
-		return usuarioDAO.readByCpf(logado.getCpf());
-	}
-	
-	
 	public static List<Consulta> listaConsultasARealizarPorUsuario () {
-//		List<Consulta> consultas = pesquisarDadosUsuarioLogado().getConsultas();
-//		List<Consulta> consultasARealizar = new ArrayList<>();
-//		if (!consultas.isEmpty())
-//			for (Consulta c: logado.getConsultas())			
-//				if (c.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0 && c.isConfirmado())
-//					consultasARealizar.add(c);		
-//		return consultasARealizar;
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.consultasARealizar(logado);
 	}

@@ -68,8 +68,10 @@ public class TelaMedico extends JFrame {
 		JRadioButton botaoAtendida = new JRadioButton("Consultas atendidas");
 		botaoAtendida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Fachada.inicializar();
 				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
 				adicionaItemsTabela(consultasAtendidas);
+				Fachada.finalizar();
 			}
 		});
 		
@@ -79,8 +81,10 @@ public class TelaMedico extends JFrame {
 		JRadioButton botaoAtender = new JRadioButton("Consultas a atender");
 		botaoAtender.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Fachada.inicializar();
 				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
 				adicionaItemsTabela(consultasAtender);
+				Fachada.finalizar();
 			}
 		});
 		
@@ -110,7 +114,6 @@ public class TelaMedico extends JFrame {
 			String [] colunas = {"Data", "Paciente", "Secretario", "Especialidade"};
 			tableModel = new TableModel(consultas.size(), colunas);
 			for (int i = 0; i < consultas.size(); i++) {
-				System.out.println(consultas.get(i));
 				dado[0] = consultas.get(i).getdataHorario().toString();
 				dado[1] = consultas.get(i).getPaciente().getNome();
 				dado[2] = consultas.get(i).getSecretario().getNome();

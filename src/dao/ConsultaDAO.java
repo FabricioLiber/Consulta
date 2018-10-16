@@ -20,13 +20,12 @@ public class ConsultaDAO extends DAO<Consulta> {
 		Query q = manager.query();
 		q.constrain(Consulta.class);
 		q.descend("confirmado").constrain(false);
-		List<Consulta> consultas = q.execute();
-		List<Consulta> consultasParaConfirmarValidas = new ArrayList<Consulta>();
-		LocalDate amanha = LocalDate.now().plusDays(1);
-		for (Consulta c: consultas)			
-			if (c.getdataHorario().toLocalDate().compareTo(amanha) > 0)
-				consultasParaConfirmarValidas.add(c);
-		return consultasParaConfirmarValidas;
+		q.constrain((Evaluation) candidato -> {
+			// TODO Auto-generated method stub
+			Consulta consulta = (Consulta) candidato.getObject();
+			candidato.include(consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0);
+		});
+		return q.execute();
 	}
 	
 	public List<Consulta> consultasSolicitadasPorPaciente (String cpf) {
@@ -56,14 +55,9 @@ public class ConsultaDAO extends DAO<Consulta> {
 				else if (usuario instanceof Medico)
 					if (!consulta.getMedico().getCpf().equals(usuario.getCpf()))
 						candidato.include(false);
-//				LocalDate amanha = LocalDate.now().plusDays(1);
-				System.out.println(consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()));
 				if (consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()) < 0)
-					if (consulta.isConfirmado()) {
-						System.out.println("entrou");
+					if (consulta.isConfirmado())
 						candidato.include(true);
-					}
-				System.out.println("false");
 				candidato.include(false);
 			}
 		});
@@ -90,13 +84,9 @@ public class ConsultaDAO extends DAO<Consulta> {
 				else if (usuario instanceof Medico)
 					if (!consulta.getMedico().getCpf().equals(usuario.getCpf()))
 						candidato.include(false);
-//				LocalDate amanha = LocalDate.now().plusDays(1);
 				System.out.println(consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()));
-					if (consulta.isConfirmado()) {
-						System.out.println("entrou");
+					if (consulta.isConfirmado())
 						candidato.include(true);
-					}
-				System.out.println("false");
 				candidato.include(false);
 			}
 		});

@@ -162,7 +162,6 @@ public class Fachada {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		Secretario secretario = (Secretario) usuarioDAO.readByCpf(logado.getCpf());
 		Medico medico = (Medico) usuarioDAO.readByCpf(cpfMedico);
-		LocalDate amanha = LocalDateTime.now().plusDays(1).toLocalDate();
 		List<Medico> medicos = especialistasDisponiveisPorHorario(consulta.getdataHorario(),
 				consulta.getEspecialidade().getDescricao());
 		if (medicos.isEmpty())
@@ -258,11 +257,13 @@ public class Fachada {
 	
 	public static List<Consulta> listaConsultasRealizadasPorUsuario () {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
+		System.out.println(logado);
 		return consultaDAO.consultasRealizadas(logado);
 	}
 	
 	
 	public static List<Consulta> listaConsultasARealizarPorUsuario () {
+		System.out.println(logado);
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.consultasARealizar(logado);
 	}

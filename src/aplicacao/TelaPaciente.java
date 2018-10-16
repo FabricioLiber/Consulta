@@ -35,6 +35,7 @@ public class TelaPaciente extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPaciente() {
+		Fachada.inicializar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 686, 427);
 		contentPane = new JPanel();
@@ -72,6 +73,7 @@ public class TelaPaciente extends JFrame {
 				Fachada.inicializar();
 				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
 				adicionaItemsTabela(consultasAtender);
+				Fachada.finalizar();
 			}
 		});
 		botaoAgendada.setBounds(235, 82, 185, 23);
@@ -103,6 +105,7 @@ public class TelaPaciente extends JFrame {
 					scroll.setBounds(25, 10, 610, 150);
 					panelConteudo.add(scroll);
 				}
+				Fachada.finalizar();
 			}
 		});
 		botaoSolicitada.setBounds(461, 82, 185, 23);
@@ -167,6 +170,7 @@ public class TelaPaciente extends JFrame {
 		scroll.setBounds(25, 10, 610, 150);
 		panelConteudo.add(scroll);
 		scroll.setVisible(false);
+		Fachada.finalizar();
 	}
 	
 	public void adicionaItemsTabela (List<Consulta> consultas) {
@@ -189,5 +193,5 @@ public class TelaPaciente extends JFrame {
 			}
 			scroll.setVisible(true);
 		}
-	}
+	}	
 }

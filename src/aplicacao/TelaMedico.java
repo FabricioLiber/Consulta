@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -18,96 +19,116 @@ import javax.swing.border.EmptyBorder;
 import fachada.Fachada;
 import modelo.Consulta;
 import modelo.TableModel;
+import javax.swing.JButton;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class TelaMedico extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel lblTitulo;
 	private JTable table;
 	private TableModel tableModel;
 	private JScrollPane scroll;
 	private JPanel panelConteudo;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaMedico frame = new TelaMedico();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JLabel lblInfo;
 
 	/**
 	 * Create the frame.
 	 */
 	public TelaMedico() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 680, 480);
+		setBounds(100, 100, 692, 480);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panelTitulo = new JPanel();
-		panelTitulo.setBounds(0, 0, 664, 129);
-		contentPane.add(panelTitulo);
-		panelTitulo.setLayout(null);
+		panelConteudo = new JPanel();
+		panelConteudo.setBounds(0, 120, 676, 276);
+		contentPane.add(panelConteudo);
+		panelConteudo.setLayout(null);
 		
-		lblTitulo = new JLabel("Login");
-		lblTitulo.setFont(new Font("Rockwell", Font.PLAIN, 22));
-		lblTitulo.setBounds(108, 11, 66, 50);
-		panelTitulo.add(lblTitulo);
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(0, 0, 676, 117);
+		contentPane.add(panel);
 		
-		JRadioButton botaoAtendida = new JRadioButton("Consultas atendidas");
-		botaoAtendida.addActionListener(new ActionListener() {
+		JLabel label = new JLabel("Verifique suas consultas, sr(a). "+ Fachada.getLogado().getNome());
+		label.setFont(new Font("Rockwell", Font.PLAIN, 22));
+		label.setBounds(20, 11, 578, 50);
+		panel.add(label);
+		
+		JRadioButton botaoRealizada = new JRadioButton("Consultas realizadas");
+		botaoRealizada.setFont(new Font("Rockwell", Font.PLAIN, 16));
+		botaoRealizada.setBounds(115, 82, 185, 23);
+		panel.add(botaoRealizada);
+		botaoRealizada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				Fachada.inicializar();
 				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
 				adicionaItemsTabela(consultasAtendidas);
-				Fachada.finalizar();
 			}
 		});
 		
-		botaoAtendida.setBounds(48, 82, 137, 23);
-		panelTitulo.add(botaoAtendida);
-		
-		JRadioButton botaoAtender = new JRadioButton("Consultas a atender");
-		botaoAtender.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JRadioButton botaoAgendada = new JRadioButton("Consultas agendadas");
+		botaoAgendada.setFont(new Font("Rockwell", Font.PLAIN, 16));
+		botaoAgendada.setBounds(385, 82, 185, 23);
+		panel.add(botaoAgendada);
+		botaoAgendada.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+
 				Fachada.inicializar();
 				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
 				adicionaItemsTabela(consultasAtender);
 				Fachada.finalizar();
 			}
 		});
-		
-		botaoAtender.setBounds(210, 82, 150, 23);
-		panelTitulo.add(botaoAtender);
-		
+		ImageIcon img = new ImageIcon("src/img/sair.png");
+		JButton button = new JButton(img);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int resposta = JOptionPane.showConfirmDialog(contentPane, "Deseja fazer LogOff?", "LogOff",
+						JOptionPane.YES_NO_OPTION);
+				if(resposta == JOptionPane.YES_OPTION) {
+					try {
+						Fachada.realizarLogoff();
+						TelaLogin telaLogin = new TelaLogin();
+						telaLogin.setVisible(true);
+						dispose();
+					} catch (Exception excecao) {
+						// TODO Auto-generated catch block
+						excecao.printStackTrace();
+					}
+				}
+			}
+		});
+		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
+		button.setBounds(612, 11, 34, 34);
+		panel.add(button);
+
 		ButtonGroup buttonGroup = new ButtonGroup();
-		buttonGroup.add(botaoAtendida);
-		buttonGroup.add(botaoAtender);
+		buttonGroup.add(botaoRealizada);
+		buttonGroup.add(botaoAgendada);
 		
-		panelConteudo = new JPanel();
-		panelConteudo.setBounds(0, 130, 664, 350);
-		contentPane.add(panelConteudo);
-		panelConteudo.setLayout(null);
+		lblInfo = new JLabel("");
+		lblInfo.setBounds(10, 396, 367, 35);
+		contentPane.add(lblInfo);
+		lblInfo.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		
-		
+		table = new JTable(tableModel);
+		scroll = new JScrollPane(table);
+		scroll.setBounds(10, 11, 656, 254);
+		panelConteudo.add(scroll);
+		scroll.setVisible(false);
+		Fachada.finalizar();
 	}
 	
 	public void adicionaItemsTabela (List<Consulta> consultas) {
 		Object [] dado = null;
 		if (consultas.isEmpty()) {
-			System.out.println("Nenhuma consulta cadastrada!");
-			panelConteudo.setVisible(false);
+			lblInfo.setText("Nenhuma consulta cadastrada!");
+			scroll.setVisible(false);
 		}
 		else {
 			dado = new Object[4];
@@ -120,14 +141,7 @@ public class TelaMedico extends JFrame {
 				dado[3] = consultas.get(i).getEspecialidade().getDescricao();
 				tableModel.addRow(dado);
 			}
-//			label.setText("Listagem de contas:");
-			panelConteudo.setVisible(true);
-			table = new JTable(tableModel);
-			table.setBounds(41, 42, 1, 1);
-			table.setBounds(190, 383, 191, 250);
-			scroll = new JScrollPane(table);
-			scroll.setBounds(27, 132, 614, 246);
-			panelConteudo.add(scroll);
+			scroll.setVisible(true);
 		}
 	}
 }

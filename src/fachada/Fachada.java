@@ -201,7 +201,6 @@ public class Fachada {
 	
 	public static List<Especialidade> listaDeEspecialidades () {
 		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-		System.out.println(especialidadeDAO.readAll());
 		return especialidadeDAO.readAll();
 	}
 	
@@ -226,7 +225,6 @@ public class Fachada {
 	
 	public static List<Consulta> listarConsultasSolicitadasPorPaciente () {		
 		ConsultaDAO consultaDAO = new ConsultaDAO();
-		System.out.println(logado);
 		return consultaDAO.consultasSolicitadasPorPaciente(logado.getCpf());
 	}
 	
@@ -257,13 +255,11 @@ public class Fachada {
 	
 	public static List<Consulta> listaConsultasRealizadasPorUsuario () {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
-		System.out.println(logado);
 		return consultaDAO.consultasRealizadas(logado);
 	}
 	
 	
 	public static List<Consulta> listaConsultasARealizarPorUsuario () {
-		System.out.println(logado);
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.consultasARealizar(logado);
 	}

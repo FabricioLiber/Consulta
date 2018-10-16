@@ -19,12 +19,26 @@ public class ConsultaDAO extends DAO<Consulta> {
 	public List<Consulta> consultasParaConfirmacao () {
 		Query q = manager.query();
 		q.constrain(Consulta.class);
-		q.descend("confirmado").constrain(false);
 		q.constrain((Evaluation) candidato -> {
 			// TODO Auto-generated method stub
 			Consulta consulta = (Consulta) candidato.getObject();
-			candidato.include(consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0);
+			if (!consulta.isConfirmado())
+				if (consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0) {
+					candidato.include(true);
+					return;
+				}					
+			candidato.include(false);
 		});
+//		q.constrain(new Evaluation() {
+//			
+//			@Override
+//			public void evaluate(Candidate candidato) {
+//				// TODO Auto-generated method stub
+//				Consulta consulta = (Consulta) candidato.getObject();
+//				System.out.println(consulta);
+//				candidato.include(consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()) > 0);
+//			}
+//		});
 		return q.execute();
 	}
 	
@@ -84,7 +98,6 @@ public class ConsultaDAO extends DAO<Consulta> {
 				else if (usuario instanceof Medico)
 					if (!consulta.getMedico().getCpf().equals(usuario.getCpf()))
 						candidato.include(false);
-				System.out.println(consulta.getdataHorario().toLocalDate().compareTo(LocalDate.now()));
 					if (consulta.isConfirmado())
 						candidato.include(true);
 				candidato.include(false);

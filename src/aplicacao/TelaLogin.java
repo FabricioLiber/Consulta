@@ -140,6 +140,7 @@ public class TelaLogin extends JFrame {
 		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		button.setBounds(227, 11, 34, 34);
 		contentPane.add(button);
+		Fachada.finalizar();
 	}
 
 }

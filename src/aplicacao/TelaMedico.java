@@ -53,7 +53,7 @@ public class TelaMedico extends JFrame {
 		panel.setBounds(0, 0, 676, 117);
 		contentPane.add(panel);
 		
-		JLabel label = new JLabel("Verifique suas consultas, sr(a). "+ Fachada.getLogado().getNome());
+		JLabel label = new JLabel("Verifique suas consultas, dr(a). "+ Fachada.getLogado().getNome());
 		label.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		label.setBounds(20, 11, 578, 50);
 		panel.add(label);
@@ -68,6 +68,7 @@ public class TelaMedico extends JFrame {
 				Fachada.inicializar();
 				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
 				adicionaItemsTabela(consultasAtendidas);
+				Fachada.finalizar();
 			}
 		});
 		
@@ -118,7 +119,7 @@ public class TelaMedico extends JFrame {
 		
 		table = new JTable(tableModel);
 		scroll = new JScrollPane(table);
-		scroll.setBounds(10, 11, 656, 254);
+		scroll.setBounds(25, 10, 610, 150);
 		panelConteudo.add(scroll);
 		scroll.setVisible(false);
 		Fachada.finalizar();
@@ -131,10 +132,12 @@ public class TelaMedico extends JFrame {
 			scroll.setVisible(false);
 		}
 		else {
+			lblInfo.setText("");
 			dado = new Object[4];
 			String [] colunas = {"Data", "Paciente", "Secretario", "Especialidade"};
 			tableModel = new TableModel(consultas.size(), colunas);
 			for (int i = 0; i < consultas.size(); i++) {
+				System.out.println(consultas.get(i));
 				dado[0] = consultas.get(i).getdataHorario().toString();
 				dado[1] = consultas.get(i).getPaciente().getNome();
 				dado[2] = consultas.get(i).getSecretario().getNome();
@@ -143,5 +146,5 @@ public class TelaMedico extends JFrame {
 			}
 			scroll.setVisible(true);
 		}
-	}
+	}	
 }

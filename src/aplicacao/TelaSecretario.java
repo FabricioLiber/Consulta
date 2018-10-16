@@ -16,6 +16,7 @@ import java.awt.Font;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -133,6 +134,23 @@ public class TelaSecretario extends JFrame {
 		button_1.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		button_1.setBounds(612, 11, 34, 34);
 		panel.add(button_1);
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int resposta = JOptionPane.showConfirmDialog(contentPane, "Deseja fazer LogOff?", "LogOff",
+						JOptionPane.YES_NO_OPTION);
+				if(resposta == JOptionPane.YES_OPTION) {
+					try {
+						Fachada.realizarLogoff();
+						TelaLogin telaLogin = new TelaLogin();
+						telaLogin.setVisible(true);
+						dispose();
+					} catch (Exception excecao) {
+						// TODO Auto-generated catch block
+						excecao.printStackTrace();
+					}
+				}
+			}
+		});
 		
 		lblInfo = new JLabel("");
 		lblInfo.setFont(new Font("Rockwell", Font.PLAIN, 22));

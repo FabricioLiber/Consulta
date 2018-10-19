@@ -144,7 +144,8 @@ public class Fachada {
 		
 		Especialidade e = pesquisarEspecialidade(especialidade);
 		Consulta consulta = new Consulta(dataHorario, paciente, false, e);
-	
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		consultaDAO.create(consulta);
 		paciente.add(consulta);
 		UsuarioDAO usuarioDAO = new UsuarioDAO();		
 		usuarioDAO.update(paciente);
@@ -157,27 +158,31 @@ public class Fachada {
 	public static List<Medico> especialistasDisponiveisPorHorario (LocalDateTime horario, String especialidade) {
 		// TODO
 		MedicoDAO medicoDAO = new MedicoDAO();
-		List<Medico> medicos = medicoDAO.especialistasDisponiveis(horario, especialidade);
-		return medicos;
+		return medicoDAO.especialistasDisponiveis(horario, especialidade);
 	}
 	
 	
 	public static Consulta confirmaConsulta (Consulta consulta, String cpfMedico) throws Exception {
 		DAO.begin();
+		Consulta c = pesquisarPorNomeHorario(consulta.getdataHorario().toString(), consulta.getPaciente().getNome().split(" ")[0]);
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		Secretario secretario = (Secretario) usuarioDAO.readByCpf(logado.getCpf());
 		Medico medico = (Medico) usuarioDAO.readByCpf(cpfMedico);
 		 
-		consulta.setSecretario(secretario);
-		consulta.setConfirmado(true);
-		consulta.setMedico(medico);	 
-
+		c.setSecretario(secretario);
+		c.setConfirmado(true);
+		c.setMedico(medico);
 		ConsultaDAO consultaDAO = new ConsultaDAO();
-//		medico.add(consulta);
-//		usuarioDAO.update(medico);
-		consultaDAO.update(consulta);
+
+		consultaDAO.update(c);
+
+		medico.add(c);
+		usuarioDAO.update(medico);
+		
+		secretario.add(c);
+		usuarioDAO.update(secretario);
 		DAO.commit();
-		return consulta;				
+		return c;				
 	}
 	
 	public static Especialidade pesquisarEspecialidade (String especialidade) {

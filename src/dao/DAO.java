@@ -36,42 +36,42 @@ public class DAO<T> implements InterfaceDAO<T>{
 		
 		// Class Endereco
 		config.common().objectClass(Endereco.class).cascadeOnActivate(true);
-		config.common().objectClass(Endereco.class).cascadeOnUpdate(true);
+		config.common().objectClass(Endereco.class).cascadeOnUpdate(false);
 		config.common().objectClass(Endereco.class).cascadeOnDelete(false);
 		
 		// Class Usuario
 		config.common().objectClass(Usuario.class).cascadeOnActivate(true);
-		config.common().objectClass(Usuario.class).cascadeOnUpdate(true);
+		config.common().objectClass(Usuario.class).cascadeOnUpdate(false);
 		config.common().objectClass(Usuario.class).cascadeOnDelete(false);
 		
 		// Class Paciente
 		config.common().objectClass(Paciente.class).cascadeOnActivate(true);
-		config.common().objectClass(Paciente.class).cascadeOnUpdate(true);
+		config.common().objectClass(Paciente.class).cascadeOnUpdate(false);
 		config.common().objectClass(Paciente.class).cascadeOnDelete(false);
 
 		// Class Secretario
 		config.common().objectClass(Secretario.class).cascadeOnActivate(true);
-		config.common().objectClass(Secretario.class).cascadeOnUpdate(true);
+		config.common().objectClass(Secretario.class).cascadeOnUpdate(false);
 		config.common().objectClass(Secretario.class).cascadeOnDelete(false);
 		
 		// Class Medico
 		config.common().objectClass(Medico.class).cascadeOnActivate(true);
-		config.common().objectClass(Medico.class).cascadeOnUpdate(true);
+		config.common().objectClass(Medico.class).cascadeOnUpdate(false);
 		config.common().objectClass(Medico.class).cascadeOnDelete(false);
 		
 		// Class Convenio
 		config.common().objectClass(Convenio.class).cascadeOnActivate(true);
-		config.common().objectClass(Convenio.class).cascadeOnUpdate(true);
+		config.common().objectClass(Convenio.class).cascadeOnUpdate(false);
 		config.common().objectClass(Convenio.class).cascadeOnDelete(false);
 		
 		// Class Consulta
 		config.common().objectClass(Consulta.class).cascadeOnActivate(true);
-		config.common().objectClass(Consulta.class).cascadeOnUpdate(true);
+		config.common().objectClass(Consulta.class).cascadeOnUpdate(false);
 		config.common().objectClass(Consulta.class).cascadeOnDelete(false);
 		
 		// Class Especialidade
 		config.common().objectClass(Especialidade.class).cascadeOnActivate(true);
-		config.common().objectClass(Especialidade.class).cascadeOnUpdate(true);
+		config.common().objectClass(Especialidade.class).cascadeOnUpdate(false);
 		config.common().objectClass(Especialidade.class).cascadeOnDelete(false);
 		
 		// Indexacao de Atributos

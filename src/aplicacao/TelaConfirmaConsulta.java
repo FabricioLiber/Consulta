@@ -64,7 +64,7 @@ public class TelaConfirmaConsulta extends JFrame {
 		comboBoxMedicos.setBounds(23, 223, 327, 32);
 		comboBoxMedicos.setEnabled(false);
 		panel.add(comboBoxMedicos);
-		
+		System.out.println(Fachada.listaConsultasParaConfirmacao());
 		for (Consulta c : Fachada.listaConsultasParaConfirmacao())
 			comboBoxConsultas.addItem(c.getPaciente().getNome().split(" ")[0]+ " " + c.getdataHorario().toString());
 		comboBoxConsultas.addActionListener(new ActionListener() {
@@ -73,6 +73,7 @@ public class TelaConfirmaConsulta extends JFrame {
 				String[] dados = String.valueOf(comboBoxConsultas.getSelectedItem()).split(" ");
 				consulta = Fachada.pesquisarPorNomeHorario(dados[1], dados[0]);
 				comboBoxMedicos.setEnabled(true);
+				comboBoxMedicos.removeAllItems();
 				for (Medico m : Fachada.especialistasDisponiveisPorHorario(consulta.getdataHorario(), consulta.getEspecialidade().getDescricao()))
 					comboBoxMedicos.addItem(m.getNome().split("0")[0] +" - "+ m.getCpf());				
 				Fachada.finalizar();

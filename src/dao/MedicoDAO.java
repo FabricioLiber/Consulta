@@ -16,21 +16,24 @@ public class MedicoDAO extends DAO<Medico> {
 	public List<Medico> especialistasDisponiveis (LocalDateTime horario, String especialidade) {
 		
 		Query q = manager.query();
-		q.constrain(new Evaluation() {
-			
-			@Override
-			public void evaluate(Candidate candidato) {
-				// TODO Auto-generated method stub
-				Medico medico = (Medico) candidato.getObject();
-				for (Especialidade e : medico.getEspecialidades())
-					if (e.getDescricao().equals(especialidade))
-						for (Consulta c : medico.getConsultas())
-							if (c.getdataHorario().toLocalDate().compareTo(horario.toLocalDate()) == 0)
-								if (c.getdataHorario().getHour() == horario.getHour())
-									if (c.getdataHorario().getMinute() == horario.getMinute())
-										candidato.include(false);								
-				candidato.include(true);
-			}
+		q.constrain((Evaluation) candidato -> {
+			// TODO Auto-generated method stub
+			Medico medico = (Medico) candidato.getObject();
+			for (Especialidade e : medico.getEspecialidades()) {
+				if (!e.getDescricao().equals(especialidade)) {
+					candidato.include(false);
+					return;
+				} else {
+					for (Consulta c : medico.getConsultas())
+						if (c.getdataHorario().toLocalDate().compareTo(horario.toLocalDate()) == 0)
+							if (c.getdataHorario().getHour() == horario.getHour())
+								if (c.getdataHorario().getMinute() == horario.getMinute()) {
+									candidato.include(false);								
+									return;
+								}
+				}
+			}					
+			candidato.include(true);
 		});
 		return q.execute();
 	}

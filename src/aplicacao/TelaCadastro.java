@@ -53,6 +53,7 @@ public class TelaCadastro extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaCadastro() {
+		Fachada.inicializar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 20, 547, 678);
 		contentPane = new JPanel();
@@ -323,6 +324,7 @@ public class TelaCadastro extends JFrame {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Fachada.inicializar();
 				Endereco endereco = new Endereco(textFieldLogradouro.getText(), Integer.parseInt(textFieldNumero.getText()),
 						String.valueOf(JFormattedTextFieldCep.getValue()), textFieldBairro.getText(), textFieldCidade.getText(),
 						textFieldEstado.getText());
@@ -370,7 +372,8 @@ public class TelaCadastro extends JFrame {
 				} else
 					JOptionPane.showMessageDialog(contentPane, "Erro no cadastro da senha, coloque a senha e confirme novamente!", "Senha", JOptionPane.INFORMATION_MESSAGE);
 				
-			}
+			Fachada.finalizar();
+			}		
 		});
 		btnCadastrar.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		btnCadastrar.setBounds(193, 474, 156, 35);
@@ -395,5 +398,6 @@ public class TelaCadastro extends JFrame {
 		for (Especialidade e : Fachada.listaDeEspecialidades())
 			listaEspecialidades.addItem(e.getDescricao());
 		listaEspecialidades.setVisible(false);
+		Fachada.finalizar();
 	}
 }

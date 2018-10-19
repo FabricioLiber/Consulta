@@ -1,31 +1,25 @@
 package aplicacao;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
 import fachada.Fachada;
 import modelo.Consulta;
 import modelo.TableModel;
-
-import javax.swing.JButton;
-import java.awt.Font;
-import java.util.List;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class TelaSecretario extends JFrame {
 
@@ -46,7 +40,19 @@ public class TelaSecretario extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel panelConteudo = new JPanel();
+		panelConteudo.setBounds(0, 118, 670, 239);
+		contentPane.add(panelConteudo);
+		panelConteudo.setLayout(null);
+		
 		JButton button = new JButton("Confirmar Consulta");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaConfirmaConsulta telaConfirmaConsulta = new TelaConfirmaConsulta();
+				telaConfirmaConsulta.setVisible(true);
+				dispose();
+			}
+		});
 		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		button.setBounds(417, 367, 243, 35);
 		contentPane.add(button);
@@ -56,7 +62,7 @@ public class TelaSecretario extends JFrame {
 		panel.setBounds(0, 0, 676, 117);
 		contentPane.add(panel);
 		
-		JLabel label = new JLabel("Verifique suas consultas, sr(a). <dynamic>");
+		JLabel label = new JLabel("Verifique suas consultas, Funcionário(a) "+ Fachada.getNomeUsuarioLogado());
 		label.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		label.setBounds(20, 11, 578, 50);
 		panel.add(label);
@@ -70,7 +76,8 @@ public class TelaSecretario extends JFrame {
 				Object [] dado = null;
 				if (consultas.isEmpty()) {
 					lblInfo.setText("Nenhuma consulta cadastrada!");
-					scroll.setVisible(false);
+					if (scroll != null)
+						scroll.setVisible(false);
 				}
 				else {
 					dado = new Object[4];
@@ -83,6 +90,10 @@ public class TelaSecretario extends JFrame {
 						dado[3] = consultas.get(i).getEspecialidade().getDescricao();
 						tableModel.addRow(dado);
 					}
+					table = new JTable(tableModel);
+					scroll = new JScrollPane(table);
+					scroll.setBounds(25, 10, 610, 150);
+					panelConteudo.add(scroll);
 					scroll.setVisible(true);
 				}				
 				Fachada.finalizar();
@@ -102,7 +113,8 @@ public class TelaSecretario extends JFrame {
 				Object [] dado = null;
 				if (consultas.isEmpty()) {
 					lblInfo.setText("Nenhuma consulta cadastrada!");
-					scroll.setVisible(false);
+					if (scroll != null)
+						scroll.setVisible(false);
 				}
 				else {
 					dado = new Object[4];
@@ -115,6 +127,11 @@ public class TelaSecretario extends JFrame {
 						dado[3] = consultas.get(i).getEspecialidade().getDescricao();
 						tableModel.addRow(dado);
 					}
+
+					table = new JTable(tableModel);
+					scroll = new JScrollPane(table);
+					scroll.setBounds(25, 10, 610, 150);
+					panelConteudo.add(scroll);
 					scroll.setVisible(true);
 				}
 				Fachada.finalizar();
@@ -157,14 +174,9 @@ public class TelaSecretario extends JFrame {
 		lblInfo.setBounds(10, 367, 367, 35);
 		contentPane.add(lblInfo);
 		
-		JPanel panelConteudo = new JPanel();
-		panelConteudo.setBounds(0, 118, 670, 239);
-		contentPane.add(panelConteudo);
-		panelConteudo.setLayout(null);
-		
 		table = new JTable(tableModel);
 		scroll = new JScrollPane(table);
-		scroll.setBounds(10, 0, 650, 217);
+		scroll.setBounds(25, 10, 610, 150);
 		panelConteudo.add(scroll);
 		scroll.setVisible(false);
 		Fachada.finalizar();

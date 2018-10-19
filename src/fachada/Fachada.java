@@ -5,7 +5,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import dao.ConsultaDAO;
@@ -30,6 +29,10 @@ public class Fachada {
 	
 	public static Usuario getLogado() {
 		return logado;
+	}
+	
+	public static String getNomeUsuarioLogado() {
+		return logado.getNome();
 	}
 
 	public static void inicializar () {
@@ -69,6 +72,11 @@ public class Fachada {
 		criarUsuario(usuario);
 		DAO.commit();
 		return usuario;
+	}
+	
+	public static Consulta pesquisarPorNomeHorario (String horario, String primeiroNome) {
+		ConsultaDAO consultaDAO = new ConsultaDAO();
+		return consultaDAO.pesquisaNomeHorario(horario, primeiroNome);
 	}
 	
 	
@@ -136,13 +144,10 @@ public class Fachada {
 		
 		Especialidade e = pesquisarEspecialidade(especialidade);
 		Consulta consulta = new Consulta(dataHorario, paciente, false, e);
-		
-//		ConsultaDAO consultaDAO = new ConsultaDAO();
-//		consultaDAO.create(consulta);		
+	
 		paciente.add(consulta);
 		UsuarioDAO usuarioDAO = new UsuarioDAO();		
 		usuarioDAO.update(paciente);
-//		logado = paciente;
 		
 		DAO.commit();
 		return consulta;		
@@ -162,19 +167,14 @@ public class Fachada {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		Secretario secretario = (Secretario) usuarioDAO.readByCpf(logado.getCpf());
 		Medico medico = (Medico) usuarioDAO.readByCpf(cpfMedico);
-		List<Medico> medicos = especialistasDisponiveisPorHorario(consulta.getdataHorario(),
-				consulta.getEspecialidade().getDescricao());
-		if (medicos.isEmpty())
-			throw new Exception("Nao ha medicos disponiveis na especialidade solicitada!");
 		 
 		consulta.setSecretario(secretario);
 		consulta.setConfirmado(true);
-	 
+		consulta.setMedico(medico);	 
 
 		ConsultaDAO consultaDAO = new ConsultaDAO();
-		consulta.setMedico(medico);
-		medico.add(consulta);
-		usuarioDAO.update(medico);
+//		medico.add(consulta);
+//		usuarioDAO.update(medico);
 		consultaDAO.update(consulta);
 		DAO.commit();
 		return consulta;				

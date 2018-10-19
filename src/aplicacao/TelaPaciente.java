@@ -48,7 +48,7 @@ public class TelaPaciente extends JFrame {
 		panel.setBounds(0, 0, 670, 117);
 		contentPane.add(panel);
 		
-		JLabel label = new JLabel("Verifique suas consultas, sr(a). " + Fachada.getLogado().getNome());
+		JLabel label = new JLabel("Verifique suas consultas, sr(a). " + Fachada.getNomeUsuarioLogado());
 		label.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		label.setBounds(20, 11, 578, 50);
 		panel.add(label);
@@ -95,7 +95,6 @@ public class TelaPaciente extends JFrame {
 					String [] colunas = {"Data", "Especialidade"};
 					tableModel = new TableModel(consultasSolicitadas.size(), colunas);
 					for (int i = 0; i < consultasSolicitadas.size(); i++) {
-						System.out.println(consultasSolicitadas.get(i));
 						dado[0] = consultasSolicitadas.get(i).getdataHorario().toString();
 						dado[1] = consultasSolicitadas.get(i).getEspecialidade().getDescricao();
 						tableModel.addRow(dado);
@@ -163,7 +162,6 @@ public class TelaPaciente extends JFrame {
 		labelInfo.setBounds(24, 215, 367, 35);
 		labelInfo.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		panelConteudo.add(labelInfo);
-	
 
 		table = new JTable(tableModel);
 		scroll = new JScrollPane(table);
@@ -177,20 +175,24 @@ public class TelaPaciente extends JFrame {
 		Object [] dado = null;
 		if (consultas.isEmpty()) {
 			labelInfo.setText("Nenhuma consulta cadastrada!");
-			scroll.setVisible(false);
-		}
-		else {
+			if (scroll != null)
+				scroll.setVisible(false);
+		} else {
 			labelInfo.setText("");
 			dado = new Object[4];
 			String [] colunas = {"Data", "Medico", "Secretario", "Especialidade"};
 			tableModel = new TableModel(consultas.size(), colunas);
 			for (int i = 0; i < consultas.size(); i++) {
 				dado[0] = consultas.get(i).getdataHorario().toString();
-				dado[1] = consultas.get(i).getMedico().getNome();
-				dado[2] = consultas.get(i).getSecretario().getNome();
+				dado[1] = (consultas.get(i).getMedico() != null ? consultas.get(i).getMedico().getNome() : "Indisponível");
+				dado[2] = (consultas.get(i).getSecretario() != null ? consultas.get(i).getSecretario().getNome() : "Indisponível");
 				dado[3] = consultas.get(i).getEspecialidade().getDescricao();
 				tableModel.addRow(dado);
 			}
+			table = new JTable(tableModel);
+			scroll = new JScrollPane(table);
+			scroll.setBounds(25, 10, 610, 150);
+			panelConteudo.add(scroll);
 			scroll.setVisible(true);
 		}
 	}	

@@ -1,12 +1,13 @@
 package aplicacao;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,9 +20,6 @@ import javax.swing.border.EmptyBorder;
 import fachada.Fachada;
 import modelo.Consulta;
 import modelo.TableModel;
-import javax.swing.JButton;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 public class TelaMedico extends JFrame {
 
@@ -53,7 +51,7 @@ public class TelaMedico extends JFrame {
 		panel.setBounds(0, 0, 676, 117);
 		contentPane.add(panel);
 		
-		JLabel label = new JLabel("Verifique suas consultas, dr(a). "+ Fachada.getLogado().getNome());
+		JLabel label = new JLabel("Verifique suas consultas, dr(a). "+ Fachada.getNomeUsuarioLogado());
 		label.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		label.setBounds(20, 11, 578, 50);
 		panel.add(label);
@@ -129,7 +127,8 @@ public class TelaMedico extends JFrame {
 		Object [] dado = null;
 		if (consultas.isEmpty()) {
 			lblInfo.setText("Nenhuma consulta cadastrada!");
-			scroll.setVisible(false);
+			if (scroll != null)
+				scroll.setVisible(false);
 		}
 		else {
 			lblInfo.setText("");
@@ -144,6 +143,11 @@ public class TelaMedico extends JFrame {
 				dado[3] = consultas.get(i).getEspecialidade().getDescricao();
 				tableModel.addRow(dado);
 			}
+
+			table = new JTable(tableModel);
+			scroll = new JScrollPane(table);
+			scroll.setBounds(25, 10, 610, 150);
+			panelConteudo.add(scroll);
 			scroll.setVisible(true);
 		}
 	}	

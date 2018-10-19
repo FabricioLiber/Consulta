@@ -18,8 +18,7 @@ public class Main {
 	
 	public static void main (String[] args) {
 		cadastro();
-		listar();
-//		teste();
+//		listar();
 	}
 	
 	public static void cadastro () {
@@ -63,43 +62,43 @@ public class Main {
 			System.out.println("Erro na lista de especialidades ou convenios");
 		}
 		
-		System.out.println("Cadastro dos usuários");
-		try {
-			Endereco endereco = new Endereco("Rua Desembargador Importante", 30, "58324-251", "Jaguaribe", "João Pessoa", "Paraíba");
-			// Secretário
-			System.out.println(Fachada.cadastrarUsuario("secretario", "secretario", "secretario", "222.222.222-22", LocalDate.of(2000, 2, 1), endereco));
-			
-			// Paciente
-			System.out.println(Fachada.cadastrarUsuario("paciente", "paciente", "paciente", "111.111.111-11", LocalDate.of(1998, 4, 8), endereco, "Unimed"));
-			
-			// Médico
-			System.out.println(Fachada.cadastrarUsuario("medico", "medico", "medico", "333.333.333-33", LocalDate.of(1990, 1, 1), endereco, "4567-4", "Neurologia"));
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("Erro no cadastro de usuários");
-		}
-		
-		System.out.println("Solicitação de Consulta");
-		try {
-			Usuario u = Fachada.realizarLogin("paciente", "paciente");
-			if (u instanceof Paciente) {
-				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(10), "Cardiologia"));
-			}
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("Erro ao solicitar consulta!");
-		}
-		System.out.println("Confirmação de Consulta");
-		try {
-			Usuario u = Fachada.realizarLogin("secretario", "secretario");
-			if (u instanceof Secretario) {
-				ConsultaDAO consultaDAO = new ConsultaDAO();
-				System.out.println(Fachada.confirmaConsulta(consultaDAO.readAll().get(0), "333.333.333-33"));
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("Erro ao confirmar consulta!");
-		}
+//		System.out.println("Cadastro dos usuários");
+//		try {
+//			Endereco endereco = new Endereco("Rua Desembargador Importante", 30, "58324-251", "Jaguaribe", "João Pessoa", "Paraíba");
+//			// Secretário
+//			System.out.println(Fachada.cadastrarUsuario("secretario", "secretario", "secretario", "222.222.222-22", LocalDate.of(2000, 2, 1), endereco));
+//			
+//			// Paciente
+//			System.out.println(Fachada.cadastrarUsuario("paciente", "paciente", "paciente", "111.111.111-11", LocalDate.of(1998, 4, 8), endereco, "Unimed"));
+//			
+//			// Médico
+//			System.out.println(Fachada.cadastrarUsuario("medico", "medico", "medico", "333.333.333-33", LocalDate.of(1990, 1, 1), endereco, "4567-4", "Neurologia"));
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println("Erro no cadastro de usuários");
+//		}
+//		
+//		System.out.println("Solicitação de Consulta");
+//		try {
+//			Usuario u = Fachada.realizarLogin("paciente", "paciente");
+//			if (u instanceof Paciente) {
+//				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(10), "Cardiologia"));
+//			}
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println("Erro ao solicitar consulta!");
+//		}
+//		System.out.println("Confirmação de Consulta");
+//		try {
+//			Usuario u = Fachada.realizarLogin("secretario", "secretario");
+//			if (u instanceof Secretario) {
+//				ConsultaDAO consultaDAO = new ConsultaDAO();
+//				System.out.println(Fachada.confirmaConsulta(consultaDAO.readAll().get(0), "333.333.333-33"));
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println("Erro ao confirmar consulta!");
+//		}
 		Fachada.finalizar();
 	}
 	

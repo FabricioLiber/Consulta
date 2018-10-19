@@ -2,14 +2,18 @@ package aplicacao;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import dao.ConsultaDAO;
 import dao.ConvenioDAO;
 import dao.EspecialidadeDAO;
+import dao.UsuarioDAO;
 import fachada.Fachada;
+import modelo.Consulta;
 import modelo.Convenio;
 import modelo.Endereco;
 import modelo.Especialidade;
+import modelo.Medico;
 import modelo.Paciente;
 import modelo.Secretario;
 import modelo.Usuario;
@@ -23,10 +27,31 @@ public class Main {
 	
 	public static void cadastro () {
 		// Teste metodos em Fachada
-
+		
+		ArrayList<Secretario> secretarios = new ArrayList<>();
+		ArrayList<Paciente> pacientes = new ArrayList<>();
+		ArrayList<Medico> medicos = new ArrayList<>();
+		
 		Fachada.inicializar();
 		System.out.println("criação de especialidades e convenios");
 		try {
+			
+			/**
+		    Criar adiciona Especialidade a medico
+		 */
+
+
+		// Solicita Consulta
+
+		Usuario u = Fachada.realizarLogin("paciente1", "paciente1");
+		System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(3), "Neurologia"));
+		System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(15), "Dermatologia"));
+
+		u = Fachada.realizarLogin("paciente2", "paciente2");
+		System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(20), "Cardiologia"));
+		System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(7), "Cancerologia"));
+		System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(5), "Ginecologia"));
+
 
 			// Criacao de especialidades
 			EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
@@ -64,15 +89,26 @@ public class Main {
 		
 		System.out.println("Cadastro dos usuários");
 		try {
-			Endereco endereco = new Endereco("Rua Desembargador Importante", 30, "58324-251", "Jaguaribe", "João Pessoa", "Paraíba");
-			// Secretário
-			System.out.println(Fachada.cadastrarUsuario("secretario", "secretario", "secretario", "222.222.222-22", LocalDate.of(2000, 2, 1), endereco));
-			
-			// Paciente
-			System.out.println(Fachada.cadastrarUsuario("paciente", "paciente", "paciente", "111.111.111-11", LocalDate.of(1998, 4, 8), endereco, "Unimed"));
-			
-			// Médico
-			System.out.println(Fachada.cadastrarUsuario("medico", "medico", "medico", "333.333.333-33", LocalDate.of(1990, 1, 1), endereco, "4567-4", "Cardiologia"));
+			// Endereços
+			Endereco endereco1 = new Endereco("Rua Desembargador Importante", 30, "58324-251", "Jaguaribe", "João Pessoa", "Paraíba");
+			Endereco endereco2 = new Endereco("Rua Excelentissimo Juiz", 100, "57418-251", "Bairro do 11", "Recife", "Pernambuco");
+			// Secretários
+			secretarios = new ArrayList<>();
+			System.out.println(Fachada.cadastrarUsuario("secretario1", "secretario1", "secretario1", "222.222.222-22", LocalDate.of(1992, 2, 1), endereco1));
+			System.out.println(Fachada.cadastrarUsuario("secretario2", "secretario2", "secretario2", "333.333.333-33", LocalDate.of(2000, 2, 1), endereco2));
+
+
+			// Pacientes
+			pacientes = new ArrayList<>();
+			System.out.println(Fachada.cadastrarUsuario("paciente1", "paciente1", "paciente1", "111.111.111-11", LocalDate.of(1998, 4, 8), endereco1, "Unimed"));
+			System.out.println(Fachada.cadastrarUsuario("paciente2", "paciente2", "paciente2", "444.444.444-44", LocalDate.of(1996, 6, 8), endereco2, "Hapvida"));
+
+
+			// Médicos
+			medicos = new ArrayList<>();
+			System.out.println(Fachada.cadastrarUsuario("medico1", "medico1", "medico1", "555.555.555-55", LocalDate.of(1970, 12, 11), endereco1, "4567-4", "Cardiologia"));
+			System.out.println(Fachada.cadastrarUsuario("medico2", "medico2", "medico2", "666.666.666-66", LocalDate.of(1991, 10, 18), endereco2, "4567-4", "Neurologia"));
+			System.out.println(Fachada.cadastrarUsuario("medico3", "medico3", "medico3", "777.777.777-77", LocalDate.of(1990, 1, 29), endereco2, "4567-4", "Dermatologia"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Erro no cadastro de usuários");
@@ -84,6 +120,42 @@ public class Main {
 			if (u instanceof Paciente) {
 				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(10).plusHours(4), "Cardiologia"));
 			}
+			// Consultas realizadas
+			ConsultaDAO consultaDAO = new ConsultaDAO();
+			Consulta c = new Consulta(LocalDateTime.of(2018, 7, 8, 10, 0), pacientes.get(0), true, medicos.get(0).getEspecialidades().get(0));
+			c.setMedico(medicos.get(0));
+			c.setSecretario(secretarios.get(0));
+			consultaDAO.update(c);
+
+			medicos.get(0).add(c);
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			usuarioDAO.update(medicos.get(0));
+
+			secretarios.get(0).add(c);
+			usuarioDAO.update(secretarios.get(0));
+
+			c = new Consulta(LocalDateTime.of(2018, 10, 2, 12, 0), pacientes.get(1), true, medicos.get(1).getEspecialidades().get(0));
+			c.setMedico(medicos.get(1));
+			c.setSecretario(secretarios.get(1));
+			consultaDAO.update(c);
+
+			medicos.get(1).add(c);
+			usuarioDAO.update(medicos.get(1));
+
+			secretarios.get(1).add(c);
+			usuarioDAO.update(secretarios.get(1));
+
+			c = new Consulta(LocalDateTime.of(2018, 7, 8, 13, 0), pacientes.get(0), true, medicos.get(2).getEspecialidades().get(0));
+			c.setMedico(medicos.get(2));
+			c.setSecretario(secretarios.get(1));
+			consultaDAO.update(c);
+
+			medicos.get(2).add(c);
+			usuarioDAO.update(medicos.get(2));
+
+			secretarios.get(1).add(c);
+			usuarioDAO.update(secretarios.get(1));
+			
 		}catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Erro ao solicitar consulta!");

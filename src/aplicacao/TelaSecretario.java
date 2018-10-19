@@ -50,7 +50,7 @@ public class TelaSecretario extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				TelaConfirmaConsulta telaConfirmaConsulta = new TelaConfirmaConsulta();
 				telaConfirmaConsulta.setVisible(true);
-				dispose();
+				setVisible(false);
 			}
 		});
 		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
@@ -70,7 +70,6 @@ public class TelaSecretario extends JFrame {
 		JRadioButton botaoConsultaAgendada = new JRadioButton("Consultas agendadas");
 		botaoConsultaAgendada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Fachada.inicializar();
 				List<Consulta> consultas = Fachada.listaConsultasARealizarPorUsuario();
 				
 				Object [] dado = null;
@@ -95,8 +94,7 @@ public class TelaSecretario extends JFrame {
 					scroll.setBounds(25, 10, 610, 150);
 					panelConteudo.add(scroll);
 					scroll.setVisible(true);
-				}				
-				Fachada.finalizar();
+				}
 			}
 		});
 		botaoConsultaAgendada.setFont(new Font("Rockwell", Font.PLAIN, 16));
@@ -107,7 +105,6 @@ public class TelaSecretario extends JFrame {
 		botaoConsultasAAgendar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Fachada.inicializar();
 				List<Consulta> consultas = Fachada.listaConsultasParaConfirmacao();
 				System.out.println(consultas);
 				Object [] dado = null;
@@ -134,7 +131,6 @@ public class TelaSecretario extends JFrame {
 					panelConteudo.add(scroll);
 					scroll.setVisible(true);
 				}
-				Fachada.finalizar();
 				
 			}
 		});
@@ -160,7 +156,7 @@ public class TelaSecretario extends JFrame {
 						Fachada.realizarLogoff();
 						TelaLogin telaLogin = new TelaLogin();
 						telaLogin.setVisible(true);
-						dispose();
+						setVisible(false);
 					} catch (Exception excecao) {
 						// TODO Auto-generated catch block
 						excecao.printStackTrace();
@@ -179,7 +175,6 @@ public class TelaSecretario extends JFrame {
 		scroll.setBounds(25, 10, 610, 150);
 		panelConteudo.add(scroll);
 		scroll.setVisible(false);
-		Fachada.finalizar();
 	}
 
 	

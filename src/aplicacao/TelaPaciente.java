@@ -35,7 +35,6 @@ public class TelaPaciente extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPaciente() {
-		Fachada.inicializar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 686, 427);
 		contentPane = new JPanel();
@@ -57,7 +56,6 @@ public class TelaPaciente extends JFrame {
 		botaoRealizada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				Fachada.inicializar();
 				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
 				adicionaItemsTabela(consultasAtendidas);
 			}
@@ -69,11 +67,8 @@ public class TelaPaciente extends JFrame {
 		JRadioButton botaoAgendada = new JRadioButton("Consultas agendadas");
 		botaoAgendada.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-
-				Fachada.inicializar();
 				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
 				adicionaItemsTabela(consultasAtender);
-				Fachada.finalizar();
 			}
 		});
 		botaoAgendada.setBounds(235, 82, 185, 23);
@@ -83,7 +78,6 @@ public class TelaPaciente extends JFrame {
 		JRadioButton botaoSolicitada = new JRadioButton("Consultas solicitadas");
 		botaoSolicitada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Fachada.inicializar();
 				List<Consulta> consultasSolicitadas = Fachada.listarConsultasSolicitadasPorPaciente();
 				Object [] dado = null;
 				if (consultasSolicitadas.isEmpty()) {
@@ -104,7 +98,6 @@ public class TelaPaciente extends JFrame {
 					scroll.setBounds(25, 10, 610, 150);
 					panelConteudo.add(scroll);
 				}
-				Fachada.finalizar();
 			}
 		});
 		botaoSolicitada.setBounds(461, 82, 185, 23);
@@ -128,7 +121,7 @@ public class TelaPaciente extends JFrame {
 						Fachada.realizarLogoff();
 						TelaLogin telaLogin = new TelaLogin();
 						telaLogin.setVisible(true);
-						dispose();
+						setVisible(false);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -151,7 +144,7 @@ public class TelaPaciente extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				TelaSocilitaConsulta tela = new TelaSocilitaConsulta();
 				tela.setVisible(true);
-				dispose();
+				setVisible(false);
 			}
 		});
 		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
@@ -168,7 +161,6 @@ public class TelaPaciente extends JFrame {
 		scroll.setBounds(25, 10, 610, 150);
 		panelConteudo.add(scroll);
 		scroll.setVisible(false);
-		Fachada.finalizar();
 	}
 	
 	public void adicionaItemsTabela (List<Consulta> consultas) {

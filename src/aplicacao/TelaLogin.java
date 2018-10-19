@@ -9,12 +9,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dao.ConvenioDAO;
+import dao.EspecialidadeDAO;
 import fachada.Fachada;
+import modelo.Convenio;
+import modelo.Especialidade;
 import modelo.Medico;
 import modelo.Paciente;
 import modelo.Secretario;
@@ -51,7 +56,28 @@ public class TelaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaLogin() {
-		Fachada.inicializar();
+		Fachada.inicializar();		
+
+		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+		Especialidade e = new Especialidade("Cancerologia", 170);
+		especialidadeDAO.create(e);
+		e = new Especialidade("Cardiologia", 120);
+		especialidadeDAO.create(e);
+		e = new Especialidade("dermatologia", 100);
+		especialidadeDAO.create(e);
+		e = new Especialidade("Ginecologia", 130);
+		especialidadeDAO.create(e);
+		e = new Especialidade("Neurologia", 160);
+		especialidadeDAO.create(e);
+		
+		// Criação de Convenios
+		ConvenioDAO convenioDAO = new ConvenioDAO();
+		Convenio c = new Convenio("Unimed", 0.3);
+		convenioDAO.create(c);
+		c = new Convenio("Hapvida", 0.4);
+		convenioDAO.create(c);
+		c = new Convenio("Amil", 0.5);
+		convenioDAO.create(c);
 		
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,16 +138,15 @@ public class TelaLogin extends JFrame {
 							TelaMedico telaMedico = new TelaMedico();
 							telaMedico.setVisible(true);
 						}
-						dispose();
+						setVisible(false);
 					}else {
-						System.out.println("É nulo");
+						JOptionPane.showMessageDialog(contentPane, "Usuário não encontrado!");
 					}
 				}
 				catch(Exception erro){
 	//				lblmsg.setText(erro.getMessage());
 					erro.printStackTrace();
 				}
-				Fachada.finalizar();
 			}
 		});
 		btnLogin.setBounds(151, 218, 110, 35);
@@ -132,13 +157,12 @@ public class TelaLogin extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				TelaCadastro telaCadastro = new TelaCadastro();
 				telaCadastro.setVisible(true);
-				dispose();
+				setVisible(false);
 			}
 		});
 		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		button.setBounds(227, 11, 34, 34);
 		contentPane.add(button);
-		Fachada.finalizar();
 	}
 
 }

@@ -63,10 +63,8 @@ public class TelaMedico extends JFrame {
 		botaoRealizada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				Fachada.inicializar();
 				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
 				adicionaItemsTabela(consultasAtendidas);
-				Fachada.finalizar();
 			}
 		});
 		
@@ -76,11 +74,8 @@ public class TelaMedico extends JFrame {
 		panel.add(botaoAgendada);
 		botaoAgendada.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-
-				Fachada.inicializar();
 				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
 				adicionaItemsTabela(consultasAtender);
-				Fachada.finalizar();
 			}
 		});
 		ImageIcon img = new ImageIcon("src/img/sair.png");
@@ -94,7 +89,7 @@ public class TelaMedico extends JFrame {
 						Fachada.realizarLogoff();
 						TelaLogin telaLogin = new TelaLogin();
 						telaLogin.setVisible(true);
-						dispose();
+						setVisible(false);
 					} catch (Exception excecao) {
 						// TODO Auto-generated catch block
 						excecao.printStackTrace();
@@ -120,7 +115,6 @@ public class TelaMedico extends JFrame {
 		scroll.setBounds(25, 10, 610, 150);
 		panelConteudo.add(scroll);
 		scroll.setVisible(false);
-		Fachada.finalizar();
 	}
 	
 	public void adicionaItemsTabela (List<Consulta> consultas) {

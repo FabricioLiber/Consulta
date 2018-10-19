@@ -3,3 +3,4 @@ bin/
 .settings/
 .project
 banco.db4o
+bancoservidor.db4o

@@ -25,7 +25,6 @@ public class TelaConfirmaConsulta extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaConfirmaConsulta() {
-		Fachada.inicializar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 389, 392);
 		contentPane = new JPanel();
@@ -69,21 +68,18 @@ public class TelaConfirmaConsulta extends JFrame {
 			comboBoxConsultas.addItem(c.getPaciente().getNome().split(" ")[0]+ " " + c.getdataHorario().toString());
 		comboBoxConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Fachada.inicializar();
 				String[] dados = String.valueOf(comboBoxConsultas.getSelectedItem()).split(" ");
 				consulta = Fachada.pesquisarPorNomeHorario(dados[1], dados[0]);
 				comboBoxMedicos.setEnabled(true);
 				comboBoxMedicos.removeAllItems();
 				for (Medico m : Fachada.especialistasDisponiveisPorHorario(consulta.getdataHorario(), consulta.getEspecialidade().getDescricao()))
-					comboBoxMedicos.addItem(m.getNome().split("0")[0] +" - "+ m.getCpf());				
-				Fachada.finalizar();
+					comboBoxMedicos.addItem(m.getNome().split("0")[0] +" - "+ m.getCpf());
 			}
 		});
 		
 		JButton button = new JButton("Solicitar");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Fachada.inicializar();
 				String[] dados = String.valueOf(comboBoxMedicos.getSelectedItem()).split(" - ");
 				try {
 					Consulta c = Fachada.confirmaConsulta(consulta, dados[1]);
@@ -92,7 +88,7 @@ public class TelaConfirmaConsulta extends JFrame {
 								JOptionPane.INFORMATION_MESSAGE);
 						TelaSecretario telaSecretario = new TelaSecretario();
 						telaSecretario.setVisible(true);
-						dispose();
+						setVisible(false);
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "Erro na confirmação!", "Confirmação de Consulta",
 								JOptionPane.ERROR_MESSAGE);
@@ -101,12 +97,10 @@ public class TelaConfirmaConsulta extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Fachada.finalizar();
 			}
 		});
 		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		button.setBounds(111, 290, 145, 35);
 		panel.add(button);
-		Fachada.finalizar();
 	}
 }

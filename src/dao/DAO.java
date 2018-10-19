@@ -3,6 +3,8 @@ package dao;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
@@ -33,6 +35,7 @@ public class DAO<T> implements InterfaceDAO<T>{
 		config.common().messageLevel(0);
 		
 		// Configurando as classes
+		
 		
 		// Class Endereco
 		config.common().objectClass(Endereco.class).cascadeOnActivate(true);
@@ -129,8 +132,13 @@ public class DAO<T> implements InterfaceDAO<T>{
 		// Indexacao de Atributos
 		config.common().objectClass(Consulta.class).objectField("dataConsulta").indexed(true);
 		
+		String ip = JOptionPane.showInputDialog("Digite o IP do servidor");
+		if (ip==null || ip.isEmpty())	{
+			System.out.println("ip invalido");
+			System.exit(0);
+		}
 		
-		manager = Db4oClientServer.openClient(config, "ip-maquina", 34000, "usuario1", "senha1");
+		manager = Db4oClientServer.openClient(config, ip, 34000, "usuario1", "senha1");
 	}
 	
 	public static void close () {

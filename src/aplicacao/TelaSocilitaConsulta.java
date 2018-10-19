@@ -28,8 +28,7 @@ public class TelaSocilitaConsulta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaSocilitaConsulta() {		
-		Fachada.inicializar();
+	public TelaSocilitaConsulta() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 395, 390);
 		contentPane = new JPanel();
@@ -76,7 +75,7 @@ public class TelaSocilitaConsulta extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Solicitação Concluída", "Solicitação de Consulta", JOptionPane.INFORMATION_MESSAGE);
 						TelaPaciente telaPaciente = new TelaPaciente();
 						telaPaciente.setVisible(true);
-						dispose();
+						setVisible(false);
 					} else 
 						JOptionPane.showMessageDialog(contentPane, "Solicitação incompleta!", "Solicitação de Consulta", JOptionPane.WARNING_MESSAGE);
 				} catch (Exception e) {

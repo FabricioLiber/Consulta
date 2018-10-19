@@ -162,6 +162,17 @@ public class Fachada {
 	}
 	
 	
+	public static void adicionaEspecialidadeParaMedico (String cpfMedico, String especialidade) {
+		DAO.begin();
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		Medico medico = (Medico) usuarioDAO.readByCpf(cpfMedico);
+		medico.add(Fachada.pesquisarEspecialidade(especialidade));
+		usuarioDAO.update(medico);
+		DAO.commit();
+		
+	}
+	
+	
 	public static Consulta confirmaConsulta (Consulta consulta, String cpfMedico) throws Exception {
 		DAO.begin();
 		Consulta c = pesquisarPorNomeHorario(consulta.getdataHorario().toString(), consulta.getPaciente().getNome().split(" ")[0]);

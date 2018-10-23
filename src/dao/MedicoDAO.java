@@ -3,7 +3,6 @@ package dao;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.db4o.query.Candidate;
 import com.db4o.query.Evaluation;
 import com.db4o.query.Query;
 
@@ -42,18 +41,15 @@ public class MedicoDAO extends DAO<Medico> {
 		
 		Query q = manager.query();
 		q.constrain(Medico.class);
-		q.constrain(new Evaluation() {
-			
-			@Override
-			public void evaluate(Candidate candidato) {
-				// TODO Auto-generated method stub
-				Medico m = (Medico) candidato.getObject();
-				for (Especialidade e : m.getEspecialidades())
-					if(e.getDescricao().equals(especialidade))
-						candidato.include(true);				
-				candidato.include(false);
-			}
-		});
+		q.descend("especialidade").descend("descricao").constrain(especialidade);
+//		q.constrain((Evaluation) candidato -> {
+//			// TODO Auto-generated method stub
+//			Medico m = (Medico) candidato.getObject();
+//			for (Especialidade e : m.getEspecialidades()) {
+//					candidato.include(e.getDescricao().equals(especialidade));		
+//					return;
+//				}
+//		});
 		return q.execute();
 		
 	}

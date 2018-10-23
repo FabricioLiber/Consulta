@@ -43,7 +43,7 @@ public class TelaConfirmaConsulta extends JFrame {
 		lblConfirmaoDeConsulta.setBounds(51, 11, 275, 50);
 		panel.add(lblConfirmaoDeConsulta);
 		
-		JLabel label_1 = new JLabel("Consultas para confirmação: ");
+		JLabel label_1 = new JLabel("Consultas para confirmaï¿½ï¿½o: ");
 		label_1.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		label_1.setBounds(23, 90, 307, 26);
 		panel.add(label_1);
@@ -84,13 +84,14 @@ public class TelaConfirmaConsulta extends JFrame {
 				try {
 					Consulta c = Fachada.confirmaConsulta(consulta, dados[1]);
 					if (c != null) {
-						JOptionPane.showMessageDialog(contentPane, "Confirmação concluída!", "Confirmação de Consulta",
+						JOptionPane.showMessageDialog(contentPane, "Confirmaï¿½ï¿½o concluï¿½da!", "Confirmaï¿½ï¿½o de Consulta",
 								JOptionPane.INFORMATION_MESSAGE);
 						TelaSecretario telaSecretario = new TelaSecretario();
 						telaSecretario.setVisible(true);
-						setVisible(false);
+						dispose();
+//						setVisible(false);
 					} else {
-						JOptionPane.showMessageDialog(contentPane, "Erro na confirmação!", "Confirmação de Consulta",
+						JOptionPane.showMessageDialog(contentPane, "Erro na confirmaï¿½ï¿½o!", "Confirmaï¿½ï¿½o de Consulta",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (Exception e) {

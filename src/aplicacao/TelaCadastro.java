@@ -85,7 +85,7 @@ public class TelaCadastro extends JFrame {
 		panel_1.add(textFieldCrm);
 		
 
-		lblConvenio = new JLabel("Convênio");
+		lblConvenio = new JLabel("Convï¿½nio");
 		lblConvenio.setFont(new Font("Rockwell", Font.PLAIN, 16));
 		lblConvenio.setBounds(369, 100, 137, 26);
 		lblConvenio.setVisible(false);
@@ -125,7 +125,7 @@ public class TelaCadastro extends JFrame {
 		botaoPaciente.setBounds(20, 88, 95, 23);
 		panel.add(botaoPaciente);
 		
-		JRadioButton botaoMedico = new JRadioButton("Médico");
+		JRadioButton botaoMedico = new JRadioButton("Mï¿½dico");
 		botaoMedico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -356,16 +356,17 @@ public class TelaCadastro extends JFrame {
 							e1.printStackTrace();
 						}
 					} else {
-						JOptionPane.showMessageDialog(contentPane, "É necessário escolher um grupo!", "Cadastro", JOptionPane.DEFAULT_OPTION);
+						JOptionPane.showMessageDialog(contentPane, "ï¿½ necessï¿½rio escolher um grupo!", "Cadastro", JOptionPane.DEFAULT_OPTION);
 					}
 					if (usuario == null)
 						JOptionPane.showMessageDialog(contentPane, "Falha ao cadastrar o cliente!", "Cadastro", JOptionPane.ERROR_MESSAGE);
 					else {
 						System.out.println(usuario);
-						JOptionPane.showMessageDialog(contentPane, "Cadastro concluído!", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(contentPane, "Cadastro concluï¿½do!", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
 						TelaLogin telaLogin = new TelaLogin();
 						telaLogin.setVisible(true);
-						setVisible(false);
+//						setVisible(false);
+						dispose();
 						}
 				} else
 					JOptionPane.showMessageDialog(contentPane, "Erro no cadastro da senha, coloque a senha e confirme novamente!", "Senha", JOptionPane.INFORMATION_MESSAGE);

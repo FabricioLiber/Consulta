@@ -121,7 +121,8 @@ public class TelaPaciente extends JFrame {
 						Fachada.realizarLogoff();
 						TelaLogin telaLogin = new TelaLogin();
 						telaLogin.setVisible(true);
-						setVisible(false);
+//						setVisible(false);
+						dispose();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -144,7 +145,8 @@ public class TelaPaciente extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				TelaSocilitaConsulta tela = new TelaSocilitaConsulta();
 				tela.setVisible(true);
-				setVisible(false);
+//				setVisible(false);
+				dispose();
 			}
 		});
 		button.setFont(new Font("Rockwell", Font.PLAIN, 22));
@@ -176,8 +178,8 @@ public class TelaPaciente extends JFrame {
 			tableModel = new TableModel(consultas.size(), colunas);
 			for (int i = 0; i < consultas.size(); i++) {
 				dado[0] = consultas.get(i).getdataHorario().toString();
-				dado[1] = (consultas.get(i).getMedico() != null ? consultas.get(i).getMedico().getNome() : "Indisponível");
-				dado[2] = (consultas.get(i).getSecretario() != null ? consultas.get(i).getSecretario().getNome() : "Indisponível");
+				dado[1] = (consultas.get(i).getMedico() != null ? consultas.get(i).getMedico().getNome() : "Indisponï¿½vel");
+				dado[2] = (consultas.get(i).getSecretario() != null ? consultas.get(i).getSecretario().getNome() : "Indisponï¿½vel");
 				dado[3] = consultas.get(i).getEspecialidade().getDescricao();
 				tableModel.addRow(dado);
 			}

@@ -62,7 +62,7 @@ public class TelaSecretario extends JFrame {
 		panel.setBounds(0, 0, 676, 117);
 		contentPane.add(panel);
 		
-		JLabel label = new JLabel("Verifique suas consultas, Funcionário(a) "+ Fachada.getNomeUsuarioLogado());
+		JLabel label = new JLabel("Verifique suas consultas, Funcionï¿½rio(a) "+ Fachada.getNomeUsuarioLogado());
 		label.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		label.setBounds(20, 11, 578, 50);
 		panel.add(label);
@@ -156,7 +156,8 @@ public class TelaSecretario extends JFrame {
 						Fachada.realizarLogoff();
 						TelaLogin telaLogin = new TelaLogin();
 						telaLogin.setVisible(true);
-						setVisible(false);
+//						setVisible(false);
+						dispose();
 					} catch (Exception excecao) {
 						// TODO Auto-generated catch block
 						excecao.printStackTrace();

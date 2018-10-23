@@ -88,7 +88,7 @@ public class Fachada {
 		Especialidade e = pesquisarEspecialidade(especialidade); 
 		usuario.add(e);
 		criarUsuario(usuario);
-		
+		System.out.println(e);
 		e.add(usuario);
 		atualizarEspecialidade(e);
 		

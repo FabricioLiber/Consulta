@@ -70,7 +70,7 @@ public class TelaLogin extends JFrame {
 		e = new Especialidade("Neurologia", 160);
 		especialidadeDAO.create(e);
 		
-		// Criação de Convenios
+		// Criaï¿½ï¿½o de Convenios
 		ConvenioDAO convenioDAO = new ConvenioDAO();
 		Convenio c = new Convenio("Unimed", 0.3);
 		convenioDAO.create(c);
@@ -104,7 +104,7 @@ public class TelaLogin extends JFrame {
 		contentPane.add(this.textFieldUser);
 		textFieldUser.setColumns(10);
 
-		lblUser = new JLabel("Usuário: ");
+		lblUser = new JLabel("Usuï¿½rio: ");
 		lblUser.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		lblUser.setBounds(10, 89, 96, 26);
 		contentPane.add(this.lblUser);
@@ -138,9 +138,10 @@ public class TelaLogin extends JFrame {
 							TelaMedico telaMedico = new TelaMedico();
 							telaMedico.setVisible(true);
 						}
-						setVisible(false);
+						dispose();
+//						setVisible(false);
 					}else {
-						JOptionPane.showMessageDialog(contentPane, "Usuário não encontrado!");
+						JOptionPane.showMessageDialog(contentPane, "Usuï¿½rio nï¿½o encontrado!");
 					}
 				}
 				catch(Exception erro){
@@ -157,7 +158,8 @@ public class TelaLogin extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				TelaCadastro telaCadastro = new TelaCadastro();
 				telaCadastro.setVisible(true);
-				setVisible(false);
+//				setVisible(false);
+				dispose();
 			}
 		});
 		button.setFont(new Font("Rockwell", Font.PLAIN, 22));

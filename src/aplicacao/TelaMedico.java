@@ -89,7 +89,8 @@ public class TelaMedico extends JFrame {
 						Fachada.realizarLogoff();
 						TelaLogin telaLogin = new TelaLogin();
 						telaLogin.setVisible(true);
-						setVisible(false);
+						dispose();
+//						setVisible(false);
 					} catch (Exception excecao) {
 						// TODO Auto-generated catch block
 						excecao.printStackTrace();

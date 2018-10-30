@@ -60,9 +60,25 @@ public class Fachada {
 	
 	
 	public static void criarUsuario (Usuario u) {
+		DAO.begin();
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		usuarioDAO.create(u);
-	}	
+		DAO.commit();
+	}
+	
+	public static void cadastrarEspecialidade (Especialidade e) {
+		DAO.begin();
+		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+		especialidadeDAO.create(e);
+		DAO.commit();
+	}
+	
+	public static void cadastrarConvenio (Convenio c) {
+		DAO.begin();
+		ConvenioDAO convenioDAO = new ConvenioDAO();
+		convenioDAO.create(c);
+		DAO.commit();
+	}
 	
 	
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,

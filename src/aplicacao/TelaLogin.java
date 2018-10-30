@@ -104,7 +104,7 @@ public class TelaLogin extends JFrame {
 		contentPane.add(this.textFieldUser);
 		textFieldUser.setColumns(10);
 
-		lblUser = new JLabel("Usuï¿½rio: ");
+		lblUser = new JLabel("Usuário: ");
 		lblUser.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		lblUser.setBounds(10, 89, 96, 26);
 		contentPane.add(this.lblUser);

@@ -1,6 +1,17 @@
 package modelo;
 
-public class Endereco {
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import dao.IDInterface;
+
+public class Endereco implements IDInterface {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
 	private String logradouro;
 	private int numero;
 	private String cep;
@@ -18,6 +29,12 @@ public class Endereco {
 		this.estado = estado;
 	}
 
+
+	public int getId () {
+		return this.id;
+	}
+	
+	
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -42,6 +59,12 @@ public class Endereco {
 		return estado;
 	}
 
+
+	public void setId (int id) {
+		this.id = id;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Endereco [logradouro=" + logradouro + ", numero=" + numero + ", cep=" + cep + ", bairro=" + bairro

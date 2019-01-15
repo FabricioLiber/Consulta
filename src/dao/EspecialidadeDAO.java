@@ -1,11 +1,9 @@
 package dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.db4o.query.Query;
 
-import modelo.Consulta;
 import modelo.Especialidade;
 import modelo.Medico;
 
@@ -22,7 +20,7 @@ public class EspecialidadeDAO extends DAO<Especialidade> {
 		return null;
 	}
 	
-	public ArrayList<Medico> consultaMedicosPorEspecialidade (Especialidade e) {
+	public List<Medico> consultaMedicosPorEspecialidade (Especialidade e) {
 		
 		Query q = manager.query();
 		q.constrain(Especialidade.class);

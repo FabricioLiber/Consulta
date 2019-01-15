@@ -3,17 +3,38 @@ package modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class Usuario {
+import javax.persistence.*;
 
+import dao.IDInterface;
+
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="tipo",
+						discriminatorType=DiscriminatorType.STRING)
+@DiscriminatorValue("Usuario")
+public class Usuario implements IDInterface {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
 	private String user;
 	private byte[] password;
 	private String nome;
 	private String cpf;
+	
+	@Temporal(TemporalType.DATE)
 	private LocalDate dataNasc;
+	
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	private Endereco endereco;
-	private ArrayList<String> telefones;
-	private ArrayList<Consulta> consultas;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<String> telefones;
+	
+	@OneToMany
+	private List<Consulta> consultas;
 	
 	
 	public Usuario(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) {
@@ -28,6 +49,11 @@ public class Usuario {
 		this.consultas = new ArrayList<>();
 	}
 
+
+	public int getId () {
+		return this.id;
+	}
+	
 
 	public String getUser() {
 		return user;
@@ -59,17 +85,22 @@ public class Usuario {
 	}
 
 
-	public ArrayList<String> getTelefones() {
+	public List<String> getTelefones() {
 		return telefones;
 	}
 
+
+	public void setId (int id) {
+		this.id = id;
+	}
+	
 
 	public void setUser(String user) {
 		this.user = user;
 	}
 	
 	
-	public ArrayList<Consulta> getConsultas() {
+	public List<Consulta> getConsultas() {
 		return consultas;
 	}
 
@@ -95,7 +126,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [user=" + user + ", password=" + Arrays.toString(password) + ", nome=" + nome + ", cpf=" + cpf
+		return "Usuario [id=" + id + "user=" + user + ", password=" + Arrays.toString(password) + ", nome=" + nome + ", cpf=" + cpf
 				+ ", dataNasc=" + dataNasc + ", endereco=" + endereco + ", telefones=" + telefones + ", consultas="
 				+ consultas + "]";
 	}

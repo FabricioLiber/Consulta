@@ -1,17 +1,21 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
+
+import javax.persistence.*;
 
 import fachada.Fachada;
 
+@Entity
+@DiscriminatorValue("Medico")
 public class Medico extends Usuario {
 
-
 	private String crm;
-	private ArrayList<Especialidade> especialidades;
+	
+	@ManyToMany
+	private List<Especialidade> especialidades;
 	
 	public Medico(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
 			String crm) {
@@ -33,8 +37,7 @@ public class Medico extends Usuario {
 		especialidades.remove(e);
 	}
 
-
-	public ArrayList<Especialidade> getEspecialidades() {
+	public List<Especialidade> getEspecialidades() {
 		return especialidades;
 	}
 	

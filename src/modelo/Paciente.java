@@ -1,12 +1,16 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+
+import javax.persistence.*;
 
 import fachada.Fachada;
 
+@Entity
+@DiscriminatorValue("Paciente")
 public class Paciente extends Usuario {
 
+	@ManyToOne
 	private Convenio convenio;
 	
 	
@@ -29,7 +33,7 @@ public class Paciente extends Usuario {
 	@Override
 	public String toString() {
 		return "Paciente [convenio=" + convenio + ", getUser()=" + getUser() + ", getPassword()="
-				+ Fachada.byteToHex(getPassword()) + ", getNome()=" + getNome() + ", getCpf()=" + getCpf()
+				+ Fachada.byteToHex(getPassword()) + ", getId()=" + getId() +", getNome()=" + getNome() + ", getCpf()=" + getCpf()
 				+ ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco() + ", getTelefones()="
 				+ getTelefones() + ", getConsultas()=" + getConsultas().size() + "]";
 	}

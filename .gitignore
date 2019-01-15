@@ -4,3 +4,4 @@ bin/
 .project
 banco.db4o
 bancoservidor.db4o
+target/

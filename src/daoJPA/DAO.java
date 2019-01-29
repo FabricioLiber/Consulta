@@ -30,7 +30,7 @@ public abstract class DAO<T> implements DAOInterface<T> {
             //          properties.put(PersistenceUnitProperties.SCHEMA_GENERATION_SCRIPTS_ACTION, "create");
             //          properties.put("hibernate.hbm2ddl.auto", "update");
             factory = Persistence.createEntityManagerFactory("consulta-eclipselink", properties);
-            //factory = Persistence.createEntityManagerFactory("agenda-hibernate", properties);
+            //factory = Persistence.createEntityManagerFactory("consulta-hibernate", properties);
             manager = factory.createEntityManager();
         }
     }
@@ -41,6 +41,7 @@ public abstract class DAO<T> implements DAOInterface<T> {
         }
     }
     public void create(T obj){
+    	System.out.println(obj);
         manager.persist(obj);
     }
      

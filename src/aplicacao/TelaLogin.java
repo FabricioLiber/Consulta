@@ -15,8 +15,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import daoDB4O.ConvenioDAO;
-import daoDB4O.EspecialidadeDAO;
+import daoJPA.ConvenioDAO;
+import daoJPA.DAO;
+import daoJPA.EspecialidadeDAO;
 import fachada.Fachada;
 import modelo.Convenio;
 import modelo.Especialidade;
@@ -57,7 +58,7 @@ public class TelaLogin extends JFrame {
 	 */
 	public TelaLogin() {
 		Fachada.inicializar();		
-
+//		DAO.begin();
 //		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
 //		Especialidade e = new Especialidade("Cancerologia", 170);
 //		especialidadeDAO.create(e);
@@ -69,7 +70,6 @@ public class TelaLogin extends JFrame {
 //		especialidadeDAO.create(e);
 //		e = new Especialidade("Neurologia", 160);
 //		especialidadeDAO.create(e);
-//		
 //		// Cria��o de Convenios
 //		ConvenioDAO convenioDAO = new ConvenioDAO();
 //		Convenio c = new Convenio("Unimed", 0.3);
@@ -78,6 +78,7 @@ public class TelaLogin extends JFrame {
 //		convenioDAO.create(c);
 //		c = new Convenio("Amil", 0.5);
 //		convenioDAO.create(c);
+//		DAO.commit();
 		
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,7 +125,6 @@ public class TelaLogin extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO
-				Fachada.inicializar();
 				try{
 					Usuario usuario = Fachada.realizarLogin(textFieldUser.getText(), String.valueOf(textFieldPassword.getPassword()));
 					if (usuario != null) {

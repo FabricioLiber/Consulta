@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -34,6 +35,8 @@ public class Usuario implements IDInterface {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String user;
+	
+	@Lob
 	private byte[] password;
 	private String nome;
 	private String cpf;

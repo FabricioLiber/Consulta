@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import daoDB4O.ConsultaDAO;
-import daoDB4O.ConvenioDAO;
-import daoDB4O.EspecialidadeDAO;
-import daoDB4O.UsuarioDAO;
+import daoJPA.ConsultaDAO;
+import daoJPA.ConvenioDAO;
+import daoJPA.EspecialidadeDAO;
+import daoJPA.UsuarioDAO;
 import fachada.Fachada;
 import modelo.Consulta;
 import modelo.Convenio;
@@ -22,7 +22,7 @@ public class Main {
 	
 	public static void main (String[] args) {
 		cadastro();
-		listar();
+//		listar();
 	}
 	
 	public static void cadastro () {

@@ -15,10 +15,13 @@ public class Convenio implements IDInterface {
 	private double taxaDesconto;
 	
 	
-	
 	public Convenio(String descricao, double taxaDesconto) {
 		this.descricao = descricao;
 		this.taxaDesconto = taxaDesconto;
+	}
+	
+	public Convenio() {
+		
 	}
 	
 

@@ -21,6 +21,10 @@ public class Endereco implements IDInterface {
 	private String cidade;
 	private String estado;
 	
+	public Endereco() {
+		
+	}
+	
 	public Endereco(String logradouro, int numero, String cep, String bairro, String cidade, String estado) {
 		this.logradouro = logradouro;
 		this.numero = numero;

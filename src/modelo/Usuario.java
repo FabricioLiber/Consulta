@@ -50,6 +50,9 @@ public class Usuario implements IDInterface {
 	@OneToMany
 	private List<Consulta> consultas;
 	
+	public Usuario () {
+		
+	}
 	
 	public Usuario(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) {
 		this.user = user;

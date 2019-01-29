@@ -58,26 +58,26 @@ public class TelaLogin extends JFrame {
 	public TelaLogin() {
 		Fachada.inicializar();		
 
-		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-		Especialidade e = new Especialidade("Cancerologia", 170);
-		especialidadeDAO.create(e);
-		e = new Especialidade("Cardiologia", 120);
-		especialidadeDAO.create(e);
-		e = new Especialidade("dermatologia", 100);
-		especialidadeDAO.create(e);
-		e = new Especialidade("Ginecologia", 130);
-		especialidadeDAO.create(e);
-		e = new Especialidade("Neurologia", 160);
-		especialidadeDAO.create(e);
-		
-		// Cria��o de Convenios
-		ConvenioDAO convenioDAO = new ConvenioDAO();
-		Convenio c = new Convenio("Unimed", 0.3);
-		convenioDAO.create(c);
-		c = new Convenio("Hapvida", 0.4);
-		convenioDAO.create(c);
-		c = new Convenio("Amil", 0.5);
-		convenioDAO.create(c);
+//		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
+//		Especialidade e = new Especialidade("Cancerologia", 170);
+//		especialidadeDAO.create(e);
+//		e = new Especialidade("Cardiologia", 120);
+//		especialidadeDAO.create(e);
+//		e = new Especialidade("dermatologia", 100);
+//		especialidadeDAO.create(e);
+//		e = new Especialidade("Ginecologia", 130);
+//		especialidadeDAO.create(e);
+//		e = new Especialidade("Neurologia", 160);
+//		especialidadeDAO.create(e);
+//		
+//		// Cria��o de Convenios
+//		ConvenioDAO convenioDAO = new ConvenioDAO();
+//		Convenio c = new Convenio("Unimed", 0.3);
+//		convenioDAO.create(c);
+//		c = new Convenio("Hapvida", 0.4);
+//		convenioDAO.create(c);
+//		c = new Convenio("Amil", 0.5);
+//		convenioDAO.create(c);
 		
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

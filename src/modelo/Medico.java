@@ -24,6 +24,9 @@ public class Medico extends Usuario {
 		especialidades = new ArrayList<>();
 	}	
 
+	public Medico() {
+		super();
+	}
 
 	public String getCrm () {
 		return this.crm;

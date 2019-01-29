@@ -36,6 +36,10 @@ public class Consulta implements IDInterface {
 		this.confirmado = confirmado;
 		this.especialidade = especialidade;
 	}
+	
+	public Consulta() {
+		
+	}
 
 	public int getId() {
 		return this.id;

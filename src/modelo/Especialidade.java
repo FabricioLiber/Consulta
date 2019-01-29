@@ -26,6 +26,10 @@ public class Especialidade implements IDInterface {
 		this.medicos = new ArrayList<>();
 	}
 	
+	public Especialidade() {
+		super();
+	}
+	
 
 	public int getId () {
 		return this.id;

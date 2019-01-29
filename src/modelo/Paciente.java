@@ -20,7 +20,9 @@ public class Paciente extends Usuario {
 		this.convenio = convenio;
 	}
 	
-
+	public Paciente() {
+		super();
+	}
 	
 	public Convenio getConvenio () {
 		

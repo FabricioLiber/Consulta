@@ -5,9 +5,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import dao.IDInterface;
+import daoDB4O.IDInterface;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -30,7 +44,7 @@ public class Usuario implements IDInterface {
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	private Endereco endereco;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@ElementCollection
 	private List<String> telefones;
 	
 	@OneToMany
@@ -38,7 +52,6 @@ public class Usuario implements IDInterface {
 	
 	
 	public Usuario(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) {
-		super();
 		this.user = user;
 		this.password = password;
 		this.nome = nome;

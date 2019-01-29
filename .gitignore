@@ -5,3 +5,4 @@ bin/
 banco.db4o
 bancoservidor.db4o
 target/
+log.txt

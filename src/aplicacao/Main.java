@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import dao.ConsultaDAO;
-import dao.ConvenioDAO;
-import dao.EspecialidadeDAO;
-import dao.UsuarioDAO;
+import daoDB4O.ConsultaDAO;
+import daoDB4O.ConvenioDAO;
+import daoDB4O.EspecialidadeDAO;
+import daoDB4O.UsuarioDAO;
 import fachada.Fachada;
 import modelo.Consulta;
 import modelo.Convenio;
@@ -33,7 +33,7 @@ public class Main {
 		ArrayList<Medico> medicos = new ArrayList<>();		
 		
 		Fachada.inicializar();
-		System.out.println("criação de especialidades e convenios");
+		System.out.println("criaï¿½ï¿½o de especialidades e convenios");
 		try {
 			// Criacao de especialidades
 			Especialidade e = new Especialidade("Cancerologia", 170);
@@ -51,14 +51,14 @@ public class Main {
 			System.out.println("Lista de especialidades: \n");
 			System.out.println(Fachada.listaDeEspecialidades());
 			
-			// Criação de Convenios
+			// Criaï¿½ï¿½o de Convenios
 			Convenio c = new Convenio("Unimed", 0.3);
 			Fachada.cadastrarConvenio(c);
 			c = new Convenio("Hapvida", 0.4);
 			Fachada.cadastrarConvenio(c);
 			c = new Convenio("Amil", 0.5);
 			Fachada.cadastrarConvenio(c);
-			System.out.println("Lista de convánios: \n");
+			System.out.println("Lista de convï¿½nios: \n");
 			System.out.println(Fachada.listaDeConvenios());
 			
 			
@@ -67,12 +67,12 @@ public class Main {
 			System.out.println("Erro na lista de especialidades ou convenios");
 		}
 		
-		System.out.println("Cadastro dos usuários");
+		System.out.println("Cadastro dos usuï¿½rios");
 		try {
-			// Endereáos
-			Endereco endereco1 = new Endereco("Rua Desembargador Importante", 30, "58324-251", "Jaguaribe", "Joáo Pessoa", "Paraába");
+			// Endereï¿½os
+			Endereco endereco1 = new Endereco("Rua Desembargador Importante", 30, "58324-251", "Jaguaribe", "Joï¿½o Pessoa", "Paraï¿½ba");
 			Endereco endereco2 = new Endereco("Rua Excelentissimo Juiz", 100, "57418-251", "Bairro do 11", "Recife", "Pernambuco");
-			// Secretários
+			// Secretï¿½rios
 			secretarios.add((Secretario) Fachada.cadastrarUsuario("secretario1", "secretario1", "secretario1", "222.222.222-22", LocalDate.of(1992, 2, 1), endereco1));
 			secretarios.add((Secretario) Fachada.cadastrarUsuario("secretario2", "secretario2", "secretario2", "333.333.333-33", LocalDate.of(2000, 2, 1), endereco2));
 
@@ -82,7 +82,7 @@ public class Main {
 			pacientes.add((Paciente) Fachada.cadastrarUsuario("paciente2", "paciente2", "paciente2", "444.444.444-44", LocalDate.of(1996, 6, 8), endereco2, "Hapvida"));
 
 
-			// Mádicos
+			// Mï¿½dicos
 			medicos.add((Medico) Fachada.cadastrarUsuario("medico1", "medico1", "medico1", "555.555.555-55", LocalDate.of(1970, 12, 11), endereco1, "4567-4", "Cardiologia"));
 			medicos.add((Medico) Fachada.cadastrarUsuario("medico2", "medico2", "medico2", "666.666.666-66", LocalDate.of(1991, 10, 18), endereco2, "4567-4", "Neurologia"));
 			medicos.add((Medico) Fachada.cadastrarUsuario("medico3", "medico3", "medico3", "777.777.777-77", LocalDate.of(1990, 1, 29), endereco2, "4567-4", "Dermatologia"));
@@ -96,11 +96,11 @@ public class Main {
 				System.out.println(u);
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Erro no cadastro de usuários");
+			System.out.println("Erro no cadastro de usuï¿½rios");
 			e.printStackTrace();
 		}
 //		
-		System.out.println("Solicitação de Consulta");
+		System.out.println("Solicitaï¿½ï¿½o de Consulta");
 		try {
 			Usuario u = Fachada.realizarLogin("paciente1", "paciente1");
 			if (u instanceof Paciente) {
@@ -157,7 +157,7 @@ public class Main {
 			System.out.println("Erro ao solicitar consulta!");
 			e.printStackTrace();
 		}
-		System.out.println("Confirmação de Consulta");
+		System.out.println("Confirmaï¿½ï¿½o de Consulta");
 		try {
 			Usuario u = Fachada.realizarLogin("secretario", "secretario");
 			if (u instanceof Secretario) {

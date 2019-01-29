@@ -1,4 +1,4 @@
-package dao;
+package daoDB4O;
 
 public interface IDInterface {
 	

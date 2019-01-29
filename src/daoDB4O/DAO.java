@@ -1,4 +1,4 @@
-package dao;
+package daoDB4O;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -21,7 +21,7 @@ import modelo.Paciente;
 import modelo.Secretario;
 import modelo.Usuario;
 
-public class DAO<T> implements InterfaceDAO<T>{
+public class DAO<T> implements DAOInterface<T>{
 
 	protected static ObjectContainer manager; 
 	public static void open () {

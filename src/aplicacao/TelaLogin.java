@@ -15,8 +15,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import dao.ConvenioDAO;
-import dao.EspecialidadeDAO;
+import daoDB4O.ConvenioDAO;
+import daoDB4O.EspecialidadeDAO;
 import fachada.Fachada;
 import modelo.Convenio;
 import modelo.Especialidade;
@@ -104,7 +104,7 @@ public class TelaLogin extends JFrame {
 		contentPane.add(this.textFieldUser);
 		textFieldUser.setColumns(10);
 
-		lblUser = new JLabel("Usuário: ");
+		lblUser = new JLabel("Usuï¿½rio: ");
 		lblUser.setFont(new Font("Rockwell", Font.PLAIN, 22));
 		lblUser.setBounds(10, 89, 96, 26);
 		contentPane.add(this.lblUser);

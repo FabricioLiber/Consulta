@@ -12,5 +12,4 @@ public class Secretario extends Usuario {
 			Endereco endereco) {
 		super(user, password, nome, cpf, dataNasc, endereco);
 	}	
-
 }

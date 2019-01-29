@@ -1,11 +1,13 @@
 package modelo;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import dao.IDInterface;
+import daoDB4O.IDInterface;
 
+@Entity
 public class Endereco implements IDInterface {
 	
 	@Id
@@ -20,7 +22,6 @@ public class Endereco implements IDInterface {
 	private String estado;
 	
 	public Endereco(String logradouro, int numero, String cep, String bairro, String cidade, String estado) {
-		super();
 		this.logradouro = logradouro;
 		this.numero = numero;
 		this.cep = cep;

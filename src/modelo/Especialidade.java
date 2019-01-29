@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.persistence.Id;
 
-import dao.IDInterface;
+import daoDB4O.IDInterface;
 
 @Entity
 public class Especialidade implements IDInterface {
@@ -21,7 +21,6 @@ public class Especialidade implements IDInterface {
 	private List<Medico> medicos;
 	
 	public Especialidade(String descricao, double valorConsulta) {
-		super();
 		this.descricao = descricao;
 		this.valorConsulta = valorConsulta;
 		this.medicos = new ArrayList<>();

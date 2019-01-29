@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
-import dao.IDInterface;
+import daoDB4O.IDInterface;
 
 @Entity
 public class Consulta implements IDInterface {

@@ -2,7 +2,7 @@ package modelo;
 
 import javax.persistence.*;
 
-import dao.IDInterface;
+import daoDB4O.IDInterface;
 
 @Entity
 public class Convenio implements IDInterface {
@@ -17,7 +17,6 @@ public class Convenio implements IDInterface {
 	
 	
 	public Convenio(String descricao, double taxaDesconto) {
-		super();
 		this.descricao = descricao;
 		this.taxaDesconto = taxaDesconto;
 	}

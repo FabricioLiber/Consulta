@@ -1,11 +1,16 @@
 package daoJPA;
 
 
+import java.util.List;
+
+import javax.persistence.Query;
+
 import modelo.Consulta;
 
 public class ConsultaDAO extends DAO<Consulta> {
 
 //	public List<Consulta> consultasParaConfirmacao () {
+//		Query q = manager.createQuery("SELECT c FROM Consulta c WHERE confirmado = false");
 //		Query q = manager.query();
 //		q.constrain(Consulta.class);
 //		q.constrain((Evaluation) candidato -> {
@@ -29,15 +34,14 @@ public class ConsultaDAO extends DAO<Consulta> {
 ////			}
 ////		});
 //		return q.execute();
+//		return q.getResultList();
 //	}
 //	
-//	public List<Consulta> consultasSolicitadasPorPaciente (String cpf) {
-//		Query q = manager.query();
-//		q.constrain(Consulta.class);
-//		q.descend("paciente").descend("cpf").constrain(cpf);
-//		q.descend("confirmado").constrain(false);
-//		return q.execute();
-//	}
+	public List<Consulta> consultasSolicitadasPorPaciente (String cpf) {
+		Query q = manager.createQuery("SELECT c FROM Paciente p JOIN Consulta c WHERE p.cpf = :cpf and c.confirmado = false");
+		q.setParameter("cpf", cpf);
+		return q.getResultList();
+	}
 //	
 //	public List<Consulta> consultasRealizadas (Usuario usuario) {
 //		// TODO

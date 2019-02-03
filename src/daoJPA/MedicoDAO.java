@@ -1,5 +1,10 @@
 package daoJPA;
 
+import java.util.List;
+
+import javax.persistence.Query;
+
+import modelo.Especialidade;
 import modelo.Medico;
 
 public class MedicoDAO extends DAO<Medico> {
@@ -29,21 +34,10 @@ public class MedicoDAO extends DAO<Medico> {
 //		return q.execute();
 //	}
 //	
-//	public List<Medico> consultaMedicosPorEspecialidade (String especialidade) {
-//		
-//		Query q = manager.query();
-//		q.constrain(Medico.class);
-//		q.descend("especialidade").descend("descricao").constrain(especialidade);
-////		q.constrain((Evaluation) candidato -> {
-////			// TODO Auto-generated method stub
-////			Medico m = (Medico) candidato.getObject();
-////			for (Especialidade e : m.getEspecialidades()) {
-////					candidato.include(e.getDescricao().equals(especialidade));		
-////					return;
-////				}
-////		});
-//		return q.execute();
-//		
-//	}
+	public List<Medico> consultaMedicosPorEspecialidade (String descricao) {
+		Query q = manager.createQuery("SELECT m FROM Especialidade e JOIN e.medicos m WHERE e.descricao = :descricao");
+		q.setParameter("descricao", descricao);
+		return q.getResultList();		
+	}
 
 }

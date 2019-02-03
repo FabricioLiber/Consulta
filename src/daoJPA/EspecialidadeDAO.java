@@ -1,32 +1,17 @@
 package daoJPA;
 
 
+import javax.persistence.Query;
+
 import modelo.Especialidade;
 
 public class EspecialidadeDAO extends DAO<Especialidade> {
 	
 	
-//	public Especialidade consultaEspecialidade (String descricao) {
-//		Query q = manager.query();
-//		q.constrain(Especialidade.class);
-//		q.descend("descricao").constrain(descricao);
-//		List<Especialidade> especialidades = q.execute();
-//		if (!especialidades.isEmpty())
-//			return especialidades.get(0);
-//		return null;
-//	}
-//	
-//	public List<Medico> consultaMedicosPorEspecialidade (Especialidade e) {
-//		
-//		Query q = manager.query();
-//		q.constrain(Especialidade.class);
-//		q.descend("descricao").constrain(e.getDescricao());
-//		List<Especialidade> especialidades = q.execute();
-//		if (!especialidades.isEmpty())
-//			return especialidades.get(0).getMedicos();
-//		return null;
-//		
-//	}
-	
+	public Especialidade consultaEspecialidade (String descricao) {
+		Query q = manager.createQuery("SELECT e FROM Especialidade e WHERE e.descricao = :descricao");
+		q.setParameter("descricao", descricao);
+		return (Especialidade) q.getSingleResult();
+	}	
 
 }

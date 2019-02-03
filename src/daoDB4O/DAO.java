@@ -150,6 +150,7 @@ public class DAO<T> implements DAOInterface<T>{
 	
 	@Override
 	public void create(T object) {
+		System.out.println(object);
 		manager.store(object);
 	}
 

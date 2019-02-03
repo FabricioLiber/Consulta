@@ -332,7 +332,7 @@ public class TelaCadastro extends JFrame {
 					if (botaoPaciente.isSelected()) {						
 						try {
 							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(),
-									String.valueOf(formattedTextFieldCPF.getValue()), data.getDate(), endereco,
+									formattedTextFieldCPF.getText(), data.getDate(), endereco,
 									String.valueOf(listaConvenios.getSelectedItem()));
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
@@ -341,7 +341,7 @@ public class TelaCadastro extends JFrame {
 					} else if (botaoMedico.isSelected()) {
 						try {
 							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(),
-									String.valueOf(formattedTextFieldCPF.getValue()), data.getDate(), endereco,
+									formattedTextFieldCPF.getText(), data.getDate(), endereco,
 									textFieldCrm.getText(), String.valueOf(listaEspecialidades.getSelectedItem()));
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
@@ -350,7 +350,7 @@ public class TelaCadastro extends JFrame {
 					} else if (botaoSecretario.isSelected()) {
 						try {
 							usuario = Fachada.cadastrarUsuario(textFieldUsuario.getText(), senha, textFieldNomeCompleto.getText(),
-									String.valueOf(formattedTextFieldCPF.getValue()), data.getDate(), endereco);
+									formattedTextFieldCPF.getText(), data.getDate(), endereco);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

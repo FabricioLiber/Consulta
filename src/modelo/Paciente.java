@@ -14,7 +14,7 @@ public class Paciente extends Usuario {
 	private Convenio convenio;
 	
 	
-	public Paciente(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco, 
+	public Paciente(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco, 
 			Convenio convenio) {
 		super(user, password, nome, cpf, dataNasc, endereco);
 		this.convenio = convenio;
@@ -35,7 +35,7 @@ public class Paciente extends Usuario {
 	@Override
 	public String toString() {
 		return "Paciente [convenio=" + convenio + ", getUser()=" + getUser() + ", getPassword()="
-				+ Fachada.byteToHex(getPassword()) + ", getId()=" + getId() +", getNome()=" + getNome() + ", getCpf()=" + getCpf()
+				+ getPassword() + ", getId()=" + getId() +", getNome()=" + getNome() + ", getCpf()=" + getCpf()
 				+ ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco() + ", getTelefones()="
 				+ getTelefones() + ", getConsultas()=" + getConsultas().size() + "]";
 	}

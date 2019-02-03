@@ -15,9 +15,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import daoJPA.ConvenioDAO;
 import daoJPA.DAO;
-import daoJPA.EspecialidadeDAO;
 import fachada.Fachada;
 import modelo.Convenio;
 import modelo.Especialidade;
@@ -57,28 +55,29 @@ public class TelaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaLogin() {
-		Fachada.inicializar();		
-//		DAO.begin();
-//		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-//		Especialidade e = new Especialidade("Cancerologia", 170);
-//		especialidadeDAO.create(e);
-//		e = new Especialidade("Cardiologia", 120);
-//		especialidadeDAO.create(e);
-//		e = new Especialidade("dermatologia", 100);
-//		especialidadeDAO.create(e);
-//		e = new Especialidade("Ginecologia", 130);
-//		especialidadeDAO.create(e);
-//		e = new Especialidade("Neurologia", 160);
-//		especialidadeDAO.create(e);
-//		// Cria��o de Convenios
-//		ConvenioDAO convenioDAO = new ConvenioDAO();
-//		Convenio c = new Convenio("Unimed", 0.3);
-//		convenioDAO.create(c);
-//		c = new Convenio("Hapvida", 0.4);
-//		convenioDAO.create(c);
-//		c = new Convenio("Amil", 0.5);
-//		convenioDAO.create(c);
-//		DAO.commit();
+		
+		// Iniciar BD
+		Fachada.inicializar();
+		
+		// Criacao de Especialidades
+		Especialidade e = new Especialidade("Cancerologia", 170);
+		Fachada.cadastrarEspecialidade(e);
+		e = new Especialidade("Cardiologia", 120);
+		Fachada.cadastrarEspecialidade(e);
+		e = new Especialidade("dermatologia", 100);
+		Fachada.cadastrarEspecialidade(e);
+		e = new Especialidade("Ginecologia", 130);
+		Fachada.cadastrarEspecialidade(e);
+		e = new Especialidade("Neurologia", 160);
+		Fachada.cadastrarEspecialidade(e);
+		
+		// Criacao de Convenios
+		Convenio c = new Convenio("Unimed", 0.3);		
+		Fachada.cadastrarConvenio(c);
+		c = new Convenio("Hapvida", 0.4);
+		Fachada.cadastrarConvenio(c);
+		c = new Convenio("Amil", 0.5);
+		Fachada.cadastrarConvenio(c);
 		
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

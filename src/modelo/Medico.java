@@ -17,7 +17,7 @@ public class Medico extends Usuario {
 	@ManyToMany
 	private List<Especialidade> especialidades;
 	
-	public Medico(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
+	public Medico(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
 			String crm) {
 		super(user, password, nome, cpf, dataNasc, endereco);
 		this.crm = crm;
@@ -51,7 +51,7 @@ public class Medico extends Usuario {
 	public String toString() {
 		
 		return "Medico [crm=" + crm + ", especialidades=" + especialidades + ", getUser()=" + getUser()
-				+ ", getPassword()=" + Fachada.byteToHex(getPassword()) + ", getNome()=" + getNome() + ", getCpf()="
+				+ ", getPassword()=" + getPassword() + ", getNome()=" + getNome() + ", getCpf()="
 				+ getCpf() + ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco()
 				+ ", getTelefones()=" + getTelefones() + ", getConsultas()=" + getConsultas().size() + "]";
 	}

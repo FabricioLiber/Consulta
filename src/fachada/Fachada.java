@@ -7,13 +7,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import daoDB4O.ConsultaDAO;
-import daoDB4O.ConvenioDAO;
-//import daoDB4O.DAO;
+import daoJPA.ConsultaDAO;
+import daoJPA.ConvenioDAO;
 import daoJPA.DAO;
-import daoDB4O.EspecialidadeDAO;
-import daoDB4O.MedicoDAO;
-import daoDB4O.UsuarioDAO;
+import daoJPA.EspecialidadeDAO;
+import daoJPA.MedicoDAO;
+import daoJPA.UsuarioDAO;
 import modelo.Consulta;
 import modelo.Convenio;
 import modelo.Endereco;
@@ -48,7 +47,7 @@ public class Fachada {
 
 	public static Usuario realizarLogin (String user, String password) throws Exception {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
-		logado = usuarioDAO.verificaUsuario(user, geraHashBytes(password));
+		logado = usuarioDAO.verificaUsuario(user, geraHash(password));
 		return logado;
 	}
 	
@@ -84,10 +83,8 @@ public class Fachada {
 	
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
 			LocalDate dataNasc, Endereco endereco, String convenio) throws Exception {
-		DAO.begin();
-		Paciente usuario = new Paciente(user, geraHashBytes(password), nome, cpf, dataNasc, endereco, pesquisarConvenio(convenio));
+		Paciente usuario = new Paciente(user, geraHash(password), nome, cpf, dataNasc, endereco, pesquisarConvenio(convenio));
 		criarUsuario(usuario);
-		DAO.commit();
 		return usuario;
 	}
 	
@@ -100,16 +97,12 @@ public class Fachada {
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
 			LocalDate dataNasc, Endereco endereco, String crm, String especialidade) throws Exception {
 		//TODO
-		DAO.begin();
-		Medico usuario = new Medico (user, geraHashBytes(password), nome, cpf, dataNasc, endereco, crm);
+		Medico usuario = new Medico (user, geraHash(password), nome, cpf, dataNasc, endereco, crm);
 		Especialidade e = pesquisarEspecialidade(especialidade); 
 		usuario.add(e);
 		criarUsuario(usuario);
-		System.out.println(e);
 		e.add(usuario);
 		atualizarEspecialidade(e);
-		
-		DAO.commit();
 		return usuario;
 	}
 	
@@ -117,10 +110,8 @@ public class Fachada {
 	public static Usuario cadastrarUsuario(String user, String password, String nome, String cpf,
 			LocalDate dataNasc, Endereco endereco) throws Exception {
 		//TODO
-		DAO.begin();
-		Secretario usuario = new Secretario (user, geraHashBytes(password), nome, cpf, dataNasc, endereco);
+		Secretario usuario = new Secretario (user, geraHash(password), nome, cpf, dataNasc, endereco);
 		criarUsuario(usuario);
-		DAO.commit();
 		return usuario;
 	}
 	
@@ -131,21 +122,16 @@ public class Fachada {
 	}
 	
 	
-	public static byte[] geraHashBytes (String password) throws NoSuchAlgorithmException,
+	public static String geraHash (String password) throws NoSuchAlgorithmException,
 	UnsupportedEncodingException  {
 		MessageDigest algoritmo = MessageDigest.getInstance("SHA-256");
-		return algoritmo.digest(password.getBytes("UTF-8"));		
-	}
-
-	
-	public static String byteToHex (byte[] password) {
+		byte[] hashPassword = algoritmo.digest(password.getBytes("UTF-8"));	
 		StringBuilder sb = new StringBuilder();
-	    for (byte b : password) {
+	    for (byte b : hashPassword) {
 	        sb.append(String.format("%02X", b));
 	    }
-		return sb.toString();		
-	}
-	
+		return sb.toString();
+	}	
 	
 	// Operacoes com a Consulta Medica
 	
@@ -263,17 +249,9 @@ public class Fachada {
 	
 	
 	public static List<Medico> listarMedicosPorEspecialidade (String especialidade) {
-		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-		return especialidadeDAO.consultaMedicosPorEspecialidade(pesquisarEspecialidade(especialidade));
-	}
-	
-	
-	public static List<Medico> listaMedicosPorEspecialidade (Especialidade especialidade) {
-		EspecialidadeDAO especialidadeDAO = new EspecialidadeDAO();
-		return especialidadeDAO.consultaMedicosPorEspecialidade(especialidade);
-	}
-	
-	
+		MedicoDAO medicoDAO = new MedicoDAO();
+		return medicoDAO.consultaMedicosPorEspecialidade(especialidade);
+	}	
 	
 	public static List<Consulta> listaConsultasParaConfirmacao () {
 		ConsultaDAO consultaDAO = new ConsultaDAO();

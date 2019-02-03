@@ -34,10 +34,9 @@ public class Usuario implements IDInterface {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private String user;
+	private String username;
 	
-	@Lob
-	private byte[] password;
+	private String password;
 	private String nome;
 	private String cpf;
 	
@@ -57,8 +56,8 @@ public class Usuario implements IDInterface {
 		
 	}
 	
-	public Usuario(String user, byte[] password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) {
-		this.user = user;
+	public Usuario(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco) {
+		this.username = user;
 		this.password = password;
 		this.nome = nome;
 		this.cpf = cpf;
@@ -75,11 +74,11 @@ public class Usuario implements IDInterface {
 	
 
 	public String getUser() {
-		return user;
+		return username;
 	}
 
 
-	public byte[] getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
@@ -115,7 +114,7 @@ public class Usuario implements IDInterface {
 	
 
 	public void setUser(String user) {
-		this.user = user;
+		this.username = user;
 	}
 	
 	
@@ -145,7 +144,7 @@ public class Usuario implements IDInterface {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + "user=" + user + ", password=" + Arrays.toString(password) + ", nome=" + nome + ", cpf=" + cpf
+		return "Usuario [id=" + id + "user=" + username + ", password=" + password + ", nome=" + nome + ", cpf=" + cpf
 				+ ", dataNasc=" + dataNasc + ", endereco=" + endereco + ", telefones=" + telefones + ", consultas="
 				+ consultas + "]";
 	}

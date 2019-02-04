@@ -60,24 +60,24 @@ public class TelaLogin extends JFrame {
 		Fachada.inicializar();
 		
 		// Criacao de Especialidades
-		Especialidade e = new Especialidade("Cancerologia", 170);
-		Fachada.cadastrarEspecialidade(e);
-		e = new Especialidade("Cardiologia", 120);
-		Fachada.cadastrarEspecialidade(e);
-		e = new Especialidade("dermatologia", 100);
-		Fachada.cadastrarEspecialidade(e);
-		e = new Especialidade("Ginecologia", 130);
-		Fachada.cadastrarEspecialidade(e);
-		e = new Especialidade("Neurologia", 160);
-		Fachada.cadastrarEspecialidade(e);
-		
-		// Criacao de Convenios
-		Convenio c = new Convenio("Unimed", 0.3);		
-		Fachada.cadastrarConvenio(c);
-		c = new Convenio("Hapvida", 0.4);
-		Fachada.cadastrarConvenio(c);
-		c = new Convenio("Amil", 0.5);
-		Fachada.cadastrarConvenio(c);
+//		Especialidade e = new Especialidade("Cancerologia", 170);
+//		Fachada.cadastrarEspecialidade(e);
+//		e = new Especialidade("Cardiologia", 120);
+//		Fachada.cadastrarEspecialidade(e);
+//		e = new Especialidade("dermatologia", 100);
+//		Fachada.cadastrarEspecialidade(e);
+//		e = new Especialidade("Ginecologia", 130);
+//		Fachada.cadastrarEspecialidade(e);
+//		e = new Especialidade("Neurologia", 160);
+//		Fachada.cadastrarEspecialidade(e);
+//		
+//		// Criacao de Convenios
+//		Convenio c = new Convenio("Unimed", 0.3);		
+//		Fachada.cadastrarConvenio(c);
+//		c = new Convenio("Hapvida", 0.4);
+//		Fachada.cadastrarConvenio(c);
+//		c = new Convenio("Amil", 0.5);
+//		Fachada.cadastrarConvenio(c);
 		
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

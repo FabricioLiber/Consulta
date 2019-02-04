@@ -3,6 +3,7 @@ package aplicacao;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -64,14 +65,17 @@ public class TelaConfirmaConsulta extends JFrame {
 		comboBoxMedicos.setEnabled(false);
 		panel.add(comboBoxMedicos);
 		System.out.println(Fachada.listaConsultasParaConfirmacao());
-		for (Consulta c : Fachada.listaConsultasParaConfirmacao())
-			comboBoxConsultas.addItem(c.getPaciente().getNome().split(" ")[0]+ " " + c.getdataHorario().toString());
+		List<Consulta> consultasParaConfirmacao = Fachada.listaConsultasParaConfirmacao();
+		for (int i = 0; i < consultasParaConfirmacao.size(); i++)
+			comboBoxConsultas.addItem(i+1 + " - " + consultasParaConfirmacao.get(i).getPaciente().getNome().split(" ")[0]+
+					" " + consultasParaConfirmacao.get(i).getdataHorario().toString());
 		comboBoxConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String[] dados = String.valueOf(comboBoxConsultas.getSelectedItem()).split(" ");
-				consulta = Fachada.pesquisarPorNomeHorario(dados[1], dados[0]);
+				consulta = consultasParaConfirmacao.get(Integer.parseInt(dados[0]) - 1);
 				comboBoxMedicos.setEnabled(true);
 				comboBoxMedicos.removeAllItems();
+				System.out.println(Fachada.especialistasDisponiveisPorHorario(consulta.getdataHorario(), consulta.getEspecialidade().getDescricao()));
 				for (Medico m : Fachada.especialistasDisponiveisPorHorario(consulta.getdataHorario(), consulta.getEspecialidade().getDescricao()))
 					comboBoxMedicos.addItem(m.getNome().split("0")[0] +" - "+ m.getCpf());
 			}

@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.db4o.internal.slots.SystemSlotChange;
+
 import daoJPA.ConsultaDAO;
 import daoJPA.ConvenioDAO;
 import daoJPA.DAO;
@@ -88,7 +90,7 @@ public class Fachada {
 		return usuario;
 	}
 	
-	public static Consulta pesquisarPorNomeHorario (String horario, String primeiroNome) {
+	public static Consulta pesquisarPorNomeHorario (LocalDateTime horario, String primeiroNome) {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.pesquisaNomeHorario(horario, primeiroNome);
 	}
@@ -159,7 +161,6 @@ public class Fachada {
 	
 	
 	public static List<Medico> especialistasDisponiveisPorHorario (LocalDateTime horario, String especialidade) {
-		// TODO
 		MedicoDAO medicoDAO = new MedicoDAO();
 		return medicoDAO.especialistasDisponiveis(horario, especialidade);
 	}
@@ -178,7 +179,7 @@ public class Fachada {
 	
 	public static Consulta confirmaConsulta (Consulta consulta, String cpfMedico) throws Exception {
 		DAO.begin();
-		Consulta c = pesquisarPorNomeHorario(consulta.getdataHorario().toString(), consulta.getPaciente().getNome().split(" ")[0]);
+		Consulta c = pesquisarPorNomeHorario(consulta.getdataHorario(), consulta.getPaciente().getNome().split(" ")[0]);
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		Secretario secretario = (Secretario) usuarioDAO.readByCpf(logado.getCpf());
 		Medico medico = (Medico) usuarioDAO.readByCpf(cpfMedico);

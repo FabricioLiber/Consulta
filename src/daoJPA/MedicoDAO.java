@@ -1,5 +1,6 @@
 package daoJPA;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -9,31 +10,14 @@ import modelo.Medico;
 
 public class MedicoDAO extends DAO<Medico> {
 	
-//	public List<Medico> especialistasDisponiveis (LocalDateTime horario, String especialidade) {
-//		
-//		Query q = manager.query();
-//		q.constrain((Evaluation) candidato -> {
-//			// TODO Auto-generated method stub
-//			Medico medico = (Medico) candidato.getObject();
-//			for (Especialidade e : medico.getEspecialidades()) {
-//				if (!e.getDescricao().equals(especialidade)) {
-//					candidato.include(false);
-//					return;
-//				} else {
-//					for (Consulta c : medico.getConsultas())
-//						if (c.getdataHorario().toLocalDate().compareTo(horario.toLocalDate()) == 0)
-//							if (c.getdataHorario().getHour() == horario.getHour())
-//								if (c.getdataHorario().getMinute() == horario.getMinute()) {
-//									candidato.include(false);								
-//									return;
-//								}
-//				}
-//			}					
-//			candidato.include(true);
-//		});
-//		return q.execute();
-//	}
-//	
+	public List<Medico> especialistasDisponiveis (LocalDateTime horario, String especialidade) {
+//		Query q = manager.createQuery("SELECT m FROM Especialidade e JOIN Medico m JOIN Consulta c WHERE e.descricao = :especialidade and c.dataHorario <> :dataHorario");
+		Query q = manager.createQuery("SELECT m FROM Especialidade e JOIN Medico m WHERE e.descricao = :especialidade");
+		q.setParameter("especialidade", especialidade);
+//		q.setParameter("dataHorario", horario);
+		return q.getResultList();
+	}
+	
 	public List<Medico> consultaMedicosPorEspecialidade (String descricao) {
 		Query q = manager.createQuery("SELECT m FROM Especialidade e JOIN e.medicos m WHERE e.descricao = :descricao");
 		q.setParameter("descricao", descricao);

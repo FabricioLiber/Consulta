@@ -17,7 +17,7 @@ public class Especialidade implements IDInterface {
 	private String descricao;
 	private double valorConsulta;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="especialidades", fetch=FetchType.EAGER)
 	private List<Medico> medicos = new ArrayList<>();
 	
 	public Especialidade(String descricao, double valorConsulta) {
@@ -68,7 +68,7 @@ public class Especialidade implements IDInterface {
 
 	@Override
 	public String toString() {
-		return "Especialidade [descricao=" + descricao + ", valorConsulta=" + valorConsulta + ", medicos=" + medicos.size()
+		return "Especialidade [descricao=" + descricao + ", valorConsulta=" + valorConsulta + ", medicos=" + medicos
 				+ "]";
 	}
 	

@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
-
-import fachada.Fachada;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 
 @Entity
 @DiscriminatorValue("Medico")
@@ -14,7 +15,7 @@ public class Medico extends Usuario {
 
 	private String crm;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Especialidade> especialidades = new ArrayList<>();;
 	
 	public Medico(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
@@ -49,7 +50,7 @@ public class Medico extends Usuario {
 		return "Medico [crm=" + crm + ", especialidades=" + especialidades.size() + ", getUser()=" + getUser()
 				+ ", getPassword()=" + getPassword() + ", getNome()=" + getNome() + ", getCpf()="
 				+ getCpf() + ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco()
-				+ ", getTelefones()=" + getTelefones().size() + ", getConsultas()=" + getConsultas().size() + "]";
+				+ ", getTelefones()=" + getTelefones() + ", getConsultas()=" + getConsultas() + "]";
 	}
 	
 	

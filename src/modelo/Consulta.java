@@ -68,6 +68,10 @@ public class Consulta implements IDInterface {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
 
 	public void setConfirmado(boolean confirmado) {
 		this.confirmado = confirmado;
@@ -91,7 +95,7 @@ public class Consulta implements IDInterface {
 				+ (paciente != null ? paciente.getNome() : "Indisponivel") + ", medico="
 				+ (medico != null ? medico.getNome() : "Indisponivel") + ", secretario="
 				+ (secretario != null ? secretario.getNome() : "Indisponivel") + ", confirmado=" + confirmado
-				+ ", especialidade=" + especialidade + "]";
+				+ ", especialidade=" + especialidade.getDescricao() + "]";
 	}
 
 }

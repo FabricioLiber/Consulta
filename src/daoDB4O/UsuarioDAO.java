@@ -2,15 +2,12 @@ package daoDB4O;
 
 import java.util.List;
 
-import com.db4o.query.Evaluation;
 import com.db4o.query.Query;
 
 import modelo.Usuario;
 
 public class UsuarioDAO extends DAO<Usuario> {
-	public Usuario verificaUsuario (String user, String password) {
-
-		
+	public Usuario verificaUsuario (String user, String password) {		
 //		q.constrain((Evaluation) candidate -> {
 //			// TODO Auto-generated method stub
 //			Usuario u = (Usuario) candidate.getObject();

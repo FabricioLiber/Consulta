@@ -24,7 +24,7 @@ public class ConsultaDAO extends DAO<Consulta> {
 	}
 	
 	public List<Consulta> consultasSolicitadasPorPaciente (String cpf) {
-		Query q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE p.cpf = :cpf and c.confirmado = false");
+		Query q = manager.createQuery("SELECT c FROM Consulta c WHERE c.paciente.cpf = :cpf and c.confirmado = false");
 		q.setParameter("cpf", cpf);
 		return q.getResultList();
 	}
@@ -32,14 +32,15 @@ public class ConsultaDAO extends DAO<Consulta> {
 	public List<Consulta> consultasRealizadas (Usuario usuario) {
 		Query q = null;
 		if (usuario instanceof Paciente)
-			q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE c.confirmado = true and c.dataHorario < :dataHorario");
+			q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE p.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");
 		else if (usuario instanceof Medico)
-			q = manager.createQuery("SELECT c FROM Medico m JOIN m.consultas c WHERE c.confirmado = true and c.dataHorario < :dataHorario");			
+			q = manager.createQuery("SELECT c FROM Medico m JOIN m.consultas c WHERE m.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");			
 		else if (usuario instanceof Secretario)
-			q = manager.createQuery("SELECT c FROM Secretario s JOIN s.consultas c WHERE c.confirmado = true and c.dataHorario < :dataHorario");
+			q = manager.createQuery("SELECT c FROM Secretario s JOIN s.consultas c WHERE s.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");
 		else
-			q = manager.createQuery("SELECT c FROM Usuario u JOIN u.consultas c WHERE c.confirmado = true and c.dataHorario < :dataHorario");
+			q = manager.createQuery("SELECT c FROM Usuario u JOIN u.consultas c WHERE u.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");
 		q.setParameter("dataHorario", LocalDateTime.now());
+		q.setParameter("cpf", usuario.getCpf());
 		return q.getResultList();
 	}
 
@@ -47,14 +48,15 @@ public class ConsultaDAO extends DAO<Consulta> {
 	public List<Consulta> consultasARealizar (Usuario usuario) {
 		Query q = null;
 		if (usuario instanceof Paciente)
-			q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");
+			q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE p.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");
 		else if (usuario instanceof Medico)
-			q = manager.createQuery("SELECT c FROM Medico m JOIN m.consultas c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");			
+			q = manager.createQuery("SELECT c FROM Medico m JOIN m.consultas c WHERE m.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");			
 		else if (usuario instanceof Secretario)
-			q = manager.createQuery("SELECT c FROM Secretario s JOIN s.consultas c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");
+			q = manager.createQuery("SELECT c FROM Secretario s JOIN s.consultas c WHERE s.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");
 		else
-			q = manager.createQuery("SELECT c FROM Usuario u JOIN u.consultas c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");
+			q = manager.createQuery("SELECT c FROM Usuario u JOIN u.consultas c WHERE u.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");
 		q.setParameter("dataHorario", LocalDateTime.now());
+		q.setParameter("cpf", usuario.getCpf());
 		return q.getResultList();
 	}
 	

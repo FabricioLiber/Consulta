@@ -31,7 +31,7 @@ public class Main {
 		ArrayList<Medico> medicos = new ArrayList<>();		
 		
 		Fachada.inicializar();
-		System.out.println("criaï¿½ï¿½o de especialidades e convenios");
+		System.out.println("criação de especialidades e convenios");
 		try {
 			// Criacao de especialidades
 			Especialidade e = new Especialidade("Cancerologia", 170);
@@ -82,8 +82,8 @@ public class Main {
 
 			// Mï¿½dicos
 			medicos.add((Medico) Fachada.cadastrarUsuario("medico1", "medico1", "medico1", "555.555.555-55", LocalDate.of(1970, 12, 11), endereco1, "4567-4", "Cardiologia"));
-			medicos.add((Medico) Fachada.cadastrarUsuario("medico2", "medico2", "medico2", "666.666.666-66", LocalDate.of(1991, 10, 18), endereco2, "4567-4", "Neurologia"));
-			medicos.add((Medico) Fachada.cadastrarUsuario("medico3", "medico3", "medico3", "777.777.777-77", LocalDate.of(1990, 1, 29), endereco2, "4567-4", "Dermatologia"));
+			medicos.add((Medico) Fachada.cadastrarUsuario("medico2", "medico2", "medico2", "666.666.666-66", LocalDate.of(1991, 10, 18), endereco2, "1237-8", "Neurologia"));
+			medicos.add((Medico) Fachada.cadastrarUsuario("medico3", "medico3", "medico3", "777.777.777-77", LocalDate.of(1990, 1, 29), endereco2, "5643-5", "Dermatologia"));
 			
 			ArrayList<Usuario> usuarios = new ArrayList<>();
 			usuarios.addAll(secretarios);
@@ -120,34 +120,42 @@ public class Main {
 			Consulta c = new Consulta(LocalDateTime.of(2018, 7, 8, 10, 0), pacientes.get(0), true, medicos.get(0).getEspecialidades().get(0));
 			c.setMedico(medicos.get(0));
 			c.setSecretario(secretarios.get(0));
+			c.setPaciente(pacientes.get(0));
 			consultaDAO.update(c);
 
 			medicos.get(0).add(c);
+			secretarios.get(0).add(c);
+			pacientes.get(0).add(c);
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			usuarioDAO.update(medicos.get(0));
-
-			secretarios.get(0).add(c);
 			usuarioDAO.update(secretarios.get(0));
+			usuarioDAO.update(pacientes.get(0));
 
 			c = new Consulta(LocalDateTime.of(2018, 10, 2, 12, 0), pacientes.get(1), true, medicos.get(1).getEspecialidades().get(0));
 			c.setMedico(medicos.get(1));
 			c.setSecretario(secretarios.get(1));
+			c.setPaciente(pacientes.get(1));
 			consultaDAO.update(c);
 
 			medicos.get(1).add(c);
 			usuarioDAO.update(medicos.get(1));
-
 			secretarios.get(1).add(c);
 			usuarioDAO.update(secretarios.get(1));
-
+			pacientes.get(1).add(c);
+			usuarioDAO.update(pacientes.get(1));
+			
 			c = new Consulta(LocalDateTime.of(2018, 7, 8, 13, 0), pacientes.get(0), true, medicos.get(2).getEspecialidades().get(0));
 			c.setMedico(medicos.get(2));
 			c.setSecretario(secretarios.get(1));
+			c.setPaciente(pacientes.get(0));
 			consultaDAO.update(c);
 
+			pacientes.get(0).add(c);
+			usuarioDAO.update(pacientes.get(0));
+			
 			medicos.get(2).add(c);
 			usuarioDAO.update(medicos.get(2));
-
+			
 			secretarios.get(1).add(c);
 			usuarioDAO.update(secretarios.get(1));
 			
@@ -243,6 +251,7 @@ public class Main {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Erro na listagem");
+			e.printStackTrace();
 		}
 	}
 }

@@ -18,12 +18,11 @@ public class Especialidade implements IDInterface {
 	private double valorConsulta;
 	
 	@ManyToMany
-	private List<Medico> medicos;
+	private List<Medico> medicos = new ArrayList<>();
 	
 	public Especialidade(String descricao, double valorConsulta) {
 		this.descricao = descricao;
 		this.valorConsulta = valorConsulta;
-		this.medicos = new ArrayList<>();
 	}
 	
 	public Especialidade() {

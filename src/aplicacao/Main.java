@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import daoJPA.ConsultaDAO;
-import daoJPA.ConvenioDAO;
-import daoJPA.EspecialidadeDAO;
 import daoJPA.UsuarioDAO;
 import fachada.Fachada;
 import modelo.Consulta;
@@ -21,8 +19,8 @@ import modelo.Usuario;
 public class Main {
 	
 	public static void main (String[] args) {
-		cadastro();
-//		listar();
+//		cadastro();
+		listar();
 	}
 	
 	public static void cadastro () {
@@ -115,6 +113,7 @@ public class Main {
 				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(7), "Cancerologia"));
 				System.out.println(Fachada.solicitaConsulta(LocalDateTime.now().plusDays(5), "Ginecologia"));
 			}
+			Fachada.realizarLogoff();
 			
 			// Consultas realizadas
 			ConsultaDAO consultaDAO = new ConsultaDAO();
@@ -157,12 +156,11 @@ public class Main {
 			System.out.println("Erro ao solicitar consulta!");
 			e.printStackTrace();
 		}
-		System.out.println("Confirma��o de Consulta");
+		System.out.println("Confirmacao de Consulta");
 		try {
-			Usuario u = Fachada.realizarLogin("secretario", "secretario");
+			Usuario u = Fachada.realizarLogin("secretario1", "secretario1");
 			if (u instanceof Secretario) {
-				ConsultaDAO consultaDAO = new ConsultaDAO();
-				System.out.println(Fachada.confirmaConsulta(consultaDAO.readAll().get(0), "333.333.333-33"));
+				System.out.println(Fachada.confirmaConsulta(Fachada.listaConsultas().get(0), "555.555.555-55"));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -177,7 +175,7 @@ public class Main {
 
 		Fachada.inicializar();
 		try {
-			System.out.println("Usuario");
+			System.out.println("Consultas dos Medicos\n");
 			System.out.println(Fachada.realizarLogin("medico1", "medico1"));
 			System.out.println("Consultas atendidas");
 			System.out.println(Fachada.listaConsultasRealizadasPorUsuario());
@@ -185,7 +183,23 @@ public class Main {
 			System.out.println(Fachada.listaConsultasARealizarPorUsuario());
 			Fachada.realizarLogoff();
 			
-			System.out.println("Usuario");
+			System.out.println("\n");
+			System.out.println(Fachada.realizarLogin("medico2", "medico2"));
+			System.out.println("Consultas atendidas");
+			System.out.println(Fachada.listaConsultasRealizadasPorUsuario());
+			System.out.println("Consultas agendadas");
+			System.out.println(Fachada.listaConsultasARealizarPorUsuario());
+			Fachada.realizarLogoff();
+			
+			System.out.println("\n");
+			System.out.println(Fachada.realizarLogin("medico3", "medico3"));
+			System.out.println("Consultas atendidas");
+			System.out.println(Fachada.listaConsultasRealizadasPorUsuario());
+			System.out.println("Consultas agendadas");
+			System.out.println(Fachada.listaConsultasARealizarPorUsuario());
+			Fachada.realizarLogoff();
+			
+			System.out.println("\nConsultas dos Pacientes\n");
 			System.out.println(Fachada.realizarLogin("paciente1", "paciente1"));
 			System.out.println("Consultas realizadas");
 			System.out.println(Fachada.listaConsultasRealizadasPorUsuario());
@@ -195,8 +209,28 @@ public class Main {
 			System.out.println(Fachada.listarConsultasSolicitadasPorPaciente());
 			Fachada.realizarLogoff();
 			
-			System.out.println("Usuario");
+			System.out.println("\n");
+			System.out.println(Fachada.realizarLogin("paciente2", "paciente2"));
+			System.out.println("Consultas realizadas");
+			System.out.println(Fachada.listaConsultasRealizadasPorUsuario());
+			System.out.println("Consultas agendadas");
+			System.out.println(Fachada.listaConsultasARealizarPorUsuario());
+			System.out.println("Consultas solicitadas");
+			System.out.println(Fachada.listarConsultasSolicitadasPorPaciente());
+			Fachada.realizarLogoff();
+			
+			System.out.println("\nConsultas dos Secretarios\n");
 			System.out.println(Fachada.realizarLogin("secretario1", "secretario1"));
+			System.out.println("Consultas agendadas que ja foram realizadas");
+			System.out.println(Fachada.listaConsultasRealizadasPorUsuario());
+			System.out.println("Consultas agendadas");
+			System.out.println(Fachada.listaConsultasARealizarPorUsuario());
+			System.out.println("Consultas para agendar");
+			System.out.println(Fachada.listaConsultasParaConfirmacao());
+			Fachada.realizarLogoff();
+			
+			System.out.println("\n");
+			System.out.println(Fachada.realizarLogin("secretario2", "secretario2"));
 			System.out.println("Consultas agendadas que ja foram realizadas");
 			System.out.println(Fachada.listaConsultasRealizadasPorUsuario());
 			System.out.println("Consultas agendadas");

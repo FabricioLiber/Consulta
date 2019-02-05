@@ -7,8 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.db4o.internal.slots.SystemSlotChange;
-
 import daoJPA.ConsultaDAO;
 import daoJPA.ConvenioDAO;
 import daoJPA.DAO;

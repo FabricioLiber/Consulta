@@ -15,13 +15,12 @@ public class Medico extends Usuario {
 	private String crm;
 	
 	@ManyToMany
-	private List<Especialidade> especialidades;
+	private List<Especialidade> especialidades = new ArrayList<>();;
 	
 	public Medico(String user, String password, String nome, String cpf, LocalDate dataNasc, Endereco endereco,
 			String crm) {
 		super(user, password, nome, cpf, dataNasc, endereco);
 		this.crm = crm;
-		especialidades = new ArrayList<>();
 	}	
 
 	public Medico() {
@@ -43,17 +42,14 @@ public class Medico extends Usuario {
 	public List<Especialidade> getEspecialidades() {
 		return especialidades;
 	}
-	
-	
-
 
 	@Override
 	public String toString() {
 		
-		return "Medico [crm=" + crm + ", especialidades=" + especialidades + ", getUser()=" + getUser()
+		return "Medico [crm=" + crm + ", especialidades=" + especialidades.size() + ", getUser()=" + getUser()
 				+ ", getPassword()=" + getPassword() + ", getNome()=" + getNome() + ", getCpf()="
 				+ getCpf() + ", getDataNasc()=" + getDataNasc() + ", getEndereco()=" + getEndereco()
-				+ ", getTelefones()=" + getTelefones() + ", getConsultas()=" + getConsultas().size() + "]";
+				+ ", getTelefones()=" + getTelefones().size() + ", getConsultas()=" + getConsultas().size() + "]";
 	}
 	
 	

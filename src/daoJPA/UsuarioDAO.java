@@ -1,5 +1,6 @@
 package daoJPA;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import modelo.Usuario;
@@ -7,13 +8,16 @@ import modelo.Usuario;
 public class UsuarioDAO extends DAO<Usuario> {
 	
 	
-	public Usuario verificaUsuario (String user, String password) {
+	public Usuario verificaUsuario (String user, String password) throws Exception {
 		
 		Query q = manager.createQuery("SELECT u FROM Usuario u WHERE u.username = :username and u.password = :password");
 		q.setParameter("username", user);
 		q.setParameter("password", password);
-		return (Usuario) q.getSingleResult();	
-		
+		try {
+			return (Usuario) q.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}		
 	}
 	
 	
@@ -21,7 +25,12 @@ public class UsuarioDAO extends DAO<Usuario> {
 		
 		Query q = manager.createQuery("SELECT u FROM Usuario u WHERE u.cpf = :cpf");
 		q.setParameter("cpf", cpf);
-		return (Usuario) q.getSingleResult();
+		try {
+			return (Usuario) q.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+		
 		
 	}
 	

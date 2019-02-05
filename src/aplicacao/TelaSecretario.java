@@ -106,7 +106,6 @@ public class TelaSecretario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				List<Consulta> consultas = Fachada.listaConsultasParaConfirmacao();
-				System.out.println(consultas);
 				Object [] dado = null;
 				if (consultas.isEmpty()) {
 					lblInfo.setText("Nenhuma consulta cadastrada!");

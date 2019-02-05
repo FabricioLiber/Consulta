@@ -6,9 +6,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import modelo.Consulta;
+import modelo.Medico;
+import modelo.Paciente;
+import modelo.Secretario;
 import modelo.Usuario;
 
 public class ConsultaDAO extends DAO<Consulta> {
@@ -20,30 +24,51 @@ public class ConsultaDAO extends DAO<Consulta> {
 	}
 	
 	public List<Consulta> consultasSolicitadasPorPaciente (String cpf) {
-		Query q = manager.createQuery("SELECT c FROM Paciente p JOIN Consulta c WHERE p.cpf = :cpf and c.confirmado = false");
+		Query q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE p.cpf = :cpf and c.confirmado = false");
 		q.setParameter("cpf", cpf);
 		return q.getResultList();
 	}
 	
 	public List<Consulta> consultasRealizadas (Usuario usuario) {
-		Query q = manager.createQuery("SELECT c FROM Usuario u JOIN Consulta c WHERE c.confirmado = true and c.dataHorario < :dataHorario");
+		Query q = null;
+		if (usuario instanceof Paciente)
+			q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE c.confirmado = true and c.dataHorario < :dataHorario");
+		else if (usuario instanceof Medico)
+			q = manager.createQuery("SELECT c FROM Medico m JOIN m.consultas c WHERE c.confirmado = true and c.dataHorario < :dataHorario");			
+		else if (usuario instanceof Secretario)
+			q = manager.createQuery("SELECT c FROM Secretario s JOIN s.consultas c WHERE c.confirmado = true and c.dataHorario < :dataHorario");
+		else
+			q = manager.createQuery("SELECT c FROM Usuario u JOIN u.consultas c WHERE c.confirmado = true and c.dataHorario < :dataHorario");
 		q.setParameter("dataHorario", LocalDateTime.now());
 		return q.getResultList();
 	}
 
 
 	public List<Consulta> consultasARealizar (Usuario usuario) {
-		Query q = manager.createQuery("SELECT c FROM Usuario u JOIN Consulta c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");
+		Query q = null;
+		if (usuario instanceof Paciente)
+			q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");
+		else if (usuario instanceof Medico)
+			q = manager.createQuery("SELECT c FROM Medico m JOIN m.consultas c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");			
+		else if (usuario instanceof Secretario)
+			q = manager.createQuery("SELECT c FROM Secretario s JOIN s.consultas c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");
+		else
+			q = manager.createQuery("SELECT c FROM Usuario u JOIN u.consultas c WHERE c.confirmado = true and c.dataHorario >= :dataHorario");
 		q.setParameter("dataHorario", LocalDateTime.now());
 		return q.getResultList();
 	}
 	
 	public Consulta pesquisaNomeHorario (LocalDateTime horario, String primeiroNome) {
-		Query q = manager.createQuery("SELECT c FROM Consulta c WHERE c.paciente.nome = :nome and c.dataHorario = :horario");
+		Query q = manager.createQuery("SELECT c FROM Consulta c WHERE c.paciente.nome LIKE :nome and c.dataHorario = :horario");
 		
-		q.setParameter("nome", primeiroNome);
+		q.setParameter("nome", primeiroNome+"%");
 		q.setParameter("horario", horario);
-		return (Consulta) q.getSingleResult();
+		try {
+			return (Consulta) q.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+		
 	}
 	
 }

@@ -126,26 +126,23 @@ public class TelaLogin extends JFrame {
 				//TODO
 				try{
 					Usuario usuario = Fachada.realizarLogin(textFieldUser.getText(), String.valueOf(textFieldPassword.getPassword()));
-					if (usuario != null) {
-						if (usuario instanceof Paciente){
-							TelaPaciente telaPaciente = new TelaPaciente();
-							telaPaciente.setVisible(true);
-						} else if (usuario instanceof Secretario){
-							TelaSecretario telaSecretario = new TelaSecretario();
-							telaSecretario.setVisible(true);
-						} else if (usuario instanceof Medico){
-							TelaMedico telaMedico = new TelaMedico();
-							telaMedico.setVisible(true);
-						}
-						dispose();
-//						setVisible(false);
-					}else {
-						JOptionPane.showMessageDialog(contentPane, "Usu�rio n�o encontrado!");
+					System.out.println(usuario.getCpf());
+					if (usuario instanceof Paciente){
+						TelaPaciente telaPaciente = new TelaPaciente();
+						telaPaciente.setVisible(true);
+					} else if (usuario instanceof Secretario){
+						TelaSecretario telaSecretario = new TelaSecretario();
+						telaSecretario.setVisible(true);
+					} else if (usuario instanceof Medico){
+						TelaMedico telaMedico = new TelaMedico();
+						telaMedico.setVisible(true);
 					}
-				}
-				catch(Exception erro){
-	//				lblmsg.setText(erro.getMessage());
-					erro.printStackTrace();
+					dispose();
+				} catch(NullPointerException erro){
+					JOptionPane.showMessageDialog(contentPane, "Usu�rio n�o encontrado!");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});

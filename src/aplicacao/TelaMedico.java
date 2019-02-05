@@ -131,7 +131,6 @@ public class TelaMedico extends JFrame {
 			String [] colunas = {"Data", "Paciente", "Secretario", "Especialidade"};
 			tableModel = new TableModel(consultas.size(), colunas);
 			for (int i = 0; i < consultas.size(); i++) {
-				System.out.println(consultas.get(i));
 				dado[0] = consultas.get(i).getdataHorario().toString();
 				dado[1] = consultas.get(i).getPaciente().getNome();
 				dado[2] = consultas.get(i).getSecretario().getNome();

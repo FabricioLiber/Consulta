@@ -64,20 +64,28 @@ public class TelaConfirmaConsulta extends JFrame {
 		comboBoxMedicos.setBounds(23, 223, 327, 32);
 		comboBoxMedicos.setEnabled(false);
 		panel.add(comboBoxMedicos);
-		System.out.println(Fachada.listaConsultasParaConfirmacao());
 		List<Consulta> consultasParaConfirmacao = Fachada.listaConsultasParaConfirmacao();
 		for (int i = 0; i < consultasParaConfirmacao.size(); i++)
 			comboBoxConsultas.addItem(i+1 + " - " + consultasParaConfirmacao.get(i).getPaciente().getNome().split(" ")[0]+
 					" " + consultasParaConfirmacao.get(i).getdataHorario().toString());
 		comboBoxConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				String[] dados = String.valueOf(comboBoxConsultas.getSelectedItem()).split(" ");
 				consulta = consultasParaConfirmacao.get(Integer.parseInt(dados[0]) - 1);
-				comboBoxMedicos.setEnabled(true);
-				comboBoxMedicos.removeAllItems();
-				System.out.println(Fachada.especialistasDisponiveisPorHorario(consulta.getdataHorario(), consulta.getEspecialidade().getDescricao()));
-				for (Medico m : Fachada.especialistasDisponiveisPorHorario(consulta.getdataHorario(), consulta.getEspecialidade().getDescricao()))
-					comboBoxMedicos.addItem(m.getNome().split("0")[0] +" - "+ m.getCpf());
+				List<Medico> medicosSelecionados = Fachada.especialistasDisponiveisPorHorario(consulta.getdataHorario(), consulta.getEspecialidade().getDescricao());
+				if (!medicosSelecionados.isEmpty()) {
+					comboBoxMedicos.setEnabled(true);
+					comboBoxMedicos.removeAllItems();
+					for (Medico m : medicosSelecionados)
+						comboBoxMedicos.addItem(m.getNome().split("0")[0] +" - "+ m.getCpf());
+				} else {
+					JOptionPane.showMessageDialog(contentPane, "Nao existem medicos disponiveis!", "Confirmacao de Consulta Cancelada",
+							JOptionPane.ERROR_MESSAGE);
+					TelaSecretario telaSecretario = new TelaSecretario();
+					telaSecretario.setVisible(true);
+					dispose();
+				}
 			}
 		});
 		

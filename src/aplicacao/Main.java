@@ -31,7 +31,7 @@ public class Main {
 		ArrayList<Medico> medicos = new ArrayList<>();		
 		
 		Fachada.inicializar();
-		System.out.println("criação de especialidades e convenios");
+		System.out.println("criaï¿½ï¿½o de especialidades e convenios");
 		try {
 			// Criacao de especialidades
 			Especialidade e = new Especialidade("Cancerologia", 170);
@@ -183,6 +183,8 @@ public class Main {
 
 		Fachada.inicializar();
 		try {
+			System.out.println("Listar todas as consultas: ");
+			System.out.println(Fachada.listaConsultas());
 			System.out.println("Consultas dos Medicos\n");
 			System.out.println(Fachada.realizarLogin("medico1", "medico1"));
 			System.out.println("Consultas atendidas");

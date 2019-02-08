@@ -263,13 +263,13 @@ public class Fachada {
 	}
 	
 	
-	public static List<Consulta> listaConsultasRealizadasPorUsuario () {
+	public static List<Consulta> listaConsultasRealizadasPorUsuario () throws Exception {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.consultasRealizadas(logado);
 	}
 	
 	
-	public static List<Consulta> listaConsultasARealizarPorUsuario () {
+	public static List<Consulta> listaConsultasARealizarPorUsuario () throws Exception {
 		ConsultaDAO consultaDAO = new ConsultaDAO();
 		return consultaDAO.consultasARealizar(logado);
 	}

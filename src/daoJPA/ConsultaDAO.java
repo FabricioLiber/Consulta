@@ -29,32 +29,32 @@ public class ConsultaDAO extends DAO<Consulta> {
 		return q.getResultList();
 	}
 	
-	public List<Consulta> consultasRealizadas (Usuario usuario) {
+	public List<Consulta> consultasRealizadas (Usuario usuario) throws Exception {
 		Query q = null;
 		if (usuario instanceof Paciente)
-			q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE p.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");
+			q = manager.createQuery("SELECT c FROM Consulta c WHERE c.paciente.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");
 		else if (usuario instanceof Medico)
-			q = manager.createQuery("SELECT c FROM Medico m JOIN m.consultas c WHERE m.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");			
+			q = manager.createQuery("SELECT c FROM Consulta c WHERE c.medico.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");			
 		else if (usuario instanceof Secretario)
-			q = manager.createQuery("SELECT c FROM Secretario s JOIN s.consultas c WHERE s.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");
+			q = manager.createQuery("SELECT c FROM Consulta c WHERE c.secretario.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");
 		else
-			q = manager.createQuery("SELECT c FROM Usuario u JOIN u.consultas c WHERE u.cpf = :cpf and c.confirmado = true and c.dataHorario < :dataHorario");
+			throw new Exception("Classificacao do usuario nao informada!");
 		q.setParameter("dataHorario", LocalDateTime.now());
 		q.setParameter("cpf", usuario.getCpf());
 		return q.getResultList();
 	}
 
 
-	public List<Consulta> consultasARealizar (Usuario usuario) {
+	public List<Consulta> consultasARealizar (Usuario usuario) throws Exception {
 		Query q = null;
 		if (usuario instanceof Paciente)
-			q = manager.createQuery("SELECT c FROM Paciente p JOIN p.consultas c WHERE p.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");
+			q = manager.createQuery("SELECT c FROM Consulta c WHERE c.paciente.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");
 		else if (usuario instanceof Medico)
-			q = manager.createQuery("SELECT c FROM Medico m JOIN m.consultas c WHERE m.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");			
+			q = manager.createQuery("SELECT c FROM Consulta c WHERE c.medico.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");			
 		else if (usuario instanceof Secretario)
-			q = manager.createQuery("SELECT c FROM Secretario s JOIN s.consultas c WHERE s.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");
+			q = manager.createQuery("SELECT c FROM Consulta c WHERE c.secretario.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");
 		else
-			q = manager.createQuery("SELECT c FROM Usuario u JOIN u.consultas c WHERE u.cpf = :cpf and c.confirmado = true and c.dataHorario >= :dataHorario");
+			throw new Exception("Classificacao do usuario nao informada!");
 		q.setParameter("dataHorario", LocalDateTime.now());
 		q.setParameter("cpf", usuario.getCpf());
 		return q.getResultList();

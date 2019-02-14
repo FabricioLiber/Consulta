@@ -3,6 +3,7 @@ package aplicacao;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -16,6 +17,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+
+import org.hibernate.mapping.Array;
 
 import fachada.Fachada;
 import modelo.Consulta;
@@ -63,7 +66,13 @@ public class TelaMedico extends JFrame {
 		botaoRealizada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
+				List<Consulta> consultasAtendidas = new ArrayList<>();
+				try {
+					consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				adicionaItemsTabela(consultasAtendidas);
 			}
 		});
@@ -74,7 +83,13 @@ public class TelaMedico extends JFrame {
 		panel.add(botaoAgendada);
 		botaoAgendada.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
+				List<Consulta> consultasAtender = new ArrayList<>();
+				try {
+					consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				adicionaItemsTabela(consultasAtender);
 			}
 		});

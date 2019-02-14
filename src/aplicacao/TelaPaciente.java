@@ -3,6 +3,7 @@ package aplicacao;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -56,7 +57,13 @@ public class TelaPaciente extends JFrame {
 		botaoRealizada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				List<Consulta> consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
+				List<Consulta> consultasAtendidas = new ArrayList<>();
+				try {
+					consultasAtendidas = Fachada.listaConsultasRealizadasPorUsuario();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				adicionaItemsTabela(consultasAtendidas);
 			}
 		});
@@ -67,7 +74,13 @@ public class TelaPaciente extends JFrame {
 		JRadioButton botaoAgendada = new JRadioButton("Consultas agendadas");
 		botaoAgendada.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-				List<Consulta> consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
+				List<Consulta> consultasAtender = new ArrayList<>();
+				try {
+					consultasAtender = Fachada.listaConsultasARealizarPorUsuario();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				adicionaItemsTabela(consultasAtender);
 			}
 		});

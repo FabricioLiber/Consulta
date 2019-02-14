@@ -3,6 +3,7 @@ package aplicacao;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -70,7 +71,13 @@ public class TelaSecretario extends JFrame {
 		JRadioButton botaoConsultaAgendada = new JRadioButton("Consultas agendadas");
 		botaoConsultaAgendada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<Consulta> consultas = Fachada.listaConsultasARealizarPorUsuario();
+				List<Consulta> consultas = new ArrayList<>();
+				try {
+					consultas = Fachada.listaConsultasARealizarPorUsuario();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				Object [] dado = null;
 				if (consultas.isEmpty()) {
